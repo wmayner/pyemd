@@ -38,7 +38,8 @@ Limitations and Caveats:
 - The signatures and distance matrix must be numpy arrays of ``np.float``. The
   original C++ template function can accept any numerical C++ type, but this
   wrapper only instantiates the template with ``double`` (Cython converts
-  ``np.float`` to ``double``).
+  ``np.float`` to ``double``). If there's demand, I can add support for other
+  types.
 - The original C++ functions have optional parameters ``extra_mass_penalty``
   and ``F`` (for flows); this wrapper does not expose those parameters. See
   inline documentation in emd_hat.hpp.

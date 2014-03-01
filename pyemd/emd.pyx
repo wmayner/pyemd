@@ -11,45 +11,14 @@ cimport numpy as np
 # Declare the interface to the C++ EMD library
 # ============================================
 
-
 cdef extern from "lib/emd_hat.hpp":
-    cdef int emd_hat_gd_metric_int(vector[int],
-                                   vector[int],
-                                   vector[vector[int]]) except +
-
     cdef double emd_hat_gd_metric_double(vector[double],
                                          vector[double],
                                          vector[vector[double]]) except +
 
-    cdef long int emd_hat_gd_metric_long_int(vector[long],
-                                             vector[long],
-                                             vector[vector[long]]) except +
-
-    cdef long long int emd_hat_gd_metric_long_long_int(
-        vector[long],
-        vector[long],
-        vector[vector[long]]) except +
-
-    cdef int emd_hat_int(vector[int],
-                         vector[int],
-                         vector[vector[int]]) except +
-
-    cdef double emd_hat_double(vector[double],
-                               vector[double],
-                               vector[vector[double]]) except +
-
-    cdef long int emd_hat_long_int(vector[long],
-                                   vector[long],
-                                   vector[vector[long]]) except +
-
-    cdef long long int emd_hat_long_long_int(vector[long],
-                                             vector[long],
-                                             vector[vector[long]]) except +
-
 
 # NumPy array to C++ vector conversion
 # ====================================
-
 
 # See http://stackoverflow.com/a/2434208/1085344
 cdef vector[double] _c_array_to_vector(double* array, int length):
@@ -96,7 +65,6 @@ def _2d_np_array_to_2d_vector(np.ndarray[double, ndim=2, mode="c"] matrix):
 
 # Define the API
 # ==============
-
 
 def emd(np.ndarray[double, ndim=1, mode="c"] first_signature,
         np.ndarray[double, ndim=1, mode="c"] second_signature,
