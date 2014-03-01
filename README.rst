@@ -2,10 +2,10 @@
 PyEMD: Fast EMD for Python
 *********************************************
 
-PyEMD is a Python wrapper for `Ofir Pele and Michael Werman's implementation of
-the Earth Mover's Distance
-<http://www.seas.upenn.edu/~ofirpele/FastEMD/code/>`_ that allows it to be used
-with NumPy.
+PyEMD is a Python wrapper for `Ofir Pele and Michael Werman's implementation
+<http://www.seas.upenn.edu/~ofirpele/FastEMD/code/>`_ of the `Earth Mover's
+Distance <http://en.wikipedia.org/wiki/Earth_mover%27s_distance>`_ that allows
+it to be used with NumPy.
 
 This wrapper does not expose the full functionality of that library; it can
 only used be with the ``np.float`` data type, and with a symmetric distance
