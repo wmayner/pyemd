@@ -31,7 +31,9 @@ Use PyEMD like so:
 API
 ===
 
-    ``emd(first_signature, second_signature, distance_matrix)``
+.. code-block:: python
+
+    emd(first_signature, second_signature, distance_matrix)
 
 - ``first_signature``: A 1-dimensional numpy array of ``np.float``, of size N.
 - ``second_signature``: A 1-dimensional numpy array of ``np.float``, of size N.
