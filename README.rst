@@ -40,12 +40,13 @@ API
 - ``distance_matrix``: A 2-dimensional array of ``np.float``, of size NxN. Must
   be symmetric and represent a metric.
 
+
 Limitations and Caveats:
 ========================
 
 - ``distance_matrix`` must be symmetric.
-- ``distance_matrix`` must represent a true metric. This must be enforced by
-  the caller. See the documentation in **emd_hat.hpp**.
+- ``distance_matrix`` is assumed to represent a true metric. This must be
+  enforced by the caller. See the documentation in **pyemd/lib/emd_hat.hpp**.
 - The signatures and distance matrix must be numpy arrays of ``np.float``. The
   original C++ template function can accept any numerical C++ type, but this
   wrapper only instantiates the template with ``double`` (Cython converts
@@ -53,14 +54,15 @@ Limitations and Caveats:
   types.
 - The original C++ functions have optional parameters ``extra_mass_penalty``
   and ``F`` (for flows); this wrapper does not expose those parameters. See
-  inline documentation in **emd_hat.hpp**.
+  the documentation in **pyemd/lib/emd_hat.hpp**.
 
 
 Credits
 =======
 
-- All credit for the actual algorithm and implementation goes to Ofir Pele and
-  Michael Werman. See the `relevant paper
+- All credit for the actual algorithm and implementation goes to `Ofir Pele
+  <http://www.ariel.ac.il/sites/ofirpele/>`_ and `Michael Werman
+  <http://www.cs.huji.ac.il/~werman/>`_. See the `relevant paper
   <http://www.seas.upenn.edu/~ofirpele/publications/ICCV2009.pdf>`_.
 - Thanks to the Cython devlopers for making this kind of wrapper relatively
   easy to write.
