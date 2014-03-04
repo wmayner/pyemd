@@ -34,7 +34,7 @@ class TestEmd(unittest.TestCase):
         second_signature = np.array([1.0, 7.0])
         distance_matrix = np.array([[0.0, 1.0],
                                     [1.0, 0.0]])
-        with self.assertRaises(Exception):
+        with self.assertRaises(ValueError):
             emd(first_signature, second_signature, distance_matrix)
 
     def test_error_wrong_distance_matrix_shape(self):
@@ -42,7 +42,7 @@ class TestEmd(unittest.TestCase):
         second_signature = np.array([1.0, 7.0])
         distance_matrix = np.array([[0.0, 1.0, 0.4],
                                     [1.0, 0.0]])
-        with self.assertRaises(Exception):
+        with self.assertRaises(ValueError):
             emd(first_signature, second_signature, distance_matrix)
 
     def test_error_wrong_signature_ndim(self):
@@ -50,7 +50,7 @@ class TestEmd(unittest.TestCase):
         second_signature = np.array([1.0, 7.0])
         distance_matrix = np.array([[0.0, 1.0],
                                     [1.0, 0.0]])
-        with self.assertRaises(Exception):
+        with self.assertRaises(ValueError):
             emd(first_signature, second_signature, distance_matrix)
 
     def test_error_wrong_distance_matrix_ndim(self):
@@ -58,5 +58,5 @@ class TestEmd(unittest.TestCase):
         second_signature = np.array([1.0, 7.0])
         distance_matrix = np.array([[[0.0, 1.0],
                                     [1.0, 0.0]]])
-        with self.assertRaises(Exception):
+        with self.assertRaises(ValueError):
             emd(first_signature, second_signature, distance_matrix)

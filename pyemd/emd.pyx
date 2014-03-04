@@ -80,14 +80,14 @@ def emd(np.ndarray[double, ndim=1, mode="c"] first_signature,
     # Validation
     N = first_signature.shape[0]
     if (N != second_signature.shape[0]):
-        raise Exception("Signatures must be the same size.")
+        raise ValueError("Signatures must be the same size.")
     if ((N != distance_matrix.shape[0]) or (N != distance_matrix.shape[1])):
-        raise Exception("Distance matrix must be NxN.")
+        raise ValueError("Distance matrix must be NxN.")
     if (first_signature.ndim != 1) or (first_signature.ndim !=
                                        second_signature.ndim):
-        raise Exception("Signatures must be 1-dimensional.")
+        raise ValueError("Signatures must be 1-dimensional.")
     if (distance_matrix.ndim != 2):
-        raise Exception("Distance matrix must be 2-dimensional.")
+        raise ValueError("Distance matrix must be 2-dimensional.")
 
     # Convert numpy input to C++ vectors
     cdef vector[double] c_first_signature
