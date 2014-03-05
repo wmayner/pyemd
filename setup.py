@@ -34,6 +34,6 @@ setup(
         'Programming Language :: Python :: 3',
         'Programming Language :: Python :: 3.3'
     ),
-    packages=['pyemd']
+    packages=['pyemd'],
     ext_modules=cythonize(extensions)
 )
