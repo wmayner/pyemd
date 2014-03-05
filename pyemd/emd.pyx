@@ -82,7 +82,8 @@ def emd(np.ndarray[double, ndim=1, mode="c"] first_signature,
     if (N != second_signature.shape[0]):
         raise ValueError("Signatures must be the same size.")
     if ((N != distance_matrix.shape[0]) or (N != distance_matrix.shape[1])):
-        raise ValueError("Distance matrix must be NxN.")
+        raise ValueError("Distance matrix must be NxN, where N is the length of" +
+                         "the signatures.")
     if (first_signature.ndim != 1) or (first_signature.ndim !=
                                        second_signature.ndim):
         raise ValueError("Signatures must be 1-dimensional.")
