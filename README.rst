@@ -72,8 +72,6 @@ Please cite these papers if you use this code:
 
 Ofir Pele and Michael Werman, "A linear time histogram metric for improved SIFT matching," in *Computer Vision–ECCV 2008*, Marseille, France, 2008, pp. 495-508.
 
-bibTeX:
-
 .. code-block:: latex
 
     @INPROCEEDINGS{pele2008,
