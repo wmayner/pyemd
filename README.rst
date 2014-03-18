@@ -14,7 +14,7 @@ Pele and Werman library for the other options it provides.
 
 
 Usage
-=====
+~~~~~
 
 Use PyEMD like so:
 
@@ -29,7 +29,7 @@ Use PyEMD like so:
     3.5
 
 API
-===
+~~~
 
 .. code-block:: python
 
@@ -41,8 +41,8 @@ API
   be symmetric and represent a metric.
 
 
-Limitations and Caveats:
-========================
+Limitations and Caveats
+~~~~~~~~~~~~~~~~~~~~~~~
 
 - ``distance_matrix`` must be symmetric.
 - ``distance_matrix`` is assumed to represent a true metric. This must be
@@ -57,8 +57,8 @@ Limitations and Caveats:
   the documentation in **pyemd/lib/emd_hat.hpp**.
 
 
-Credits
-=======
+Credit
+~~~~~~
 
 - All credit for the actual algorithm and implementation goes to `Ofir Pele
   <http://www.ariel.ac.il/sites/ofirpele/>`_ and `Michael Werman
@@ -66,3 +66,36 @@ Credits
   <http://www.seas.upenn.edu/~ofirpele/publications/ICCV2009.pdf>`_.
 - Thanks to the Cython devlopers for making this kind of wrapper relatively
   easy to write.
+
+Please cite these papers if you use this code:
+``````````````````````````````````````````````
+
+Ofir Pele and Michael Werman, "A linear time histogram metric for improved SIFT matching," in *Computer Vision–ECCV 2008*, Marseille, France, 2008, pp. 495-508.
+
+bibTeX:
+
+.. code-block:: latex
+
+    @INPROCEEDINGS{pele2008,
+      title={A linear time histogram metric for improved sift matching},
+      author={Pele, Ofir and Werman, Michael},
+      booktitle={Computer Vision--ECCV 2008},
+      pages={495--508},
+      year={2008},
+      month={October},
+      publisher={Springer}
+    }
+
+Ofir Pele and Michael Werman, "Fast and robust earth mover's distances," in *Proc. 2009 IEEE 12th Int. Conf. on Computer Vision*, Kyoto, Japan, 2009, pp. 460-467.
+
+.. code-block:: latex
+
+    @INPROCEEDINGS{pele2009,
+      title={Fast and robust earth mover's distances},
+      author={Pele, Ofir and Werman, Michael},
+      booktitle={2009 IEEE 12th International Conference on Computer Vision},
+      pages={460--467},
+      year={2009},
+      month={September},
+      organization={IEEE}
+    }
