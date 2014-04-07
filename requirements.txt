@@ -1,3 +1,4 @@
-cython
-numpy
-pytest
+Cython==0.20.1post0
+numpy==1.8.0
+py==1.4.20
+pytest==2.5.2
