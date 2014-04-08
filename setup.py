@@ -3,14 +3,10 @@
 
 from distutils.core import setup
 from distutils.extension import Extension
-from Cython.Build import cythonize
 import numpy as np
 
 import pyemd
 
-extensions = [Extension("pyemd/*", ["pyemd/*.pyx"],
-                        language="c++",
-                        include_dirs=[np.get_include()])]
 
 with open('README.rst') as f:
     readme = f.read()
@@ -35,5 +31,7 @@ setup(
         'Programming Language :: Python :: 3.3'
     ),
     packages=['pyemd'],
-    ext_modules=cythonize(extensions)
+    ext_modules=[Extension("pyemd", ["pyemd/emd.cpp"],
+                           language="c++",
+                           include_dirs=[np.get_include()])]
 )
