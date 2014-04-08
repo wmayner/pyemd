@@ -10,7 +10,7 @@ with open('README.rst') as f:
 
 setup(
     name='pyemd',
-    version='0.0.4',
+    version='0.0.5',
     description=("A Python wrapper for Ofir Pele and Michael Werman's " +
                  "implementation of the Earth Mover's Distance."),
     long_description=readme,

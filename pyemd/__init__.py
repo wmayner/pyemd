@@ -50,7 +50,7 @@ Credits
 """
 
 __title__ = 'pyemd'
-__version__ = '0.0.4'
+__version__ = '0.0.5'
 __author__ = 'Will Mayner'
 __author_email__ = 'wmayner@gmail.com'
 __license__ = 'MIT'
