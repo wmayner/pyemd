@@ -12,6 +12,10 @@ only used be with the ``np.float`` data type, and with a symmetric distance
 matrix that represents a true metric. See the documentation for the original
 Pele and Werman library for the other options it provides.
 
+Installation
+~~~~~~~~~~~~
+
+    pip install git+https://github.com/wmayner/pyemd
 
 Usage
 ~~~~~
