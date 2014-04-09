@@ -4,3 +4,4 @@ build
 .ropeproject
 *.so
 *.pyc
+dist
