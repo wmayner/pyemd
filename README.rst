@@ -17,9 +17,13 @@ Installation
 
 To install the latest release:
 
+.. code:: bash
+
     pip install pyemd
 
 To install the latest development version:
+
+.. code:: bash
 
     pip install "git+https://github.com/wmayner/pyemd@develop#egg=pyemd"
 
@@ -28,7 +32,7 @@ Usage
 
 Use PyEMD like so:
 
-.. code-block:: python
+.. code:: python
 
     >>> from pyemd import emd
     >>> import numpy as np
@@ -41,7 +45,7 @@ Use PyEMD like so:
 API
 ~~~
 
-.. code-block:: python
+.. code:: python
 
     emd(first_signature, second_signature, distance_matrix)
 
