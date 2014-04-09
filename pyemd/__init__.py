@@ -53,6 +53,7 @@ __title__ = 'pyemd'
 __version__ = '0.0.5'
 __author__ = 'Will Mayner'
 __author_email__ = 'wmayner@gmail.com'
+__author_website__ = 'http://willmayner.com'
 __license__ = 'MIT'
 __copyright__ = 'Copyright 2014 Will Mayner'
 
