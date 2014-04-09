@@ -15,9 +15,13 @@ Pele and Werman library for the other options it provides.
 Installation
 ~~~~~~~~~~~~
 
-To install, run:
+To install the latest release:
 
     pip install pyemd
+
+To install the latest development version:
+
+    pip install "git+https://github.com/wmayner/pyemd@develop#egg=pyemd"
 
 Usage
 ~~~~~
