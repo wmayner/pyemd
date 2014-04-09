@@ -18,26 +18,20 @@ class build_ext(_build_ext):
 with open('README.rst') as f:
     readme = f.read()
 
-
-__version__ = '0.0.5'
-__author__ = 'Will Mayner'
-__author_email__ = 'wmayner@gmail.com'
-__license__ = 'MIT'
-__copyright__ = 'Copyright 2014 Will Mayner'
-
+requires = ['numpy >=1.8.0, < 2.0.0']
 
 setup(
     name='pyemd',
-    version=__version__,
+    version= '0.0.6',
     description=("A Python wrapper for Ofir Pele and Michael Werman's " +
                  "implementation of the Earth Mover's Distance."),
     long_description=readme,
-    author=__author__,
-    author_email=__author_email__,
+    author='Will Mayner',
+    author_email='wmayner@gmail.com',
     url="https://github.com/wmayner/pyemd",
-    license=__license__,
+    license='MIT',
     packages=['pyemd'],
-    install_requires=[],
+    install_requires=requires,
     cmdclass={'build_ext':build_ext},
     setup_requires=['numpy'],
     ext_modules=[Extension("pyemd/emd", ["pyemd/emd.cpp"],

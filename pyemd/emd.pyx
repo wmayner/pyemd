@@ -72,12 +72,19 @@ def emd(np.ndarray[double, ndim=1, mode="c"] first_signature,
     """Compute the Earth Mover's Distance between the given signatures with the
     given distance matrix.
 
-    :param first_signature: A 1D numpy array of ``np.double``, of length :math:`N`.
-    :param second_signature: A 1D numpy array of ``np.double``, also of length :math:`N`..
-    :param distance_matrix: A 2D numpy array of ``np.double``, of size :math:`N \cross N`.
+    :param first_signature: A 1D numpy array of ``np.double``, of length
+        :math:`N`.
+    :param second_signature: A 1D numpy array of ``np.double``, also of length
+        :math:`N`..
+    :param distance_matrix: A 2D numpy array of ``np.double``, of size
+        :math:`N \cross N`.
 
     """
     # Validation
+    if ([arg.dtype for arg in [first_signature, second_signature,
+                               distance_matrix]] != [np.dtype('float64')] * 3):
+        raise ValueError("Signatures and ditance matrix must be of dtype " +
+                         "'float64'.")
     N = first_signature.shape[0]
     if (N != second_signature.shape[0]):
         raise ValueError("Signatures must be the same size.")

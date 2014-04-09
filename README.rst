@@ -1,6 +1,6 @@
-*********************************************
+**************************
 PyEMD: Fast EMD for Python
-*********************************************
+**************************
 
 PyEMD is a Python wrapper for `Ofir Pele and Michael Werman's implementation
 <http://www.seas.upenn.edu/~ofirpele/FastEMD/code/>`_ of the `Earth Mover's
@@ -55,6 +55,18 @@ Limitations and Caveats
 - The original C++ functions have optional parameters ``extra_mass_penalty``
   and ``F`` (for flows); this wrapper does not expose those parameters. See
   the documentation in **pyemd/lib/emd_hat.hpp**.
+
+
+Contributing
+~~~~~~~~~~~~
+
+To help develop PyEMD, fork the project and install the requirements with ``pip``.
+
+The ``Makefile`` defines some tasks to help with development:
+
+* ``buildcython``: compiles the Cython code into C++ and then builds the C++ into a Python extension
+* ``runtests``: builds everything and then runs the unit tests
+* ``clean``: removes the compiled C++
 
 
 Credit
