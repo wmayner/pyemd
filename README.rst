@@ -15,7 +15,7 @@ Pele and Werman library for the other options it provides.
 Installation
 ~~~~~~~~~~~~
 
-    pip install git+https://github.com/wmayner/pyemd
+    pip install pyemd
 
 Usage
 ~~~~~
