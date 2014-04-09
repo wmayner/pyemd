@@ -31,6 +31,7 @@ setup(
     url="https://github.com/wmayner/pyemd",
     license='MIT',
     packages=['pyemd'],
+    package_data={'pyemd': ['lib/*.hpp']},
     install_requires=requires,
     cmdclass={'build_ext':build_ext},
     setup_requires=['numpy'],
