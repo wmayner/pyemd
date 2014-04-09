@@ -22,7 +22,7 @@ requires = ['numpy >=1.8.0, < 2.0.0']
 
 setup(
     name='pyemd',
-    version= '0.0.6',
+    version= '0.0.7',
     description=("A Python wrapper for Ofir Pele and Michael Werman's " +
                  "implementation of the Earth Mover's Distance."),
     long_description=readme,
@@ -31,6 +31,7 @@ setup(
     url="https://github.com/wmayner/pyemd",
     license='MIT',
     packages=['pyemd'],
+    package_data={'pyemd': ['lib/*.hpp']},
     install_requires=requires,
     cmdclass={'build_ext':build_ext},
     setup_requires=['numpy'],

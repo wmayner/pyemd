@@ -12,6 +12,16 @@ only used be with the ``np.float`` data type, and with a symmetric distance
 matrix that represents a true metric. See the documentation for the original
 Pele and Werman library for the other options it provides.
 
+Installation
+~~~~~~~~~~~~
+
+To install the latest release:
+
+    pip install pyemd
+
+To install the latest development version:
+
+    pip install "git+https://github.com/wmayner/pyemd@develop#egg=pyemd"
 
 Usage
 ~~~~~
@@ -60,7 +70,7 @@ Limitations and Caveats
 Contributing
 ~~~~~~~~~~~~
 
-To help develop PyEMD, fork the project and install the requirements with ``pip``.
+To help develop PyEMD, fork the project on GitHub and install the requirements with ``pip``.
 
 The ``Makefile`` defines some tasks to help with development:
 

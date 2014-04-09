@@ -4,3 +4,5 @@ build
 .ropeproject
 *.so
 *.pyc
+dist
+pyemd.egg-info
