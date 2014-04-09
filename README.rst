@@ -15,6 +15,8 @@ Pele and Werman library for the other options it provides.
 Installation
 ~~~~~~~~~~~~
 
+To install, run:
+
     pip install pyemd
 
 Usage
@@ -64,7 +66,7 @@ Limitations and Caveats
 Contributing
 ~~~~~~~~~~~~
 
-To help develop PyEMD, fork the project and install the requirements with ``pip``.
+To help develop PyEMD, fork the project on GitHub and install the requirements with ``pip``.
 
 The ``Makefile`` defines some tasks to help with development:
 
