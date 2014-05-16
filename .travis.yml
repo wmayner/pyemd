@@ -1,0 +1,8 @@
+language: python
+python:
+  - "3.2"
+  - "3.3"
+# Install dependencies
+install: "pip install -r requirements.txt"
+# Run tests
+script: pytest
