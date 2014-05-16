@@ -1,6 +1,8 @@
 **************************
 PyEMD: Fast EMD for Python
 **************************
+.. image:: https://travis-ci.org/wmayner/pyemd.svg?branch=develop
+    :target: https://travis-ci.org/wmayner/pyemd
 
 PyEMD is a Python wrapper for `Ofir Pele and Michael Werman's implementation
 <http://www.seas.upenn.edu/~ofirpele/FastEMD/code/>`_ of the `Earth Mover's
