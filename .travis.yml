@@ -3,6 +3,8 @@ python:
   - "3.2"
   - "3.3"
 # Install dependencies
-install: "pip install -r requirements.txt"
+install: 
+  - python setup.py install
+  - pip install pytest
 # Run tests
-script: pytest
+script: py.test
