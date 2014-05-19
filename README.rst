@@ -1,6 +1,8 @@
 **************************
 PyEMD: Fast EMD for Python
 **************************
+.. image:: https://travis-ci.org/wmayner/pyemd.svg?branch=develop
+    :target: https://travis-ci.org/wmayner/pyemd
 
 PyEMD is a Python wrapper for `Ofir Pele and Michael Werman's implementation
 <http://www.seas.upenn.edu/~ofirpele/FastEMD/code/>`_ of the `Earth Mover's
@@ -17,9 +19,13 @@ Installation
 
 To install the latest release:
 
+.. code:: bash
+
     pip install pyemd
 
 To install the latest development version:
+
+.. code:: bash
 
     pip install "git+https://github.com/wmayner/pyemd@develop#egg=pyemd"
 
@@ -28,7 +34,7 @@ Usage
 
 Use PyEMD like so:
 
-.. code-block:: python
+.. code:: python
 
     >>> from pyemd import emd
     >>> import numpy as np
@@ -41,7 +47,7 @@ Use PyEMD like so:
 API
 ~~~
 
-.. code-block:: python
+.. code:: python
 
     emd(first_signature, second_signature, distance_matrix)
 
@@ -65,6 +71,8 @@ Limitations and Caveats
 - The original C++ functions have optional parameters ``extra_mass_penalty``
   and ``F`` (for flows); this wrapper does not expose those parameters. See
   the documentation in **pyemd/lib/emd_hat.hpp**.
+- You may get segfaults if you pass bad arguments. Input is not validated, for
+  a (probably negligible) speed boost!
 
 
 Contributing

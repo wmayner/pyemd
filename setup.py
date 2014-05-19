@@ -10,7 +10,8 @@ class build_ext(_build_ext):
     def finalize_options(self):
         _build_ext.finalize_options(self)
         # Prevent numpy from thinking it is still in its setup process:
-        __builtins__.__NUMPY_SETUP__ = False
+        if hasattr(__builtins__, '__NUMPY_SETUP__'):
+            __builtins__.__NUMPY_SETUP__ = False
         import numpy
         self.include_dirs.append(numpy.get_include())
 
@@ -22,7 +23,7 @@ requires = ['numpy >=1.8.0, < 2.0.0']
 
 setup(
     name='pyemd',
-    version= '0.0.7',
+    version= '0.0.8',
     description=("A Python wrapper for Ofir Pele and Michael Werman's " +
                  "implementation of the Earth Mover's Distance."),
     long_description=readme,
