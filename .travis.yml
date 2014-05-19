@@ -4,7 +4,6 @@ python:
   - "3.3"
 # Install dependencies
 install: 
-  - make
   - python setup.py install
   - pip install pytest
 # Run tests
