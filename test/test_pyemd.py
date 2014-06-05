@@ -29,6 +29,13 @@ class TestEmd(unittest.TestCase):
                                    [0.0, 0.0]])
         assert 0.0 == emd(first_signature, second_signature, distance_matrix)
 
+    def test_error_different_signature_lengths(self):
+        first_signature = np.array([6.0, 1.0, 9.0])
+        second_signature = np.array([1.0, 7.0])
+        distance_matrix = np.array([[0.0, 1.0],
+                                    [1.0, 0.0]])
+        with self.assertRaises(ValueError):
+            emd(first_signature, second_signature, distance_matrix)
 
     def test_error_wrong_distance_matrix_shape(self):
         first_signature = np.array([6.0, 1.0])

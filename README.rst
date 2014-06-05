@@ -71,8 +71,6 @@ Limitations and Caveats
 - The original C++ functions have optional parameters ``extra_mass_penalty``
   and ``F`` (for flows); this wrapper does not expose those parameters. See
   the documentation in **pyemd/lib/emd_hat.hpp**.
-- You may get segfaults if you pass bad arguments. Input is not validated, for
-  a (probably negligible) speed boost!
 
 
 Contributing
