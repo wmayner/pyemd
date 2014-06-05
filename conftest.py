@@ -2,4 +2,4 @@
 # -*- coding: utf-8 -*-
 
 
-collect_ignore = ["setup.py", ".pythonrc.py"]
+collect_ignore = ["setup.py", ".pythonrc.py", "build"]
