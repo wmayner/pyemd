@@ -19,7 +19,7 @@ class build_ext(_build_ext):
 with open('README.rst') as f:
     readme = f.read()
 
-requires = ['numpy >=1.8.0, < 2.0.0']
+requires = ['numpy >=1.8.0, <2.0.0']
 
 setup(
     name='pyemd',
