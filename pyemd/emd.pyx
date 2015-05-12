@@ -66,31 +66,12 @@ def emd(np.ndarray[double, ndim=1, mode="c"] first_signature,
     :param distance_matrix: A 2D numpy array of ``np.double``, of size
         :math:`N \cross N`.
     """
-    # # Validation
-    # if ([arg.dtype for arg in [first_signature, second_signature,
-    #                            distance_matrix]] != [np.dtype('float64')] * 3):
-    #     raise ValueError('Signatures and distance matrix must be of NumPy '
-    #                      'datatype `float64`.')
-    # N = first_signature.shape[0]
-    # if (N != second_signature.shape[0]):
-    #     raise ValueError('Signatures must be the same size.')
-    # if ((N != distance_matrix.shape[0]) or (N != distance_matrix.shape[1])):
-    #     raise ValueError('Distance matrix must be NxN, where N is the length of '
-    #                      'the signatures.')
-    # if (first_signature.ndim != 1) or (first_signature.ndim !=
-    #                                    second_signature.ndim):
-    #     raise ValueError('Signatures must be 1-dimensional.')
-    # if (distance_matrix.ndim != 2):
-    #     raise ValueError('Distance matrix must be 2-dimensional.')
-
-    # Convert numpy input to C++ vectors
     cdef vector[double] c_first_signature
     cdef vector[double] c_second_signature
     cdef vector[vector[double]] c_distance_matrix
     c_first_signature = _np_array_to_vector(first_signature)
     c_second_signature = _np_array_to_vector(second_signature)
     c_distance_matrix = _2d_np_array_to_2d_vector(distance_matrix)
-
     return emd_hat_gd_metric_double(c_first_signature,
                                     c_second_signature,
                                     c_distance_matrix)
