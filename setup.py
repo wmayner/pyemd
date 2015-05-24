@@ -3,6 +3,7 @@
 
 from setuptools import setup, Extension
 from setuptools.command.build_ext import build_ext as _build_ext
+from Cython.Build import cythonize
 
 
 # See http://stackoverflow.com/a/21621689/1085344
@@ -36,8 +37,9 @@ setup(
     install_requires=requires,
     cmdclass={'build_ext': build_ext},
     setup_requires=['numpy'],
-    ext_modules=[Extension("pyemd.emd", ["pyemd/emd.cpp"],
-                           language="c++")],
+    ext_modules=cythonize([
+        Extension('pyemd.emd', sources=['pyemd/emd.pyx'], language="c++")
+    ]),
     classifiers=(
         'Development Status :: 3 - Alpha',
         'Intended Audience :: Developers',
