@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 # distutils: language = c++
 
@@ -43,10 +42,10 @@ def _2d_np_array_to_2d_vector(np.ndarray[double, ndim=2, mode="c"] matrix):
     :param array: A 2D numpy array of ``np.double``.
     """
     cdef vector[vector[double]] output_matrix
-    output_matrix.resize(array.shape[0])
+    output_matrix.resize(matrix.shape[0])
     cdef vector[double] c_row
     for i in range(matrix.shape[0]):
-        output_matrix[i] = _np_array_to_vector(row)
+        output_matrix[i] = _np_array_to_vector(c_row)
     return output_matrix
 
 
