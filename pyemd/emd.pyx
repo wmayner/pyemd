@@ -22,9 +22,9 @@ cdef extern from "lib/emd_hat.hpp":
 # Define the API
 # ==============
 
-def emd(np.ndarray[double, ndim=1, mode="c"] first_signature,
-        np.ndarray[double, ndim=1, mode="c"] second_signature,
-        np.ndarray[double, ndim=2, mode="c"] distance_matrix):
+def emd(np.ndarray[np.float64_t, ndim=1, mode="c"] first_signature,
+        np.ndarray[np.float64_t, ndim=1, mode="c"] second_signature,
+        np.ndarray[np.float64_t, ndim=2, mode="c"] distance_matrix):
     """Compute the Earth Mover's Distance between the given signatures with the
     given distance matrix.
 
