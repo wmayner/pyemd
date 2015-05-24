@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 # distutils: language = c++
 
@@ -16,7 +17,6 @@ cdef extern from "lib/emd_hat.hpp":
     cdef double emd_hat_gd_metric_double(vector[double],
                                          vector[double],
                                          vector[vector[double]]) except +
-
 
 
 # Define the API
