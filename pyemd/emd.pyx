@@ -35,9 +35,6 @@ def emd(np.ndarray[np.float64_t, ndim=1, mode="c"] first_signature,
     :param distance_matrix: A 2D numpy array of ``np.double``, of size
         :math:`N \cross N`.
     """
-    cdef vector[double] c_first_signature
-    cdef vector[double] c_second_signature
-    cdef vector[vector[double]] c_distance_matrix
     return emd_hat_gd_metric_double(first_signature,
                                     second_signature,
                                     distance_matrix)
