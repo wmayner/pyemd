@@ -68,9 +68,9 @@ Limitations and Caveats
   wrapper only instantiates the template with ``double`` (Cython converts
   ``np.float`` to ``double``). If there's demand, I can add support for other
   types.
-- The original C++ functions have optional parameters ``extra_mass_penalty``
-  and ``F`` (for flows); this wrapper does not expose those parameters. See
-  the documentation in **pyemd/lib/emd_hat.hpp**.
+- The original C++ functions have an optional parameter ``F`` to
+  return the flow, which is not exposed by this wrapper. See the
+  documentation in **pyemd/lib/emd_hat.hpp**.
 
 
 Contributing
