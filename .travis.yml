@@ -5,8 +5,7 @@ python:
   - "3.3"
 # Install dependencies
 install: 
-  - python setup.py install
+  - pip install -e .
   - pip install pytest
-  - make buildcython
 # Run tests
 script: py.test
