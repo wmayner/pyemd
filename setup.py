@@ -45,7 +45,7 @@ if USE_CYTHON:
 else:
     extensions = no_cythonize(extensions)
 
-with open('README.rst') as f:
+with open('README.rst', 'r') as f:
     readme = f.read()
 
 requires = ['numpy >=1.8.0, <2.0.0']
@@ -66,14 +66,14 @@ setup(
     cmdclass={'build_ext': build_ext},
     setup_requires=requires,
     ext_modules=extensions,
-    classifiers=(
+    classifiers=[
         'Development Status :: 3 - Alpha',
         'Intended Audience :: Developers',
         'Natural Language :: English',
         'License :: OSI Approved :: MIT License',
         'Programming Language :: Python',
         'Programming Language :: Python :: 3',
-        'Programming Language :: Python :: 3.3'
+        'Programming Language :: Python :: 3.3',
         'Programming Language :: Python :: 3.4'
-    ),
+    ],
 )
