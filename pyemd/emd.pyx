@@ -16,7 +16,8 @@ cimport numpy as np
 cdef extern from "lib/emd_hat.hpp":
     cdef double emd_hat_gd_metric_double(vector[double],
                                          vector[double],
-                                         vector[vector[double]]) except +
+                                         vector[vector[double]],
+                                         double) except +
 
 
 # Define the API
@@ -24,8 +25,10 @@ cdef extern from "lib/emd_hat.hpp":
 
 def emd(np.ndarray[np.float64_t, ndim=1, mode="c"] first_signature,
         np.ndarray[np.float64_t, ndim=1, mode="c"] second_signature,
-        np.ndarray[np.float64_t, ndim=2, mode="c"] distance_matrix):
-    """Compute the Earth Mover's Distance between the given signatures with the
+        np.ndarray[np.float64_t, ndim=2, mode="c"] distance_matrix,
+        extra_mass_penalty=-1):
+    """
+    Compute the Earth Mover's Distance between the given signatures with the
     given distance matrix.
 
     :param first_signature: A 1D numpy array of ``np.double``, of length
@@ -34,7 +37,15 @@ def emd(np.ndarray[np.float64_t, ndim=1, mode="c"] first_signature,
         :math:`N`..
     :param distance_matrix: A 2D numpy array of ``np.double``, of size
         :math:`N \cross N`.
+    :param extra_mass_penalty: The penalty for extra mass - If you
+        want the resulting distance to be a metric, it should be at
+        least half the diameter of the space (maximum possible
+        distance between any two points). If you want partial matching
+        you can set it to zero (but then the resulting distance is not
+        guaranteed to be a metric).  Default value is -1 which means
+        1*max_element_in_distance_matrix
     """
     return emd_hat_gd_metric_double(first_signature,
                                     second_signature,
-                                    distance_matrix)
+                                    distance_matrix,
+                                    extra_mass_penalty)
