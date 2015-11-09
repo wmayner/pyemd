@@ -6,5 +6,6 @@ python:
 install: 
   - python setup.py install
   - pip install pytest
+  - make buildcython
 # Run tests
 script: py.test
