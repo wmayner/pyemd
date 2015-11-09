@@ -6,3 +6,4 @@ build
 *.pyc
 dist
 pyemd.egg-info
+pyemd/emd.cpp
