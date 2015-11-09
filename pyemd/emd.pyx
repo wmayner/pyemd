@@ -37,13 +37,13 @@ def emd(np.ndarray[np.float64_t, ndim=1, mode="c"] first_signature,
         :math:`N`..
     :param distance_matrix: A 2D numpy array of ``np.double``, of size
         :math:`N \cross N`.
-    :param extra_mass_penalty: The penalty for extra mass - If you
-        want the resulting distance to be a metric, it should be at
-        least half the diameter of the space (maximum possible
-        distance between any two points). If you want partial matching
-        you can set it to zero (but then the resulting distance is not
-        guaranteed to be a metric).  Default value is -1 which means
-        1*max_element_in_distance_matrix
+    :param extra_mass_penalty: The penalty for extra mass. If you want the
+        resulting distance to be a metric, it should be at least half the
+        diameter of the space (maximum possible distance between any two
+        points). If you want partial matching you can set it to zero (but then
+        the resulting distance is not guaranteed to be a metric). The default
+        value is -1 which means the maximum value in the distance matrix is
+        used.
     """
     return emd_hat_gd_metric_double(first_signature,
                                     second_signature,
