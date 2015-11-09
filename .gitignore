@@ -5,5 +5,5 @@ build
 *.so
 *.pyc
 dist
-pyemd.egg-info
+*.egg*
 pyemd/emd.cpp
