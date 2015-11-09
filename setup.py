@@ -52,7 +52,7 @@ requires = ['numpy >=1.8.0, <2.0.0']
 
 setup(
     name='pyemd',
-    version='0.1.1',
+    version='0.2.0',
     description=("A Python wrapper for Ofir Pele and Michael Werman's " +
                  "implementation of the Earth Mover's Distance."),
     long_description=readme,
