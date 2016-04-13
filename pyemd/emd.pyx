@@ -17,7 +17,8 @@ cdef extern from "lib/emd_hat.hpp":
     cdef double emd_hat_gd_metric_double(vector[double],
                                          vector[double],
                                          vector[vector[double]],
-                                         double) except +
+                                         double,
+                                         vector[vector[double]]) except +
 
 
 # Define the API
@@ -26,7 +27,9 @@ cdef extern from "lib/emd_hat.hpp":
 def emd(np.ndarray[np.float64_t, ndim=1, mode="c"] first_signature,
         np.ndarray[np.float64_t, ndim=1, mode="c"] second_signature,
         np.ndarray[np.float64_t, ndim=2, mode="c"] distance_matrix,
-        extra_mass_penalty=-1):
+        extra_mass_penalty=-1,
+        np.ndarray[np.float64_t, ndim=2, mode="c"] flow_matrix
+        ):
     """
     Compute the Earth Mover's Distance between the given signatures with the
     given distance matrix.
@@ -44,6 +47,7 @@ def emd(np.ndarray[np.float64_t, ndim=1, mode="c"] first_signature,
         the resulting distance is not guaranteed to be a metric). The default
         value is -1 which means the maximum value in the distance matrix is
         used.
+    :param flow_matrix: The matrix of flows between the different bins.
     """
     if (first_signature.shape[0] > distance_matrix.shape[0] or
             second_signature.shape[0] > distance_matrix.shape[0]):
@@ -56,4 +60,5 @@ def emd(np.ndarray[np.float64_t, ndim=1, mode="c"] first_signature,
     return emd_hat_gd_metric_double(first_signature,
                                     second_signature,
                                     distance_matrix,
-                                    extra_mass_penalty)
+                                    extra_mass_penalty,
+                                    flow_matrix)

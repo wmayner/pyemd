@@ -48,7 +48,7 @@ struct emd_hat_gd_metric {
 
 /// Same as emd_hat_gd_metric, but does not assume metric property for the ground distance (C).
 /// Note that C should still be symmetric and non-negative!
-template<typename NUM_T, FLOW_TYPE_T FLOW_TYPE= NO_FLOW>
+template<typename NUM_T, FLOW_TYPE_T FLOW_TYPE= WITHOUT_EXTRA_MASS_FLOW>
 struct emd_hat {
     NUM_T operator()(const std::vector<NUM_T>& P, const std::vector<NUM_T>& Q,
                      const std::vector< std::vector<NUM_T> >& C,
