@@ -5,7 +5,7 @@ PyEMD: Fast EMD for Python
     :target: https://travis-ci.org/wmayner/pyemd
 
 PyEMD is a Python wrapper for `Ofir Pele and Michael Werman's implementation
-<http://www.seas.upenn.edu/~ofirpele/FastEMD/code/>`_ of the `Earth Mover's
+<http://www.ariel.ac.il/sites/ofirpele/fastemd/code/>`_ of the `Earth Mover's
 Distance <http://en.wikipedia.org/wiki/Earth_mover%27s_distance>`_ that allows
 it to be used with NumPy. **If you use this code, please cite the papers listed
 at the end of this document.**
@@ -63,7 +63,7 @@ Limitations and Caveats
 
 - ``distance_matrix`` must be symmetric.
 - ``distance_matrix`` is assumed to represent a true metric. This must be
-  enforced by the caller. See the documentation in **pyemd/lib/emd_hat.hpp**.
+  enforced by the caller. See the documentation in ``pyemd/lib/emd_hat.hpp``.
 - The signatures and distance matrix must be numpy arrays of ``np.float``. The
   original C++ template function can accept any numerical C++ type, but this
   wrapper only instantiates the template with ``double`` (Cython converts
@@ -71,7 +71,7 @@ Limitations and Caveats
   types.
 - The original C++ functions have an optional parameter ``F`` to
   return the flow, which is not exposed by this wrapper. See the
-  documentation in **pyemd/lib/emd_hat.hpp**.
+  documentation in ``pyemd/lib/emd_hat.hpp``.
 
 
 Contributing
