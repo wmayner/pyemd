@@ -35,7 +35,6 @@ def test_larger_signatures():
     second_signature = np.array([5.0, 3.0, 3.0])
     distance_matrix = np.array([[0.0, 0.5],
                                 [0.5, 0.0]])
-
     with pytest.raises(ValueError):
         emd(first_signature, second_signature, distance_matrix)
 
@@ -45,7 +44,6 @@ def test_larger_signatures_1():
     second_signature = np.array([5.0, 3.0])
     distance_matrix = np.array([[0.0, 0.5],
                                 [0.5, 0.0]])
-
     with pytest.raises(ValueError):
         emd(first_signature, second_signature, distance_matrix)
 
@@ -55,7 +53,6 @@ def test_larger_signatures_2():
     second_signature = np.array([5.0, 3.0, 3.0])
     distance_matrix = np.array([[0.0, 0.5],
                                 [0.5, 0.0]])
-
     with pytest.raises(ValueError):
         emd(first_signature, second_signature, distance_matrix)
 
@@ -66,7 +63,6 @@ def test_different_signature_dims():
     distance_matrix = np.array([[0.0, 0.5, 0.0],
                                 [0.5, 0.0, 0.0],
                                 [0.5, 0.0, 0.0]])
-
     with pytest.raises(ValueError):
         emd(first_signature, second_signature, distance_matrix)
 
@@ -76,6 +72,5 @@ def test_symmetric_distance_matrix():
     second_signature = np.array([5.0, 3.0])
     distance_matrix = np.array([[0.0, 0.5, 3.0],
                                 [0.5, 0.0]])
-
     with pytest.raises(ValueError):
         emd(first_signature, second_signature, distance_matrix)
