@@ -3,8 +3,31 @@
 
 import os
 
+from distutils.command.sdist import sdist as _sdist
 from setuptools import Extension, setup
 from setuptools.command.build_ext import build_ext as _build_ext
+
+try:
+    from Cython.Build import cythonize
+    USE_CYTHON = True
+except ImportError:
+    USE_CYTHON = False
+
+
+EXTENSIONS = [
+    Extension('pyemd.emd',
+              sources=['pyemd/emd.pyx'],
+              language="c++")
+]
+
+
+class sdist(_sdist):
+    def run(self):
+        # Make sure the compiled Cython files in the distribution are
+        # up-to-date
+        from Cython.Build import cythonize
+        cythonize(EXTENSIONS)
+        _sdist.run(self)
 
 
 # See http://stackoverflow.com/a/21621689/1085344
@@ -17,11 +40,12 @@ class build_ext(_build_ext):
         import numpy
         self.include_dirs.append(numpy.get_include())
 
-try:
-    from Cython.Build import cythonize
-    USE_CYTHON = True
-except ImportError:
-    USE_CYTHON = False
+
+cmdclass = {
+    'sdist': sdist,
+    'build_ext': build_ext
+}
+
 
 def no_cythonize(extensions, **_ignore):
     for extension in extensions:
@@ -38,12 +62,12 @@ def no_cythonize(extensions, **_ignore):
         extension.sources[:] = sources
     return extensions
 
-extensions = [Extension('pyemd.emd', sources=['pyemd/emd.pyx'], language="c++")]
 
 if USE_CYTHON:
-    extensions = cythonize(extensions)
+    ext_modules = cythonize(EXTENSIONS)
 else:
-    extensions = no_cythonize(extensions)
+    ext_modules = no_cythonize(EXTENSIONS)
+
 
 with open('README.rst', 'r') as f:
     readme = f.read()
@@ -61,11 +85,11 @@ setup(
     url="https://github.com/wmayner/pyemd",
     license='MIT',
     packages=['pyemd'],
-    package_data={'pyemd': ['lib/*.hpp']},
+    package_data={'pyemd': ['emd.pyx', 'lib/*.hpp', '../README.rst']},
     install_requires=requires,
-    cmdclass={'build_ext': build_ext},
+    cmdclass=cmdclass,
     setup_requires=requires,
-    ext_modules=extensions,
+    ext_modules=ext_modules,
     classifiers=[
         'Development Status :: 3 - Alpha',
         'Intended Audience :: Developers',
@@ -75,5 +99,6 @@ setup(
         'Programming Language :: Python :: 3',
         'Programming Language :: Python :: 3.3',
         'Programming Language :: Python :: 3.4'
+        'Programming Language :: Python :: 3.5'
     ],
 )
