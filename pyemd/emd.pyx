@@ -45,6 +45,14 @@ def emd(np.ndarray[np.float64_t, ndim=1, mode="c"] first_signature,
         value is -1 which means the maximum value in the distance matrix is
         used.
     """
+    if (first_signature.shape[0] > distance_matrix.shape[0] or
+            second_signature.shape[0] > distance_matrix.shape[0]):
+        raise ValueError('Signature dimension cannot be larger than '
+                         'dimensions of distance matrix')
+
+    if (first_signature.shape[0] != second_signature.shape[0]):
+        raise ValueError("Signature dimensions must be equal")
+
     return emd_hat_gd_metric_double(first_signature,
                                     second_signature,
                                     distance_matrix,
