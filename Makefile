@@ -1,10 +1,12 @@
-buildcython:
+default:
+	python setup.py build_ext -b .
+
+build:
 	cython -v -t --cplus pyemd/emd.pyx
-	python setup.py build_ext --inplace
 
 clean:
+	rm -rf build
 	rm -rf pyemd/emd.so
 
-runtests:
-	make buildcython
-	py.test
+test: default
+	py.test test
