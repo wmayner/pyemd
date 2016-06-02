@@ -1,10 +1,11 @@
+sudo: false
 language: python
 python:
   - "3.2"
   - "3.3"
 # Install dependencies
 install: 
-  - python setup.py install
+  - pip install -e .
   - pip install pytest
 # Run tests
 script: py.test
