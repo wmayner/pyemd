@@ -3,8 +3,12 @@ language: python
 python:
   - "3.2"
   - "3.3"
+  - "3.4"
+  - "3.5"
 # Install dependencies
 install: 
+  - pip install Cython
+  - make
   - pip install -e .
   - pip install pytest
 # Run tests
