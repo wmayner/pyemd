@@ -50,11 +50,10 @@ Credits
 
 :copyright: Copyright (c) 2016 by Will Mayner.
 :license: See the LICENSE file.
-
 """
 
 __title__ = 'pyemd'
-__version__ = '0.2.0'
+__version__ = '0.3.0'
 __author__ = 'Will Mayner'
 __author_email__ = 'wmayner@gmail.com'
 __author_website__ = 'http://willmayner.com'
