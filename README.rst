@@ -81,9 +81,11 @@ To help develop PyEMD, fork the project on GitHub and install the requirements w
 
 The ``Makefile`` defines some tasks to help with development:
 
-* ``buildcython``: compiles the Cython code into C++ and then builds the C++ into a Python extension
-* ``runtests``: builds everything and then runs the unit tests
-* ``clean``: removes the compiled C++
+* ``default``: compile the Cython code into C++ and build the C++ into a Python
+  extension, using the `setup.py` build command
+* ``build``: same as default, but using the `cython` command
+* ``clean``: remove the build directory and the compiled C++ extension
+* ``test``: run unit tests with `py.test`
 
 
 Credit
