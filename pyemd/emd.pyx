@@ -58,7 +58,7 @@ def emd_with_flows(np.ndarray[np.float64_t, ndim=1, mode="c"] first_signature,
     return emd_hat_gd_metric_double_wrapper(first_signature,
                                                  second_signature,
                                                  distance_matrix,
-                                                 -1)
+                                                 extra_mass_penalty)
 
 
 
