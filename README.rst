@@ -58,6 +58,16 @@ API
   be symmetric and represent a metric.
 
 
+.. code:: python
+
+    emd, flows = emd_with_flows(first_signature, second_signature, distance_matrix)
+
+- ``first_signature``: A 1-dimensional numpy array of ``np.float``, of size N.
+- ``second_signature``: A 1-dimensional numpy array of ``np.float``, of size N.
+- ``distance_matrix``: A 2-dimensional array of ``np.float``, of size NxN. Must
+  be symmetric and represent a metric.
+
+
 Limitations and Caveats
 ~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -69,9 +79,6 @@ Limitations and Caveats
   wrapper only instantiates the template with ``double`` (Cython converts
   ``np.float`` to ``double``). If there's demand, I can add support for other
   types.
-- The original C++ functions have an optional parameter ``F`` to
-  return the flow, which is not exposed by this wrapper. See the
-  documentation in ``pyemd/lib/emd_hat.hpp``.
 
 
 Contributing
