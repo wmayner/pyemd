@@ -86,7 +86,8 @@ std::pair< double, std::vector<std::vector<double> > >
         double extra_mass_penalty) {
     std::vector<std::vector<double> > flows(P.size(), std::vector<double>(P.size()));
     double emd = emd_hat_gd_metric_double(P, Q, C, extra_mass_penalty, &flows);
-    auto results = std::make_pair(emd, flows);
+    std::pair< double, std::vector<std::vector<double> > > results =
+        std::make_pair(emd, flows);
     return results;
 }
 
