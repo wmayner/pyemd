@@ -1,6 +1,7 @@
 #ifndef EMD_HAT_HPP
 #define EMD_HAT_HPP
 
+#include <utility>
 #include <vector>
 #include "EMD_DEFS.hpp"
 #include "flow_utils.hpp"
@@ -38,7 +39,7 @@
 ///              to the extra mass bin.
 ///           Note that if F is the default NULL then FLOW_TYPE must be NO_FLOW.
 
-template<typename NUM_T, FLOW_TYPE_T FLOW_TYPE= NO_FLOW>
+template<typename NUM_T, FLOW_TYPE_T FLOW_TYPE= WITHOUT_EXTRA_MASS_FLOW>
 struct emd_hat_gd_metric {
     NUM_T operator()(const std::vector<NUM_T>& P, const std::vector<NUM_T>& Q,
                      const std::vector< std::vector<NUM_T> >& C,
@@ -48,7 +49,7 @@ struct emd_hat_gd_metric {
 
 /// Same as emd_hat_gd_metric, but does not assume metric property for the ground distance (C).
 /// Note that C should still be symmetric and non-negative!
-template<typename NUM_T, FLOW_TYPE_T FLOW_TYPE= NO_FLOW>
+template<typename NUM_T, FLOW_TYPE_T FLOW_TYPE= WITHOUT_EXTRA_MASS_FLOW>
 struct emd_hat {
     NUM_T operator()(const std::vector<NUM_T>& P, const std::vector<NUM_T>& Q,
                      const std::vector< std::vector<NUM_T> >& C,
@@ -70,6 +71,32 @@ emd_hat<int> emd_hat_int;
 emd_hat<double> emd_hat_double;
 emd_hat<long int> emd_hat_long_int;
 emd_hat<long long int> emd_hat_long_long_int;
+/// =========================================================================
+
+
+
+/// =========================================================================
+/// 25/11/2016 - Added by Rémi Louf <remi@sciti.es>
+/// -------------------------------------------------------------------------
+/// Wrapper function to output the flows
+std::pair< double, std::vector<std::vector<double>> > emd_hat_gd_metric_double_wrapper( const std::vector<double>& P,
+                                                                          const std::vector<double>& Q,
+                                                                          const std::vector<std::vector<double>>& C,
+                                                                          double extra_mass_penalty) {
+    std::vector<std::vector<double>> flows(P.size(), std::vector<double>(P.size()));
+    double emd = emd_hat_gd_metric_double(P, Q, C, extra_mass_penalty, &flows);
+    auto results = std::make_pair(emd, flows);
+    return results;
+}
+
+std::vector<std::vector<double>> emd_hat_gd_metric_double_wrapper_vector( const std::vector<double>& P,
+                                                                          const std::vector<double>& Q,
+                                                                          const std::vector<std::vector<double>>& C,
+                                                                          double extra_mass_penalty) {
+    std::vector<std::vector<double>> flows(P.size(), std::vector<double>(P.size()));
+    double emd = emd_hat_gd_metric_double(P, Q, C, extra_mass_penalty, &flows);
+    return flows;
+}
 /// =========================================================================
 
 

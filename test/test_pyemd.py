@@ -2,9 +2,8 @@
 # -*- coding: utf-8 -*-
 
 import numpy as np
-from pyemd import emd
+from pyemd import emd, emd_with_flows
 import pytest
-
 
 def test_case_1():
     first_signature = np.array([0.0, 1.0])
@@ -38,8 +37,24 @@ def test_larger_signatures():
     with pytest.raises(ValueError):
         emd(first_signature, second_signature, distance_matrix)
 
+def test_larger_signatures_flows():
+    first_signature = np.array([0.0, 1.0, 2.0])
+    second_signature = np.array([5.0, 3.0, 3.0])
+    distance_matrix = np.array([[0.0, 0.5],
+                                [0.5, 0.0]])
+    with pytest.raises(ValueError):
+        emd_flows(first_signature, second_signature, distance_matrix)
+
 
 def test_larger_signatures_1():
+    first_signature = np.array([0.0, 1.0, 2.0])
+    second_signature = np.array([5.0, 3.0])
+    distance_matrix = np.array([[0.0, 0.5],
+                                [0.5, 0.0]])
+    with pytest.raises(ValueError):
+        emd_flows(first_signature, second_signature, distance_matrix)
+
+def test_larger_signatures_1_flows():
     first_signature = np.array([0.0, 1.0, 2.0])
     second_signature = np.array([5.0, 3.0])
     distance_matrix = np.array([[0.0, 0.5],
@@ -56,6 +71,14 @@ def test_larger_signatures_2():
     with pytest.raises(ValueError):
         emd(first_signature, second_signature, distance_matrix)
 
+def test_larger_signatures_2_flows():
+    first_signature = np.array([0.0, 1.0])
+    second_signature = np.array([5.0, 3.0, 3.0])
+    distance_matrix = np.array([[0.0, 0.5],
+                                [0.5, 0.0]])
+    with pytest.raises(ValueError):
+        emd_flows(first_signature, second_signature, distance_matrix)
+
 
 def test_different_signature_dims():
     first_signature = np.array([0.0, 1.0])
@@ -66,6 +89,14 @@ def test_different_signature_dims():
     with pytest.raises(ValueError):
         emd(first_signature, second_signature, distance_matrix)
 
+def test_different_signature_dims_flows():
+    first_signature = np.array([0.0, 1.0])
+    second_signature = np.array([5.0, 3.0, 3.0])
+    distance_matrix = np.array([[0.0, 0.5, 0.0],
+                                [0.5, 0.0, 0.0],
+                                [0.5, 0.0, 0.0]])
+    with pytest.raises(ValueError):
+        emd_flows(first_signature, second_signature, distance_matrix)
 
 def test_symmetric_distance_matrix():
     first_signature = np.array([0.0, 1.0])
@@ -74,3 +105,11 @@ def test_symmetric_distance_matrix():
                                 [0.5, 0.0]])
     with pytest.raises(ValueError):
         emd(first_signature, second_signature, distance_matrix)
+
+def test_symmetric_distance_matrix_flows():
+    first_signature = np.array([0.0, 1.0])
+    second_signature = np.array([5.0, 3.0])
+    distance_matrix = np.array([[0.0, 0.5, 3.0],
+                                [0.5, 0.0]])
+    with pytest.raises(ValueError):
+        emd_flows(first_signature, second_signature, distance_matrix)
