@@ -82,11 +82,21 @@ emd_hat<long long int> emd_hat_long_long_int;
 std::pair< double, std::vector<std::vector<double>> > emd_hat_gd_metric_double_wrapper( const std::vector<double>& P,
                                                                           const std::vector<double>& Q,
                                                                           const std::vector<std::vector<double>>& C,
-                                                                          double extra_mass_penalty=-1) {
+                                                                          double extra_mass_penalty) {
     std::vector<std::vector<double>> flows(P.size(), std::vector<double>(P.size()));
     double emd = emd_hat_gd_metric_double(P, Q, C, extra_mass_penalty, &flows);
     auto results = std::make_pair(emd, flows);
     return results;
+}
+
+std::vector<std::vector<double>> emd_hat_gd_metric_double_wrapper_vector( const std::vector<double>& P,
+                                                                          const std::vector<double>& Q,
+                                                                          const std::vector<std::vector<double>>& C,
+                                                                          double extra_mass_penalty) {
+    std::vector<std::vector<double>> flows(P.size(), std::vector<double>(P.size()));
+    double emd = emd_hat_gd_metric_double(P, Q, C, extra_mass_penalty, &flows);
+    return flows;
+}
 /// =========================================================================
 
 

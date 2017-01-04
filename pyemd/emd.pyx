@@ -20,6 +20,11 @@ cdef extern from "lib/emd_hat.hpp":
                                                  vector[vector[double]],
                                                  double) except +
 
+    cdef vector[vector[double]] emd_hat_gd_metric_double_wrapper_vector(vector[double],
+                                                 vector[double],
+                                                 vector[vector[double]],
+                                                 double) except +
+
 
 
 # Define the API
@@ -27,7 +32,7 @@ cdef extern from "lib/emd_hat.hpp":
 def emd_with_flows(np.ndarray[np.float64_t, ndim=1, mode="c"] first_signature,
                    np.ndarray[np.float64_t, ndim=1, mode="c"] second_signature,
                    np.ndarray[np.float64_t, ndim=2, mode="c"] distance_matrix,
-                   extra_mass_penalty=-1):
+                   extra_mass_penalty=-1.0):
     """
     Compute the Earth Mover's Distance between the given signature with the
     given distance matrix.
@@ -56,16 +61,16 @@ def emd_with_flows(np.ndarray[np.float64_t, ndim=1, mode="c"] first_signature,
         raise ValueError("Signature dimensions must be equal")
 
     return emd_hat_gd_metric_double_wrapper(first_signature,
-                                                 second_signature,
-                                                 distance_matrix,
-                                                 extra_mass_penalty)
+                                            second_signature,
+                                            distance_matrix,
+                                            extra_mass_penalty)
 
 
 
 def emd(np.ndarray[np.float64_t, ndim=1, mode="c"] first_signature,
         np.ndarray[np.float64_t, ndim=1, mode="c"] second_signature,
         np.ndarray[np.float64_t, ndim=2, mode="c"] distance_matrix,
-        extra_mass_penalty=-1):
+        extra_mass_penalty=-1.0):
     """
     Compute the Earth Mover's Distance between the given signatures with the
     given distance matrix.
