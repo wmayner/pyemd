@@ -1,5 +1,5 @@
 default:
-	python2 setup.py build_ext -b .
+	python setup.py build_ext -b .
 
 build:
 	cython -v -t --cplus pyemd/emd.pyx
