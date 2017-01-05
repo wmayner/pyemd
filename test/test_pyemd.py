@@ -17,7 +17,7 @@ def test_case_1_flows():
     second_signature = np.array([5.0, 3.0])
     distance_matrix = np.array([[0.0, 0.5],
                                 [0.5, 0.0]])
-    assert (3.5, [[0.0, 0.0],[0.0, 1.0]]) == emd(first_signature, second_signature, distance_matrix)
+    assert (3.5, [[0.0, 0.0], [0.0, 1.0]]) == emd_with_flows(first_signature, second_signature, distance_matrix)
 
 
 
@@ -33,7 +33,7 @@ def test_case_2_flows():
     second_signature = np.array([1.0, 1.0])
     distance_matrix = np.array([[0.0, 1.0],
                                 [1.0, 0.0]])
-    assert (0.0, [[1.0, 0.0],[0.0, 1.0]]) == emd(first_signature, second_signature, distance_matrix)
+    assert (0.0, [[1.0, 0.0], [0.0, 1.0]]) == emd_with_flows(first_signature, second_signature, distance_matrix)
 
 
 
@@ -49,7 +49,7 @@ def test_case_3_flows():
     second_signature = np.array([1.0, 7.0])
     distance_matrix = np.array([[0.0, 0.0],
                                 [0.0, 0.0]])
-    assert (0.0, [[1.0, 5.0],[0.0, 1.0]]) == emd(first_signature, second_signature, distance_matrix)
+    assert (0.0, [[1.0, 5.0], [0.0, 1.0]]) == emd_with_flows(first_signature, second_signature, distance_matrix)
 
 
 
@@ -58,7 +58,7 @@ def test_case_4_flows():
     second_signature = np.array([6.0, 1.0])
     distance_matrix = np.array([[0.0, 0.0],
                                 [0.0, 0.0]])
-    assert (0.0, [[1.0, 0.0],[5.0, 1.0]]) == emd(first_signature, second_signature, distance_matrix)
+    assert (0.0, [[1.0, 0.0], [5.0, 1.0]]) == emd_with_flows(first_signature, second_signature, distance_matrix)
 
 
 
@@ -67,7 +67,7 @@ def test_case_5_flows():
     second_signature = np.array([6.0, 2.0])
     distance_matrix = np.array([[0.0, 0.0],
                                 [0.0, 0.0]])
-    assert (0.0, [[3.0, 0.0],[3.0, 2.0]]) == emd(first_signature, second_signature, distance_matrix)
+    assert (0.0, [[3.0, 0.0], [3.0, 2.0]]) == emd_with_flows(first_signature, second_signature, distance_matrix)
 
 
 
