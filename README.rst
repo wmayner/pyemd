@@ -44,6 +44,8 @@ Use PyEMD like so:
     >>> distance_matrix = np.array([[0.0, 0.5], [0.5, 0.0]])
     >>> emd(first_signature, second_signature, distance_matrix)
     3.5
+    >>> emd_with_flows(first_signature, second_signature, distance_matrix)
+    (3.5, [[0.0, 0.0], [0.0, 1.0]])
 
 API
 ~~~
