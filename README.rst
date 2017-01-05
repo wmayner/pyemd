@@ -44,6 +44,10 @@ Use PyEMD like so:
     >>> distance_matrix = np.array([[0.0, 0.5], [0.5, 0.0]])
     >>> emd(first_signature, second_signature, distance_matrix)
     3.5
+
+You can also get the associated minimum-cost flow:
+
+    >>> from pyemd import emd_with_flows
     >>> emd_with_flows(first_signature, second_signature, distance_matrix)
     (3.5, [[0.0, 0.0], [0.0, 1.0]])
 
