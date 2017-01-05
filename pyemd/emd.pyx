@@ -20,12 +20,6 @@ cdef extern from "lib/emd_hat.hpp":
                                                  vector[vector[double]],
                                                  double) except +
 
-    cdef vector[vector[double]] emd_hat_gd_metric_double_wrapper_vector(vector[double],
-                                                 vector[double],
-                                                 vector[vector[double]],
-                                                 double) except +
-
-
 
 # Define the API
 # ==============
