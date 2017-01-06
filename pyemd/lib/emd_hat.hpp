@@ -63,7 +63,7 @@ struct emd_hat {
 /// 2014-02-27 - Added by Will Mayner <wmayner@gmail.com>
 /// -------------------------------------------------------------------------
 /// Instantiate the template for importing into Cython
-emd_hat_gd_metric<double> emd_hat_gd_metric_double;
+emd_hat_gd_metric<double, NO_FLOW> emd_hat_gd_metric_double;
 /// =========================================================================
 
 /// =========================================================================
