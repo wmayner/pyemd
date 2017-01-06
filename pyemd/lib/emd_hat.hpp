@@ -62,15 +62,8 @@ struct emd_hat {
 /// =========================================================================
 /// 02/27/2014 - Added by Will Mayner <wmayner@gmail.com>
 /// -------------------------------------------------------------------------
-/// Instantiate the templates with various types to easily import into Cython
-emd_hat_gd_metric<int> emd_hat_gd_metric_int;
+/// Instantiate the template for importing into Cython
 emd_hat_gd_metric<double> emd_hat_gd_metric_double;
-emd_hat_gd_metric<long int> emd_hat_gd_metric_long_int;
-emd_hat_gd_metric<long long int> emd_hat_gd_metric_long_long_int;
-emd_hat<int> emd_hat_int;
-emd_hat<double> emd_hat_double;
-emd_hat<long int> emd_hat_long_int;
-emd_hat<long long int> emd_hat_long_long_int;
 
 /// =========================================================================
 /// 01/06/2017 - Added by Will Mayner <wmayner@gmail.com>
