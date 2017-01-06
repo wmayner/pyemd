@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
+# __init__.py
 
 """
 PyEMD
@@ -62,13 +63,6 @@ Credit
 :license: See the LICENSE file.
 """
 
-__title__ = 'pyemd'
-__version__ = '0.3.0'
-__author__ = 'Will Mayner'
-__author_email__ = 'wmayner@gmail.com'
-__author_website__ = 'http://willmayner.com'
-__license__ = 'MIT'
-__copyright__ = 'Copyright (c) 2016 Will Mayner'
-
+from .__about__ import *
 from .emd import emd
 from .emd import emd_with_flow

@@ -72,18 +72,21 @@ else:
 with open('README.rst', 'r') as f:
     readme = f.read()
 
+about = {}
+with open('./pyemd/__about__.py') as f:
+    exec(f.read(), about)
+
 requires = ['numpy >=1.8.0, <2.0.0']
 
 setup(
-    name='pyemd',
-    version='0.3.0',
-    description=("A Python wrapper for Ofir Pele and Michael Werman's " +
-                 "implementation of the Earth Mover's Distance."),
+    name=about['__title__'],
+    version=about['__version__'],
+    description=about['__description__'],
     long_description=readme,
-    author='Will Mayner',
-    author_email='wmayner@gmail.com',
-    url="https://github.com/wmayner/pyemd",
-    license='MIT',
+    author=about['__author__'],
+    author_email=about['__author_email__'],
+    url=about['__url__'],
+    license=about['__license__'],
     packages=['pyemd'],
     package_data={'pyemd': ['emd.pyx', 'lib/*.hpp', '../README.rst']},
     install_requires=requires,
@@ -97,8 +100,10 @@ setup(
         'License :: OSI Approved :: MIT License',
         'Programming Language :: Python',
         'Programming Language :: Python :: 3',
+        'Programming Language :: Python :: 3.2',
         'Programming Language :: Python :: 3.3',
         'Programming Language :: Python :: 3.4',
-        'Programming Language :: Python :: 3.5'
+        'Programming Language :: Python :: 3.5',
+        'Programming Language :: Python :: 3.6'
     ],
 )
