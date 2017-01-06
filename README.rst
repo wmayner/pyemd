@@ -37,8 +37,6 @@ To install the latest development version:
 Usage
 ~~~~~
 
-Use PyEMD like so:
-
 .. code:: python
 
     >>> from pyemd import emd
