@@ -10,7 +10,8 @@ import pytest
 from pyemd import emd, emd_with_flow
 
 
-PRECISION = 5
+EMD_PRECISION = 5
+FLOW_PRECISION = 4
 
 
 def test_case_1():
@@ -91,7 +92,7 @@ def test_case_6():
                                 [1.0, 2.0, 0.0, 1.0],
                                 [2.0, 1.0, 1.0, 0.0]])
     emd_value = emd(first_signature, second_signature, distance_matrix)
-    assert round(emd_value, PRECISION) == 2.0
+    assert round(emd_value, EMD_PRECISION) == 2.0
 
 
 def test_case_6_flow():
@@ -104,13 +105,49 @@ def test_case_6_flow():
     emd_value, flow = emd_with_flow(first_signature,
                                     second_signature,
                                     distance_matrix)
-    emd_value = round(emd_value, PRECISION)
+    emd_value = round(emd_value, EMD_PRECISION)
     assert emd_value == 2.0
-    flow = np.round(flow, PRECISION)
+    flow = np.round(flow, FLOW_PRECISION)
     assert np.array_equal(flow, [[1.0, 0.0, 0.0, 0.0],
                                  [1.0, 1.0, 0.0, 0.0],
                                  [0.0, 0.0, 1.0, 0.0],
                                  [0.0, 0.0, 1.0, 1.0]])
+
+
+def test_extra_mass_penalty():
+    first_signature = np.array([0.0, 2.0, 1.0, 2.0])
+    second_signature = np.array([2.0, 1.0, 2.0, 1.0])
+    distance_matrix = np.array([[0.0, 1.0, 1.0, 2.0],
+                                [1.0, 0.0, 2.0, 1.0],
+                                [1.0, 2.0, 0.0, 1.0],
+                                [2.0, 1.0, 1.0, 0.0]])
+    emd_value = emd(first_signature, second_signature, distance_matrix,
+                    extra_mass_penalty=2.5)
+    assert round(emd_value, EMD_PRECISION) == 4.5
+
+
+def test_extra_mass_penalty_flow():
+    first_signature = np.array([0.0, 2.0, 1.0, 2.0])
+    second_signature = np.array([2.0, 1.0, 2.0, 1.0])
+    distance_matrix = np.array([[0.0, 1.0, 1.0, 2.0],
+                                [1.0, 0.0, 2.0, 1.0],
+                                [1.0, 2.0, 0.0, 1.0],
+                                [2.0, 1.0, 1.0, 0.0]])
+    emd_value, flow = emd_with_flow(first_signature,
+                                    second_signature,
+                                    distance_matrix,
+                                    extra_mass_penalty=2.5)
+    emd_value = round(emd_value, EMD_PRECISION)
+    assert emd_value == 4.5
+    flow = np.round(flow, FLOW_PRECISION)
+    print(flow)
+    assert np.array_equal(flow, [[0.0, 0.0, 0.0, 0.0],
+                                 [1.0, 1.0, 0.0, 0.0],
+                                 [0.0, 0.0, 1.0, 0.0],
+                                 [0.0, 0.0, 1.0, 1.0]])
+
+# Validation testing
+# ~~~~~~~~~~~~~~~~~~
 
 
 def test_larger_signatures():
