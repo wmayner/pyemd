@@ -60,20 +60,21 @@ struct emd_hat {
 
 
 /// =========================================================================
-/// 02/27/2014 - Added by Will Mayner <wmayner@gmail.com>
+/// 2014-02-27 - Added by Will Mayner <wmayner@gmail.com>
 /// -------------------------------------------------------------------------
 /// Instantiate the template for importing into Cython
 emd_hat_gd_metric<double> emd_hat_gd_metric_double;
+/// =========================================================================
 
 /// =========================================================================
-/// 01/06/2017 - Added by Will Mayner <wmayner@gmail.com>
+/// 2017-01-06 - Added by Will Mayner <wmayner@gmail.com>
 /// -------------------------------------------------------------------------
 emd_hat_gd_metric<double, WITHOUT_EXTRA_MASS_FLOW>
     emd_hat_gd_metric_double_with_flow;
 /// =========================================================================
 
 /// =========================================================================
-/// 25/11/2016 - Added by Rémi Louf <remi@sciti.es>
+/// 2016-11-25 - Added by Rémi Louf <remi@sciti.es>
 /// -------------------------------------------------------------------------
 /// Wrapper function to output the flow
 std::pair< double, std::vector<std::vector<double> > >
