@@ -53,8 +53,8 @@ You can also get the associated minimum-cost flow:
 
 .. code:: python
 
-    >>> from pyemd import emd_with_flows
-    >>> emd_with_flows(first_signature, second_signature, distance_matrix)
+    >>> from pyemd import emd_with_flow
+    >>> emd_with_flow(first_signature, second_signature, distance_matrix)
     (3.5, [[0.0, 0.0], [0.0, 1.0]])
 
 API
@@ -72,7 +72,7 @@ API
 
 .. code:: python
 
-    emd, flows = emd_with_flows(first_signature, second_signature, distance_matrix)
+    emd, flow = emd_with_flow(first_signature, second_signature, distance_matrix)
 
 - ``first_signature``: A 1-dimensional numpy array of ``np.float``, of size N.
 - ``second_signature``: A 1-dimensional numpy array of ``np.float``, of size N.

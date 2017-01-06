@@ -24,10 +24,10 @@ cdef extern from "lib/emd_hat.hpp":
                                  double) except +
 
     cdef pair[double, vector[vector[double]]] \
-        emd_hat_gd_metric_double_with_flows_wrapper(vector[double], 
-                                                    vector[double],
-                                                    vector[vector[double]],
-                                                    double) except +
+        emd_hat_gd_metric_double_with_flow_wrapper(vector[double], 
+                                                   vector[double],
+                                                   vector[vector[double]],
+                                                   double) except +
 
 
 # Define the API
@@ -75,10 +75,10 @@ def emd(np.ndarray[np.float64_t, ndim=1, mode="c"] first_signature,
                                     extra_mass_penalty)
 
 
-def emd_with_flows(np.ndarray[np.float64_t, ndim=1, mode="c"] first_signature,
-                   np.ndarray[np.float64_t, ndim=1, mode="c"] second_signature,
-                   np.ndarray[np.float64_t, ndim=2, mode="c"] distance_matrix,
-                   extra_mass_penalty=-1.0):
+def emd_with_flow(np.ndarray[np.float64_t, ndim=1, mode="c"] first_signature,
+                  np.ndarray[np.float64_t, ndim=1, mode="c"] second_signature,
+                  np.ndarray[np.float64_t, ndim=2, mode="c"] distance_matrix,
+                  extra_mass_penalty=-1.0):
     """
     Compute the EMD between signatures with the given distance matrix.
 
@@ -98,10 +98,10 @@ def emd_with_flows(np.ndarray[np.float64_t, ndim=1, mode="c"] first_signature,
             used.
 
     Returns:
-        (emd, flows): The EMD value and the associated minimum-cost flows.
+        (emd, flow): The EMD value and the associated minimum-cost flow.
     """
     validate(first_signature, second_signature, distance_matrix)
-    return emd_hat_gd_metric_double_with_flows_wrapper(first_signature,
-                                                       second_signature,
-                                                       distance_matrix,
-                                                       extra_mass_penalty)
+    return emd_hat_gd_metric_double_with_flow_wrapper(first_signature,
+                                                      second_signature,
+                                                      distance_matrix,
+                                                      extra_mass_penalty)
