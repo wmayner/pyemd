@@ -32,44 +32,15 @@ cdef extern from "lib/emd_hat.hpp":
 
 # Define the API
 # ==============
-def emd_with_flows(np.ndarray[np.float64_t, ndim=1, mode="c"] first_signature,
-                   np.ndarray[np.float64_t, ndim=1, mode="c"] second_signature,
-                   np.ndarray[np.float64_t, ndim=2, mode="c"] distance_matrix,
-                   extra_mass_penalty=-1.0):
-    """
-    Compute the EMD between signatures with the given distance matrix.
 
-    Args:
-        first_signature (np.ndarray): A 1-dimensional array of type
-            ``np.double``, of length :math:`N`.
-        second_signature (np.ndarray): A 1-dimensional array of ``np.double``,
-            also of length :math:`N`..
-        distance_matrix: A 2-dimensional  array of ``np.double``, of size
-            :math:`N \cross N`.
-        extra_mass_penalty: The penalty for extra mass. If you want the
-            resulting distance to be a metric, it should be at least half the
-            diameter of the space (maximum possible distance between any two
-            points). If you want partial matching you can set it to zero (but then
-            the resulting distance is not guaranteed to be a metric). The default
-            value is -1, which means the maximum value in the distance matrix is
-            used.
-
-    Returns:
-        (emd, flows): The EMD value and the associated minimum-cost flows.
-    """
+def validate(first_signature, second_signature, distance_matrix):
+    """Validate input."""
     if (first_signature.shape[0] > distance_matrix.shape[0] or
             second_signature.shape[0] > distance_matrix.shape[0]):
         raise ValueError('Signature dimension cannot be larger than '
                          'dimensions of distance matrix')
-
     if (first_signature.shape[0] != second_signature.shape[0]):
-        raise ValueError("Signature dimensions must be equal")
-
-    return emd_hat_gd_metric_double_with_flows_wrapper(first_signature,
-                                                       second_signature,
-                                                       distance_matrix,
-                                                       extra_mass_penalty)
-
+        raise ValueError('Signature dimensions must be equal')
 
 
 def emd(np.ndarray[np.float64_t, ndim=1, mode="c"] first_signature,
@@ -97,15 +68,40 @@ def emd(np.ndarray[np.float64_t, ndim=1, mode="c"] first_signature,
     Returns:
         emd: The EMD value.
     """
-    if (first_signature.shape[0] > distance_matrix.shape[0] or
-            second_signature.shape[0] > distance_matrix.shape[0]):
-        raise ValueError('Signature dimension cannot be larger than '
-                         'dimensions of distance matrix')
-
-    if (first_signature.shape[0] != second_signature.shape[0]):
-        raise ValueError("Signature dimensions must be equal")
-
+    validate(first_signature, second_signature, distance_matrix)
     return emd_hat_gd_metric_double(first_signature, 
                                     second_signature,
                                     distance_matrix, 
                                     extra_mass_penalty)
+
+
+def emd_with_flows(np.ndarray[np.float64_t, ndim=1, mode="c"] first_signature,
+                   np.ndarray[np.float64_t, ndim=1, mode="c"] second_signature,
+                   np.ndarray[np.float64_t, ndim=2, mode="c"] distance_matrix,
+                   extra_mass_penalty=-1.0):
+    """
+    Compute the EMD between signatures with the given distance matrix.
+
+    Args:
+        first_signature (np.ndarray): A 1-dimensional array of type
+            ``np.double``, of length :math:`N`.
+        second_signature (np.ndarray): A 1-dimensional array of ``np.double``,
+            also of length :math:`N`..
+        distance_matrix: A 2-dimensional  array of ``np.double``, of size
+            :math:`N \cross N`.
+        extra_mass_penalty: The penalty for extra mass. If you want the
+            resulting distance to be a metric, it should be at least half the
+            diameter of the space (maximum possible distance between any two
+            points). If you want partial matching you can set it to zero (but then
+            the resulting distance is not guaranteed to be a metric). The default
+            value is -1, which means the maximum value in the distance matrix is
+            used.
+
+    Returns:
+        (emd, flows): The EMD value and the associated minimum-cost flows.
+    """
+    validate(first_signature, second_signature, distance_matrix)
+    return emd_hat_gd_metric_double_with_flows_wrapper(first_signature,
+                                                       second_signature,
+                                                       distance_matrix,
+                                                       extra_mass_penalty)
