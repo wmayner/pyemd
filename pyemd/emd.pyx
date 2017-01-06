@@ -54,7 +54,7 @@ def emd(np.ndarray[np.float64_t, ndim=1, mode="c"] first_signature,
         first_signature (np.ndarray): A 1-dimensional array of type
             ``np.double``, of length :math:`N`.
         second_signature (np.ndarray): A 1-dimensional array of ``np.double``,
-            also of length :math:`N`..
+            also of length :math:`N`.
         distance_matrix: A 2-dimensional  array of ``np.double``, of size
             :math:`N \cross N`.
         extra_mass_penalty: The penalty for extra mass. If you want the
@@ -86,7 +86,7 @@ def emd_with_flow(np.ndarray[np.float64_t, ndim=1, mode="c"] first_signature,
         first_signature (np.ndarray): A 1-dimensional array of type
             ``np.double``, of length :math:`N`.
         second_signature (np.ndarray): A 1-dimensional array of ``np.double``,
-            also of length :math:`N`..
+            also of length :math:`N`.
         distance_matrix: A 2-dimensional  array of ``np.double``, of size
             :math:`N \cross N`.
         extra_mass_penalty: The penalty for extra mass. If you want the
