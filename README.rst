@@ -47,6 +47,8 @@ Use PyEMD like so:
 
 You can also get the associated minimum-cost flow:
 
+.. code:: python
+
     >>> from pyemd import emd_with_flows
     >>> emd_with_flows(first_signature, second_signature, distance_matrix)
     (3.5, [[0.0, 0.0], [0.0, 1.0]])
@@ -85,7 +87,7 @@ Limitations and Caveats
   wrapper only instantiates the template with ``double`` (Cython converts
   ``np.float`` to ``double``). If there's demand, I can add support for other
   types.
-
+- The flow matrix does not contain the flows to/from the extra mass bin.
 
 Contributing
 ~~~~~~~~~~~~
