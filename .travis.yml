@@ -1,11 +1,21 @@
 sudo: false
 language: python
 python:
-  - "3.2"
-  - "3.3"
-# Install dependencies
-install: 
-  - pip install -e .
-  - pip install pytest
-# Run tests
+- '3.2'
+- '3.3'
+- '3.4'
+- '3.5'
+- '3.6'
+install:
+- pip install Cython
+- make
+- pip install -e .
+- pip install pytest
 script: py.test
+notifications:
+  email: false
+  slack:
+    rooms:
+      secure: rxQsNRK9XBkBV0pdYuJG+tsN2tky+JUEF5ayDIUAzSaPeB//VVNNofJhcmfNgG1WiEEi6fe0dR/Y6UDsoVyQrbCHO2q2bIVQp6A/63vgz3DcVQzMahB/QVwte7gy02nLf6rS2g3VetVXrTW6OO4Cv7NQrQb58biVFx/yBtQ3qzI=
+    on_success: never
+    on_failure: always

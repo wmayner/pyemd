@@ -1,6 +1,7 @@
 #ifndef EMD_HAT_HPP
 #define EMD_HAT_HPP
 
+#include <utility>
 #include <vector>
 #include "EMD_DEFS.hpp"
 #include "flow_utils.hpp"
@@ -59,17 +60,35 @@ struct emd_hat {
 
 
 /// =========================================================================
-/// 02/27/2014 - Added by Will Mayner <wmayner@gmail.com>
+/// 2014-02-27 - Added by Will Mayner <wmayner@gmail.com>
 /// -------------------------------------------------------------------------
-/// Instantiate the templates with various types to easily import into Cython
-emd_hat_gd_metric<int> emd_hat_gd_metric_int;
-emd_hat_gd_metric<double> emd_hat_gd_metric_double;
-emd_hat_gd_metric<long int> emd_hat_gd_metric_long_int;
-emd_hat_gd_metric<long long int> emd_hat_gd_metric_long_long_int;
-emd_hat<int> emd_hat_int;
-emd_hat<double> emd_hat_double;
-emd_hat<long int> emd_hat_long_int;
-emd_hat<long long int> emd_hat_long_long_int;
+/// Instantiate the template for importing into Cython
+emd_hat_gd_metric<double, NO_FLOW> emd_hat_gd_metric_double;
+/// =========================================================================
+
+/// =========================================================================
+/// 2017-01-06 - Added by Will Mayner <wmayner@gmail.com>
+/// -------------------------------------------------------------------------
+emd_hat_gd_metric<double, WITHOUT_EXTRA_MASS_FLOW>
+    emd_hat_gd_metric_double_with_flow;
+/// =========================================================================
+
+/// =========================================================================
+/// 2016-11-25 - Added by Rémi Louf <remi@sciti.es>
+/// -------------------------------------------------------------------------
+/// Wrapper function to output the flow
+std::pair< double, std::vector<std::vector<double> > >
+    emd_hat_gd_metric_double_with_flow_wrapper(
+        const std::vector<double>& P,
+        const std::vector<double>& Q,
+        const std::vector<std::vector<double> >& C,
+        double extra_mass_penalty) {
+    std::vector<std::vector<double> > flow(P.size(), std::vector<double>(P.size()));
+    double emd = emd_hat_gd_metric_double_with_flow(P, Q, C, extra_mass_penalty, &flow);
+    std::pair< double, std::vector<std::vector<double> > > results =
+        std::make_pair(emd, flow);
+    return results;
+}
 /// =========================================================================
 
 

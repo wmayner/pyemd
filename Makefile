@@ -9,4 +9,4 @@ clean:
 	rm -rf pyemd/emd.so
 
 test: default
-	py.test test
+	py.test

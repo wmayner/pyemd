@@ -1,8 +1,12 @@
+.. image:: https://travis-ci.org/wmayner/pyemd.svg?branch=develop
+    :target: https://travis-ci.org/wmayner/pyemd
+.. image:: http://img.shields.io/badge/Python%203%20-compatible-brightgreen.svg
+    :target: https://wiki.python.org/moin/Python2orPython3
+    :alt: Python 3 compatible
+
 **************************
 PyEMD: Fast EMD for Python
 **************************
-.. image:: https://travis-ci.org/wmayner/pyemd.svg?branch=develop
-    :target: https://travis-ci.org/wmayner/pyemd
 
 PyEMD is a Python wrapper for `Ofir Pele and Michael Werman's implementation
 <http://www.ariel.ac.il/sites/ofirpele/fastemd/code/>`_ of the `Earth Mover's
@@ -33,8 +37,6 @@ To install the latest development version:
 Usage
 ~~~~~
 
-Use PyEMD like so:
-
 .. code:: python
 
     >>> from pyemd import emd
@@ -44,6 +46,14 @@ Use PyEMD like so:
     >>> distance_matrix = np.array([[0.0, 0.5], [0.5, 0.0]])
     >>> emd(first_signature, second_signature, distance_matrix)
     3.5
+
+You can also get the associated minimum-cost flow:
+
+.. code:: python
+
+    >>> from pyemd import emd_with_flow
+    >>> emd_with_flow(first_signature, second_signature, distance_matrix)
+    (3.5, [[0.0, 0.0], [0.0, 1.0]])
 
 API
 ~~~
@@ -58,21 +68,28 @@ API
   be symmetric and represent a metric.
 
 
+.. code:: python
+
+    emd, flow = emd_with_flow(first_signature, second_signature, distance_matrix)
+
+- ``first_signature``: A 1-dimensional numpy array of ``np.float``, of size N.
+- ``second_signature``: A 1-dimensional numpy array of ``np.float``, of size N.
+- ``distance_matrix``: A 2-dimensional array of ``np.float``, of size NxN. Must
+  be symmetric and represent a metric.
+
+
 Limitations and Caveats
 ~~~~~~~~~~~~~~~~~~~~~~~
 
 - ``distance_matrix`` must be symmetric.
 - ``distance_matrix`` is assumed to represent a true metric. This must be
-  enforced by the caller. See the documentation in ``pyemd/lib/emd_hat.hpp``.
+  enforced by the user. See the documentation in ``pyemd/lib/emd_hat.hpp``.
+- The flow matrix does not contain the flows to/from the extra mass bin.
 - The signatures and distance matrix must be numpy arrays of ``np.float``. The
   original C++ template function can accept any numerical C++ type, but this
   wrapper only instantiates the template with ``double`` (Cython converts
   ``np.float`` to ``double``). If there's demand, I can add support for other
   types.
-- The original C++ functions have an optional parameter ``F`` to
-  return the flow, which is not exposed by this wrapper. See the
-  documentation in ``pyemd/lib/emd_hat.hpp``.
-
 
 Contributing
 ~~~~~~~~~~~~
@@ -81,9 +98,11 @@ To help develop PyEMD, fork the project on GitHub and install the requirements w
 
 The ``Makefile`` defines some tasks to help with development:
 
-* ``buildcython``: compiles the Cython code into C++ and then builds the C++ into a Python extension
-* ``runtests``: builds everything and then runs the unit tests
-* ``clean``: removes the compiled C++
+* ``default``: compile the Cython code into C++ and build the C++ into a Python
+  extension, using the ``setup.py`` build command
+* ``build``: same as default, but using the ``cython`` command
+* ``clean``: remove the build directory and the compiled C++ extension
+* ``test``: run unit tests with ``py.test``
 
 
 Credit
