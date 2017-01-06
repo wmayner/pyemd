@@ -76,7 +76,7 @@ about = {}
 with open('./pyemd/__about__.py') as f:
     exec(f.read(), about)
 
-requires = ['numpy >=1.8.0, <2.0.0']
+requires = ['numpy >=1.10.0, <2.0.0']
 
 setup(
     name=about['__title__'],
