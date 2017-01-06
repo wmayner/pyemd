@@ -15,10 +15,18 @@ cimport numpy as np
 # ============================================
 
 cdef extern from "lib/emd_hat.hpp":
-    cdef pair[double, vector[vector[double]]] emd_hat_gd_metric_double_wrapper(vector[double],
-                                                 vector[double],
-                                                 vector[vector[double]],
-                                                 double) except +
+
+    cdef double \
+        emd_hat_gd_metric_double(vector[double], 
+                                 vector[double],
+                                 vector[vector[double]], 
+                                 double) except +
+
+    cdef pair[double, vector[vector[double]]] \
+        emd_hat_gd_metric_double_with_flows_wrapper(vector[double], 
+                                                    vector[double],
+                                                    vector[vector[double]],
+                                                    double) except +
 
 
 # Define the API
@@ -54,10 +62,10 @@ def emd_with_flows(np.ndarray[np.float64_t, ndim=1, mode="c"] first_signature,
     if (first_signature.shape[0] != second_signature.shape[0]):
         raise ValueError("Signature dimensions must be equal")
 
-    return emd_hat_gd_metric_double_wrapper(first_signature,
-                                            second_signature,
-                                            distance_matrix,
-                                            extra_mass_penalty)
+    return emd_hat_gd_metric_double_with_flows_wrapper(first_signature,
+                                                       second_signature,
+                                                       distance_matrix,
+                                                       extra_mass_penalty)
 
 
 
@@ -83,9 +91,15 @@ def emd(np.ndarray[np.float64_t, ndim=1, mode="c"] first_signature,
         value is -1 which means the maximum value in the distance matrix is
         used.
     """
+    if (first_signature.shape[0] > distance_matrix.shape[0] or
+            second_signature.shape[0] > distance_matrix.shape[0]):
+        raise ValueError('Signature dimension cannot be larger than '
+                         'dimensions of distance matrix')
 
-    emd,flows = emd_with_flows(first_signature,
-                               second_signature,
-                               distance_matrix,
-                               extra_mass_penalty)
-    return emd
+    if (first_signature.shape[0] != second_signature.shape[0]):
+        raise ValueError("Signature dimensions must be equal")
+
+    return emd_hat_gd_metric_double(first_signature, 
+                                    second_signature,
+                                    distance_matrix, 
+                                    extra_mass_penalty)
