@@ -86,12 +86,12 @@ Limitations and Caveats
 - ``distance_matrix`` must be symmetric.
 - ``distance_matrix`` is assumed to represent a true metric. This must be
   enforced by the caller. See the documentation in ``pyemd/lib/emd_hat.hpp``.
+- The flow matrix does not contain the flows to/from the extra mass bin.
 - The signatures and distance matrix must be numpy arrays of ``np.float``. The
   original C++ template function can accept any numerical C++ type, but this
   wrapper only instantiates the template with ``double`` (Cython converts
   ``np.float`` to ``double``). If there's demand, I can add support for other
   types.
-- The flow matrix does not contain the flows to/from the extra mass bin.
 
 Contributing
 ~~~~~~~~~~~~
