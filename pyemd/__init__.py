@@ -61,3 +61,4 @@ __license__ = 'MIT'
 __copyright__ = 'Copyright (c) 2016 Will Mayner'
 
 from .emd import emd
+from .emd import emd_with_flows
