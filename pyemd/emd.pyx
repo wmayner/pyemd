@@ -69,7 +69,7 @@ def emd(np.ndarray[np.float64_t, ndim=1, mode="c"] first_signature,
             used.
 
     Returns:
-        emd: The EMD value.
+        float: The EMD value.
     """
     validate(first_signature, second_signature, distance_matrix)
     return emd_hat_gd_metric_double(first_signature, 
@@ -101,7 +101,7 @@ def emd_with_flow(np.ndarray[np.float64_t, ndim=1, mode="c"] first_signature,
             used.
 
     Returns:
-        (emd, flow): The EMD value and the associated minimum-cost flow.
+        (float, list(float)): The EMD value and the associated minimum-cost flow.
     """
     validate(first_signature, second_signature, distance_matrix)
     return emd_hat_gd_metric_double_with_flow_wrapper(first_signature,
