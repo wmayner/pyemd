@@ -1,6 +1,7 @@
 sudo: false
 language: python
 python:
+- '3.3'
 - '3.4'
 - '3.5'
 - '3.6'
@@ -9,7 +10,7 @@ install:
 - make
 - pip install -e .
 - pip install pytest
-script: py.test
+script: python -m pytest
 notifications:
   email: false
   slack:
