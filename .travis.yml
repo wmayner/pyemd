@@ -9,7 +9,7 @@ install:
 - make
 - pip install -e .
 - pip install pytest
-script: py.test
+script: python -m pytest
 notifications:
   email: false
   slack:
