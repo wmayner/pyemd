@@ -76,7 +76,7 @@ about = {}
 with open('./pyemd/__about__.py') as f:
     exec(f.read(), about)
 
-requires = ['numpy >=1.10.0, <2.0.0']
+requires = ['numpy >=1.9.0, <2.0.0']
 
 setup(
     name=about['__title__'],
@@ -100,6 +100,7 @@ setup(
         'License :: OSI Approved :: MIT License',
         'Programming Language :: Python',
         'Programming Language :: Python :: 3',
+        'Programming Language :: Python :: 3.3',
         'Programming Language :: Python :: 3.4',
         'Programming Language :: Python :: 3.5',
         'Programming Language :: Python :: 3.6'
