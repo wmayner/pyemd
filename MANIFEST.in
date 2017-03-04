@@ -1,1 +1,9 @@
-include pyemd/emd.cpp
+graft pyemd
+graft test
+
+include README.rst
+include LICENSE
+include conftest.py
+
+global-exclude __pycache__ *.py[cod]
+global-exclude *.so *.dylib

@@ -88,7 +88,6 @@ setup(
     url=about['__url__'],
     license=about['__license__'],
     packages=['pyemd'],
-    package_data={'pyemd': ['emd.pyx', 'lib/*.hpp', '../README.rst']},
     install_requires=requires,
     cmdclass=cmdclass,
     setup_requires=requires,
