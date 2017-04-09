@@ -34,6 +34,10 @@ To install the latest development version:
 
     pip install "git+https://github.com/wmayner/pyemd@develop#egg=pyemd"
 
+Before opening an issue related to installation, please try to install PyEMD in
+a fresh, empty Python 3 virtual environment and check that the problem
+persists.
+
 Usage
 ~~~~~
 
