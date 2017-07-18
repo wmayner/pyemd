@@ -36,30 +36,40 @@ cdef extern from "lib/emd_hat.hpp":
 DEFAULT_EXTRA_MASS_PENALTY = -1.0
 
 
-def validate(first_signature, second_signature, distance_matrix):
+def validate(first_histogram, second_histogram, distance_matrix):
     """Validate input."""
-    if (first_signature.shape[0] > distance_matrix.shape[0] or
-            second_signature.shape[0] > distance_matrix.shape[0]):
-        raise ValueError('Signature dimension cannot be larger than '
-                         'dimensions of distance matrix')
-    if (first_signature.shape[0] != second_signature.shape[0]):
-        raise ValueError('Signature dimensions must be equal')
+    if (first_histogram.shape[0] > distance_matrix.shape[0] or
+        second_histogram.shape[0] > distance_matrix.shape[0]):
+        raise ValueError('Histogram lengths cannot be greater than the '
+                         'number of rows or columns of the distance matrix')
+    if (first_histogram.shape[0] != second_histogram.shape[0]):
+        raise ValueError('Histogram lengths must be equal')
 
 
-def emd(np.ndarray[np.float64_t, ndim=1, mode="c"] first_signature,
-        np.ndarray[np.float64_t, ndim=1, mode="c"] second_signature,
+def emd(np.ndarray[np.float64_t, ndim=1, mode="c"] first_histogram,
+        np.ndarray[np.float64_t, ndim=1, mode="c"] second_histogram,
         np.ndarray[np.float64_t, ndim=2, mode="c"] distance_matrix,
         extra_mass_penalty=DEFAULT_EXTRA_MASS_PENALTY):
-    """
-    Compute the EMD between signatures with the given distance matrix.
+    u"""
+    Return the EMD between two histograms using the given distance matrix.
 
-    Args:
-        first_signature (np.ndarray): A 1-dimensional array of type
-            ``np.double``, of length :math:`N`.
-        second_signature (np.ndarray): A 1-dimensional array of ``np.double``,
-            also of length :math:`N`.
-        distance_matrix (np.ndarray): A 2-dimensional  array of ``np.double``,
-            of size :math:`N \cross N`.
+    The Earth Mover's Distance is the minimal cost of turning one histogram
+    into another by moving around the “dirt” in the bins, where the cost of
+    moving one dirt from one bin to another is given by the amount of dirt
+    times the “ground distance” between the bins.
+
+    Arguments:
+        first_histogram (np.ndarray): A 1-dimensional array of type np.float64,
+            of length N.
+        second_histogram (np.ndarray): A 1-dimensional array of np.float64,
+            also of length N.
+        distance_matrix (np.ndarray): A 2-dimensional array of np.float64, of
+            size at least N × N. This defines the underlyin metric, or ground
+            distance, by giving the pairwise distances between the histogram
+            bins. It must represent a metric; there is no warning if it
+            doesn't.
+
+    Keyword Arguments:
         extra_mass_penalty: The penalty for extra mass. If you want the
             resulting distance to be a metric, it should be at least half the
             diameter of the space (maximum possible distance between any two
@@ -70,28 +80,43 @@ def emd(np.ndarray[np.float64_t, ndim=1, mode="c"] first_signature,
 
     Returns:
         float: The EMD value.
+
+    Raises:
+        ValueError: If the length of either histogram is greater than the
+        number of rows or columns of the distance matrix, or if the histograms
+        aren't the same length.
     """
-    validate(first_signature, second_signature, distance_matrix)
-    return emd_hat_gd_metric_double(first_signature, 
-                                    second_signature,
+    validate(first_histogram, second_histogram, distance_matrix)
+    return emd_hat_gd_metric_double(first_histogram, 
+                                    second_histogram,
                                     distance_matrix, 
                                     extra_mass_penalty)
 
 
-def emd_with_flow(np.ndarray[np.float64_t, ndim=1, mode="c"] first_signature,
-                  np.ndarray[np.float64_t, ndim=1, mode="c"] second_signature,
+def emd_with_flow(np.ndarray[np.float64_t, ndim=1, mode="c"] first_histogram,
+                  np.ndarray[np.float64_t, ndim=1, mode="c"] second_histogram,
                   np.ndarray[np.float64_t, ndim=2, mode="c"] distance_matrix,
                   extra_mass_penalty=DEFAULT_EXTRA_MASS_PENALTY):
-    """
-    Compute the EMD between signatures with the given distance matrix.
+    u"""
+    Compute the EMD between histograms with the given distance matrix.
 
-    Args:
-        first_signature (np.ndarray): A 1-dimensional array of type
-            ``np.double``, of length :math:`N`.
-        second_signature (np.ndarray): A 1-dimensional array of ``np.double``,
-            also of length :math:`N`.
-        distance_matrix (np.ndarray): A 2-dimensional  array of ``np.double``,
-            of size :math:`N \cross N`.
+    The Earth Mover's Distance is the minimal cost of turning one histogram
+    into another by moving around the “dirt” in the bins, where the cost of
+    moving one dirt from one bin to another is given by the amount of dirt
+    times the “ground distance” between the bins.
+
+    Arguments:
+        first_histogram (np.ndarray): A 1-dimensional array of type np.float64,
+            of length N.
+        second_histogram (np.ndarray): A 1-dimensional array of np.float64,
+            also of length N.
+        distance_matrix (np.ndarray): A 2-dimensional array of np.float64, of
+            size at least N × N. This defines the underlyin metric, or ground
+            distance, by giving the pairwise distances between the histogram
+            bins. It must represent a metric; there is no warning if it
+            doesn't.
+
+    Keyword Arguments:
         extra_mass_penalty: The penalty for extra mass. If you want the
             resulting distance to be a metric, it should be at least half the
             diameter of the space (maximum possible distance between any two
@@ -101,10 +126,16 @@ def emd_with_flow(np.ndarray[np.float64_t, ndim=1, mode="c"] first_signature,
             used.
 
     Returns:
-        (float, list(float)): The EMD value and the associated minimum-cost flow.
+        (float, list(list(float))): The EMD value and the associated
+        minimum-cost flow.
+
+    Raises:
+        ValueError: If the length of either histogram is greater than the
+        number of rows or the number of columns of the distance matrix, or if
+        the histograms aren't the same length.
     """
-    validate(first_signature, second_signature, distance_matrix)
-    return emd_hat_gd_metric_double_with_flow_wrapper(first_signature,
-                                                      second_signature,
+    validate(first_histogram, second_histogram, distance_matrix)
+    return emd_hat_gd_metric_double_with_flow_wrapper(first_histogram,
+                                                      second_histogram,
                                                       distance_matrix,
                                                       extra_mass_penalty)
