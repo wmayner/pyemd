@@ -1,8 +1,8 @@
-.. image:: https://travis-ci.org/wmayner/pyemd.svg?branch=develop
+.. image:: https://img.shields.io/travis/wmayner/pyemd/develop.svg?style=flat-square&maxAge=3600
     :target: https://travis-ci.org/wmayner/pyemd
-.. image:: http://img.shields.io/badge/Python%203%20-compatible-brightgreen.svg
+.. image:: https://img.shields.io/pypi/pyversions/pyemd.svg?style=flat-square&maxAge=86400
     :target: https://wiki.python.org/moin/Python2orPython3
-    :alt: Python 3 compatible
+    :alt: Python versions badge
 
 **************************
 PyEMD: Fast EMD for Python
