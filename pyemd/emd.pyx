@@ -110,11 +110,11 @@ def emd_with_flow(np.ndarray[np.float64_t, ndim=1, mode="c"] first_histogram,
             of length N.
         second_histogram (np.ndarray): A 1-dimensional array of np.float64,
             also of length N.
-        distance_matrix (np.ndarray): A 2-dimensional array of np.float64, of
-            size at least N × N. This defines the underlyin metric, or ground
-            distance, by giving the pairwise distances between the histogram
-            bins. It must represent a metric; there is no warning if it
-            doesn't.
+        distance_matrix (np.ndarray): A 2-dimensional array of type np.float64,
+            of size at least N × N. This defines the underlying metric, or
+            ground distance, by giving the pairwise distances between the
+            histogram bins. It must represent a metric; there is no warning if
+            it doesn't.
 
     Keyword Arguments:
         extra_mass_penalty: The penalty for extra mass. If you want the
