@@ -1,10 +1,12 @@
 __pycache__
-build
+.cache
+.tox
 .env
 .ropeproject
 *.so
 *.pyc
-dist
 MANIFEST
 *.egg*
+build
+dist
 pyemd/emd.cpp
