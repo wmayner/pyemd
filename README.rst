@@ -1,8 +1,8 @@
-.. image:: https://travis-ci.org/wmayner/pyemd.svg?branch=develop
+.. image:: https://img.shields.io/travis/wmayner/pyemd/develop.svg?style=flat-square&maxAge=3600
     :target: https://travis-ci.org/wmayner/pyemd
-.. image:: http://img.shields.io/badge/Python%203%20-compatible-brightgreen.svg
+.. image:: https://img.shields.io/pypi/pyversions/pyemd.svg?style=flat-square&maxAge=86400
     :target: https://wiki.python.org/moin/Python2orPython3
-    :alt: Python 3 compatible
+    :alt: Python versions badge
 
 **************************
 PyEMD: Fast EMD for Python
@@ -14,10 +14,6 @@ Distance <http://en.wikipedia.org/wiki/Earth_mover%27s_distance>`_ that allows
 it to be used with NumPy. **If you use this code, please cite the papers listed
 at the end of this document.**
 
-This wrapper does not expose the full functionality of the underlying
-implementation; it can only used be with the ``np.float`` data type, and with a
-symmetric distance matrix that represents a true metric. See the documentation
-for the original Pele and Werman library for the other options it provides.
 
 Installation
 ~~~~~~~~~~~~
@@ -28,11 +24,10 @@ To install the latest release:
 
     pip install pyemd
 
-To install the latest development version:
+Before opening an issue related to installation, please try to install PyEMD in
+a fresh, empty Python 3 virtual environment and check that the problem
+persists.
 
-.. code:: bash
-
-    pip install "git+https://github.com/wmayner/pyemd@develop#egg=pyemd"
 
 Usage
 ~~~~~
@@ -41,10 +36,11 @@ Usage
 
     >>> from pyemd import emd
     >>> import numpy as np
-    >>> first_signature = np.array([0.0, 1.0])
-    >>> second_signature = np.array([5.0, 3.0])
-    >>> distance_matrix = np.array([[0.0, 0.5], [0.5, 0.0]])
-    >>> emd(first_signature, second_signature, distance_matrix)
+    >>> first_histogram = np.array([0.0, 1.0])
+    >>> second_histogram = np.array([5.0, 3.0])
+    >>> distance_matrix = np.array([[0.0, 0.5], 
+    ...                             [0.5, 0.0]])
+    >>> emd(first_histogram, second_histogram, distance_matrix)
     3.5
 
 You can also get the associated minimum-cost flow:
@@ -52,49 +48,48 @@ You can also get the associated minimum-cost flow:
 .. code:: python
 
     >>> from pyemd import emd_with_flow
-    >>> emd_with_flow(first_signature, second_signature, distance_matrix)
+    >>> emd_with_flow(first_histogram, second_histogram, distance_matrix)
     (3.5, [[0.0, 0.0], [0.0, 1.0]])
+
 
 API
 ~~~
 
 .. code:: python
 
-    emd(first_signature, second_signature, distance_matrix)
+    emd(first_histogram, second_histogram, distance_matrix)
 
-- ``first_signature``: A 1-dimensional numpy array of ``np.float``, of size N.
-- ``second_signature``: A 1-dimensional numpy array of ``np.float``, of size N.
-- ``distance_matrix``: A 2-dimensional array of ``np.float``, of size NxN. Must
-  be symmetric and represent a metric.
+- ``first_histogram``: A 1-dimensional numpy array of type ``np.float64``, of
+  length :math:`N`.
+- ``second_histogram``: A 1-dimensional numpy array of type ``np.float64``, of
+  length :math:`N`.
+- ``distance_matrix``: A 2-dimensional array of type ``np.float64``, of size at
+  least :math:`N \times N`. This defines the underlying metric, or ground
+  distance, by giving the pairwise distances between the histogram bins. It
+  must represent a metric; there is no warning if it doesn't.
 
-
-.. code:: python
-
-    emd, flow = emd_with_flow(first_signature, second_signature, distance_matrix)
-
-- ``first_signature``: A 1-dimensional numpy array of ``np.float``, of size N.
-- ``second_signature``: A 1-dimensional numpy array of ``np.float``, of size N.
-- ``distance_matrix``: A 2-dimensional array of ``np.float``, of size NxN. Must
-  be symmetric and represent a metric.
+The arguments to ``emd_with_flow`` are the same.
 
 
 Limitations and Caveats
 ~~~~~~~~~~~~~~~~~~~~~~~
 
-- ``distance_matrix`` must be symmetric.
-- ``distance_matrix`` is assumed to represent a true metric. This must be
-  enforced by the user. See the documentation in ``pyemd/lib/emd_hat.hpp``.
+- ``distance_matrix`` is assumed to represent a metric; there is no check to
+  ensure that this is true. See the documentation in ``pyemd/lib/emd_hat.hpp``
+  for more information.
 - The flow matrix does not contain the flows to/from the extra mass bin.
-- The signatures and distance matrix must be numpy arrays of ``np.float``. The
-  original C++ template function can accept any numerical C++ type, but this
-  wrapper only instantiates the template with ``double`` (Cython converts
-  ``np.float`` to ``double``). If there's demand, I can add support for other
-  types.
+- The histograms and distance matrix must be numpy arrays of type
+  ``np.float64``. The original C++ template function can accept any numerical
+  C++ type, but this wrapper only instantiates the template with ``double``
+  (Cython converts ``np.float64`` to ``double``). If there's demand, I can add
+  support for other types.
+
 
 Contributing
 ~~~~~~~~~~~~
 
-To help develop PyEMD, fork the project on GitHub and install the requirements with ``pip``.
+To help develop PyEMD, fork the project on GitHub and install the requirements
+with ``pip``.
 
 The ``Makefile`` defines some tasks to help with development:
 
@@ -104,6 +99,8 @@ The ``Makefile`` defines some tasks to help with development:
 * ``clean``: remove the build directory and the compiled C++ extension
 * ``test``: run unit tests with ``py.test``
 
+Tests for different Python environments can be run by installing ``tox`` with
+``pip install tox`` and running the ``tox`` command.
 
 Credit
 ~~~~~~
@@ -118,7 +115,9 @@ Credit
 Please cite these papers if you use this code:
 ``````````````````````````````````````````````
 
-Ofir Pele and Michael Werman, "A linear time histogram metric for improved SIFT matching," in *Computer Vision - ECCV 2008*, Marseille, France, 2008, pp. 495-508.
+Ofir Pele and Michael Werman, "A linear time histogram metric for improved SIFT
+matching," in *Computer Vision - ECCV 2008*, Marseille, France, 2008, pp.
+495-508.
 
 .. code-block:: latex
 
@@ -132,7 +131,9 @@ Ofir Pele and Michael Werman, "A linear time histogram metric for improved SIFT 
       publisher={Springer}
     }
 
-Ofir Pele and Michael Werman, "Fast and robust earth mover's distances," in *Proc. 2009 IEEE 12th Int. Conf. on Computer Vision*, Kyoto, Japan, 2009, pp. 460-467.
+Ofir Pele and Michael Werman, "Fast and robust earth mover's distances," in
+*Proc. 2009 IEEE 12th Int. Conf. on Computer Vision*, Kyoto, Japan, 2009, pp.
+460-467.
 
 .. code-block:: latex
 
