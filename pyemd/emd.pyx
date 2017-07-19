@@ -50,13 +50,12 @@ def emd(np.ndarray[np.float64_t, ndim=1, mode="c"] first_histogram,
         np.ndarray[np.float64_t, ndim=1, mode="c"] second_histogram,
         np.ndarray[np.float64_t, ndim=2, mode="c"] distance_matrix,
         extra_mass_penalty=DEFAULT_EXTRA_MASS_PENALTY):
-    u"""
-    Return the EMD between two histograms using the given distance matrix.
+    u"""Return the EMD between two histograms using the given distance matrix.
 
     The Earth Mover's Distance is the minimal cost of turning one histogram
     into another by moving around the “dirt” in the bins, where the cost of
-    moving one dirt from one bin to another is given by the amount of dirt
-    times the “ground distance” between the bins.
+    moving dirt from one bin to another is given by the amount of dirt times
+    the “ground distance” between the bins.
 
     Arguments:
         first_histogram (np.ndarray): A 1-dimensional array of type np.float64,
@@ -64,7 +63,7 @@ def emd(np.ndarray[np.float64_t, ndim=1, mode="c"] first_histogram,
         second_histogram (np.ndarray): A 1-dimensional array of np.float64,
             also of length N.
         distance_matrix (np.ndarray): A 2-dimensional array of np.float64, of
-            size at least N × N. This defines the underlyin metric, or ground
+            size at least N × N. This defines the underlying metric, or ground
             distance, by giving the pairwise distances between the histogram
             bins. It must represent a metric; there is no warning if it
             doesn't.
@@ -97,24 +96,23 @@ def emd_with_flow(np.ndarray[np.float64_t, ndim=1, mode="c"] first_histogram,
                   np.ndarray[np.float64_t, ndim=1, mode="c"] second_histogram,
                   np.ndarray[np.float64_t, ndim=2, mode="c"] distance_matrix,
                   extra_mass_penalty=DEFAULT_EXTRA_MASS_PENALTY):
-    u"""
-    Compute the EMD between histograms with the given distance matrix.
+    u"""Return the EMD between two histograms using the given distance matrix.
 
     The Earth Mover's Distance is the minimal cost of turning one histogram
     into another by moving around the “dirt” in the bins, where the cost of
-    moving one dirt from one bin to another is given by the amount of dirt
-    times the “ground distance” between the bins.
+    moving dirt from one bin to another is given by the amount of dirt times
+    the “ground distance” between the bins.
 
     Arguments:
         first_histogram (np.ndarray): A 1-dimensional array of type np.float64,
             of length N.
         second_histogram (np.ndarray): A 1-dimensional array of np.float64,
             also of length N.
-        distance_matrix (np.ndarray): A 2-dimensional array of type np.float64,
-            of size at least N × N. This defines the underlying metric, or
-            ground distance, by giving the pairwise distances between the
-            histogram bins. It must represent a metric; there is no warning if
-            it doesn't.
+        distance_matrix (np.ndarray): A 2-dimensional array of np.float64, of
+            size at least N × N. This defines the underlying metric, or ground
+            distance, by giving the pairwise distances between the histogram
+            bins. It must represent a metric; there is no warning if it
+            doesn't.
 
     Keyword Arguments:
         extra_mass_penalty: The penalty for extra mass. If you want the
@@ -131,8 +129,8 @@ def emd_with_flow(np.ndarray[np.float64_t, ndim=1, mode="c"] first_histogram,
 
     Raises:
         ValueError: If the length of either histogram is greater than the
-        number of rows or the number of columns of the distance matrix, or if
-        the histograms aren't the same length.
+        number of rows or columns of the distance matrix, or if the histograms
+        aren't the same length.
     """
     validate(first_histogram, second_histogram, distance_matrix)
     return emd_hat_gd_metric_double_with_flow_wrapper(first_histogram,
