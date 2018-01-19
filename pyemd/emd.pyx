@@ -18,13 +18,13 @@ cimport numpy as np
 cdef extern from "lib/emd_hat.hpp":
 
     cdef double \
-        emd_hat_gd_metric_double(vector[double], 
+        emd_hat_gd_metric_double(vector[double],
                                  vector[double],
-                                 vector[vector[double]], 
+                                 vector[vector[double]],
                                  double) except +
 
     cdef pair[double, vector[vector[double]]] \
-        emd_hat_gd_metric_double_with_flow_wrapper(vector[double], 
+        emd_hat_gd_metric_double_with_flow_wrapper(vector[double],
                                                    vector[double],
                                                    vector[vector[double]],
                                                    double) except +
@@ -86,9 +86,9 @@ def emd(np.ndarray[np.float64_t, ndim=1, mode="c"] first_histogram,
         aren't the same length.
     """
     validate(first_histogram, second_histogram, distance_matrix)
-    return emd_hat_gd_metric_double(first_histogram, 
+    return emd_hat_gd_metric_double(first_histogram,
                                     second_histogram,
-                                    distance_matrix, 
+                                    distance_matrix,
                                     extra_mass_penalty)
 
 
