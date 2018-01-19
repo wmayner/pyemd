@@ -9,7 +9,6 @@ import pytest
 
 from pyemd import emd, emd_with_flow
 
-
 EMD_PRECISION = 5
 FLOW_PRECISION = 4
 
