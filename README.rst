@@ -38,7 +38,7 @@ Usage
     >>> import numpy as np
     >>> first_histogram = np.array([0.0, 1.0])
     >>> second_histogram = np.array([5.0, 3.0])
-    >>> distance_matrix = np.array([[0.0, 0.5], 
+    >>> distance_matrix = np.array([[0.0, 0.5],
     ...                             [0.5, 0.0]])
     >>> emd(first_histogram, second_histogram, distance_matrix)
     3.5
@@ -55,10 +55,10 @@ You can also calculate the EMD directly from two arrays:
 
 .. code:: python
 
-    >>> from pyemd import array_emd
+    >>> from pyemd import emd_samples
     >>> first_array = [1,2,3,4]
     >>> second_array = [2,3,4,5]
-    >>> array_emd(first_array, second_array, bins=2)
+    >>> emd_samples(first_array, second_array, bins=2)
     0.5
 
 API
