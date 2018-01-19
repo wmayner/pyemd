@@ -64,5 +64,4 @@ Credit
 """
 
 from .__about__ import *
-from .emd import emd
-from .emd import emd_with_flow
+from .emd import emd, emd_with_flow, array_emd

@@ -34,6 +34,7 @@ cdef extern from "lib/emd_hat.hpp":
 # ==============
 
 DEFAULT_EXTRA_MASS_PENALTY = -1.0
+DEFAULT_BIN_COUNT = 30
 
 
 def validate(first_histogram, second_histogram, distance_matrix):
@@ -45,6 +46,10 @@ def validate(first_histogram, second_histogram, distance_matrix):
     if (first_histogram.shape[0] != second_histogram.shape[0]):
         raise ValueError('Histogram lengths must be equal')
 
+def euclidean_pairwise_distance(x):
+    """Calculate the euclidean pairwise distance matrix for a 1D array"""
+    distance = np.abs(np.repeat(x, len(x)) - np.tile(x, len(x)))
+    return distance.reshape(len(x), len(x))
 
 def emd(np.ndarray[np.float64_t, ndim=1, mode="c"] first_histogram,
         np.ndarray[np.float64_t, ndim=1, mode="c"] second_histogram,
@@ -91,6 +96,76 @@ def emd(np.ndarray[np.float64_t, ndim=1, mode="c"] first_histogram,
                                     distance_matrix, 
                                     extra_mass_penalty)
 
+def array_emd(first_array,
+              second_array,
+              extra_mass_penalty=DEFAULT_EXTRA_MASS_PENALTY,
+              bins=DEFAULT_BIN_COUNT,
+              distance='euclidean',
+              normalized=True,
+              range=None):
+    u"""Return the EMD between the histograms of two arrays.
+
+    Arguments:
+        first_array (np.ndarray): A 1-dimensional array of type np.float64.
+        second_array (np.ndarray): A 1-dimensional array of type np.float64.
+
+    Keyword Arguments:
+        extra_mass_penalty: The penalty for extra mass. If you want the
+            resulting distance to be a metric, it should be at least half the
+            diameter of the space (maximum possible distance between any two
+            points). If you want partial matching you can set it to zero (but then
+            the resulting distance is not guaranteed to be a metric). The default
+            value is -1, which means the maximum value in the distance matrix is
+            used.
+        bins (int): The number of bins to include in the generated histogram.
+            The default value is 30.
+        distance (string or function): A string or function implementing a 
+            metric on a 1D np.ndarray. Default to euclidean distance. 
+            Currently limited to 'euclidean' or your own function which takes
+            for input a 1D array and returns a square 2D array of pairwise
+            distances.
+        normalized (boolean): If true, treat histograms as fractions of the
+            dataset. If false, treat histograms as counts. In the latter case
+            the EMD will vary greatly by array length.
+        range (int min, int max): A tuple of minimum and maximum values for 
+            histogram. Defaults to the range of the union of `first_array` 
+            and `second_array`. Note: if the given range is not a superset
+            of the default range, no warning will be given.
+            
+    Returns:
+        float: The EMD value.
+    """
+    if range is None:
+        range = (min(np.min(first_array), np.min(second_array)), 
+                 max(np.max(first_array), np.max(second_array)))
+
+    if distance == 'euclidean':
+        distance = euclidean_pairwise_distance
+    
+    # compute histograms
+    first_histogram, bin_edges = np.histogram(first_array, 
+                                              range=range, 
+                                              bins=bins)
+    second_histogram, _ = np.histogram(second_array, 
+                                       range=range, 
+                                       bins=bins)
+
+    if normalized:
+        # normalize histograms to represent fraction of dataset in each bin
+        first_histogram = first_histogram/np.sum(first_histogram)
+        second_histogram = second_histogram/np.sum(second_histogram)
+    else:
+        first_histogram = first_histogram.astype(np.float64)
+        second_histogram = second_histogram.astype(np.float64)
+
+    # compute the distance matrix between the center of each bin
+    bin_locations = np.mean([bin_edges[:-1], bin_edges[1:]], axis=0)
+    distance_matrix = distance(bin_locations)
+
+    return emd(first_histogram, 
+               second_histogram, 
+               distance_matrix, 
+               extra_mass_penalty)
 
 def emd_with_flow(np.ndarray[np.float64_t, ndim=1, mode="c"] first_histogram,
                   np.ndarray[np.float64_t, ndim=1, mode="c"] second_histogram,

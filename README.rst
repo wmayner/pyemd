@@ -51,6 +51,15 @@ You can also get the associated minimum-cost flow:
     >>> emd_with_flow(first_histogram, second_histogram, distance_matrix)
     (3.5, [[0.0, 0.0], [0.0, 1.0]])
 
+You can also calculate the EMD directly from two arrays:
+
+.. code:: python
+
+    >>> from pyemd import array_emd
+    >>> first_array = [1,2,3,4]
+    >>> second_array = [2,3,4,5]
+    >>> array_emd(first_array, second_array, bins=2)
+    0.5
 
 API
 ~~~
