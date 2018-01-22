@@ -360,3 +360,20 @@ def test_validate_emd_samples_empty():
     second_array = [1]
     with pytest.raises(ValueError):
         emd_samples(first_array, second_array)
+
+
+def test_validate_emd_samples_distance_matrix_square():
+    dist = lambda x: [[1, 2, 3]]
+    first_array = [1, 2, 3]
+    second_array = [1, 2, 3]
+    with pytest.raises(ValueError):
+        emd_samples(first_array, second_array, distance=dist)
+
+
+def test_validate_emd_samples_distance_matrix_size():
+    dist = lambda x: [[0, 1],
+                      [1, 0]]
+    first_array = [1, 2, 3, 4]
+    second_array = [1, 2, 3, 4]
+    with pytest.raises(ValueError):
+        emd_samples(first_array, second_array, distance=dist)
