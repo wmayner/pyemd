@@ -12,7 +12,7 @@ build: clean
 	python setup.py build_ext -b .
 
 clean:
-	rm -rf pyemd/emd.so
+	rm -f pyemd/*.so
 
 dist: build-dist check-dist
 	twine upload $(dist_dir)/*
