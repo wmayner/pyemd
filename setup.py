@@ -3,6 +3,7 @@
 
 import os
 import sys
+from distutils.command.sdist import sdist as _sdist
 
 from setuptools import Extension, setup
 from setuptools.command.build_ext import build_ext as _build_ext
@@ -15,13 +16,17 @@ if (sys.version_info[0] < 3 or
 
 
 try:
-    from Cython.Build import cythonize
+    from Cython.Build import cythonize as _cythonize
     USE_CYTHON = True
 except (ImportError, ModuleNotFoundError):
     USE_CYTHON = False
 
 
-def no_cythonize(extensions, **_ignore):
+def cythonize(extensions, **_ignore):
+    # Attempt to use Cython
+    if USE_CYTHON:
+        return _cythonize(extensions)
+    # Cython is not available
     for extension in extensions:
         sources = []
         for sfile in extension.sources:
@@ -43,11 +48,14 @@ EXTENSIONS = [
               language="c++")
 ]
 
+EXT_MODULES = cythonize(EXTENSIONS)
 
-if USE_CYTHON:
-    EXT_MODULES = cythonize(EXTENSIONS)
-else:
-    EXT_MODULES = no_cythonize(EXTENSIONS)
+
+class sdist(_sdist):
+    def run(self):
+        # Make sure the compiled Cython files in the distribution are up-to-date
+        cythonize(EXTENSIONS)
+        _sdist.run(self)
 
 
 # See http://stackoverflow.com/a/21621689/1085344
@@ -62,6 +70,7 @@ class build_ext(_build_ext):
 
 
 CMDCLASS = {
+    'sdist': sdist,
     'build_ext': build_ext
 }
 
