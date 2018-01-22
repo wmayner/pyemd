@@ -105,36 +105,38 @@ def emd_samples(first_array,
     u"""Return the EMD between the histograms of two arrays.
 
     Arguments:
-        first_array (np.ndarray): A 1-dimensional array of type np.float64.
-        second_array (np.ndarray): A 1-dimensional array of type np.float64.
+        first_array (np.ndarray): A 1D array of type np.float64 containing
+            values used to generate a histogram.
+        second_array (np.ndarray): A 1D array of type np.float64 containing
+            values used to generate a histogram.
 
     Keyword Arguments:
         extra_mass_penalty: The penalty for extra mass. If you want the
             resulting distance to be a metric, it should be at least half the
             diameter of the space (maximum possible distance between any two
-            points). If you want partial matching you can set it to zero (but then
-            the resulting distance is not guaranteed to be a metric). The default
-            value is -1, which means the maximum value in the distance matrix is
-            used.
+            points). If you want partial matching you can set it to zero (but
+            then the resulting distance is not guaranteed to be a metric). The
+            default value is -1, which means the maximum value in the distance
+            matrix is used.
         bins (int or string): The number of bins to include in the generated
             histogram. If a string, must be one of the bin selection algorithms
-            accepted by `np.histogram`. Defaults to 'auto', which gives the
-            maximum of the ‘sturges’ and ‘fd’ estimators.
-        distance (string or function): A string or function implementing a
-            metric on a 1D np.ndarray. Default to euclidean distance.
-            Currently limited to 'euclidean' or your own function which takes
-            for input a 1D array and returns a square 2D array of pairwise
-            distances.
+            accepted by ``np.histogram()``. Defaults to 'auto', which gives the
+            maximum of the 'sturges' and 'fd' estimators.
+        distance_matrix (string or function): A string or function implementing
+            a metric on a 1D ``np.ndarray``. Defaults to the Euclidean distance.
+            Currently limited to 'euclidean' or your own function, which must
+            take a 1D array and return a square 2D array of pairwise distances.
         normalized (boolean): If true, treat histograms as fractions of the
             dataset. If false, treat histograms as counts. In the latter case
             the EMD will vary greatly by array length.
-        range (int min, int max): A tuple of minimum and maximum values for
-            histogram. Defaults to the range of the union of `first_array`
-            and `second_array`. Note: if the given range is not a superset
-            of the default range, no warning will be given.
+        range (tuple(int, int)): The lower and upper range of the bins, passed
+            to ``numpy.histogram()``. Defaults to the range of the union of
+            ``first_array`` and `second_array``.` Note: if the given range is
+            not a superset of the default range, no warning will be given.
 
     Returns:
-        float: The EMD value.
+        float: The EMD value between the histograms of ``first_array`` and
+        ``second_array``.
     """
     # Get the default range
     if range is None:
