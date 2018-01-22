@@ -91,6 +91,8 @@ emd()
   not guaranteed to be a metric). The default value is ``-1.0``, which means the
   maximum value in the distance matrix is used.
 
+----
+
 emd_with_flow()
 ~~~~~~~~~~~~~~~
 
@@ -100,6 +102,8 @@ emd_with_flow()
                   extra_mass_penalty=-1.0)
 
 Arguments are the same as for ``emd()``.
+
+----
 
 emd_samples()
 ~~~~~~~~~~~~~
@@ -138,6 +142,7 @@ emd_samples()
   ``first_array`` and `second_array``.` Note: if the given range is not a
   superset of the default range, no warning will be given.
 
+----
 
 Limitations and Caveats
 -----------------------
