@@ -12,6 +12,17 @@ EMD_PRECISION = 5
 FLOW_PRECISION = 4
 
 
+def emd_assert(got, expected):
+    assert round(got, EMD_PRECISION) == expected
+
+
+def emd_flow_assert(got, expected):
+    got_value, got_flow = got
+    expected_value, expected_flow = expected
+    assert round(got_value, EMD_PRECISION) == expected_value
+    assert np.array_equal(np.round(got_flow, FLOW_PRECISION), expected_flow)
+
+
 # `emd()` and `emd_with_flow()` testing
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -20,17 +31,21 @@ def test_case_1():
     second_signature = np.array([5.0, 3.0])
     distance_matrix = np.array([[0.0, 0.5],
                                 [0.5, 0.0]])
-    assert emd(first_signature, second_signature, distance_matrix) == 3.5
-
+    emd_assert(
+        emd(first_signature, second_signature, distance_matrix),
+        3.5
+    )
 
 def test_case_1_flow():
     first_signature = np.array([0.0, 1.0])
     second_signature = np.array([5.0, 3.0])
     distance_matrix = np.array([[0.0, 0.5],
                                 [0.5, 0.0]])
-    assert (emd_with_flow(first_signature, second_signature, distance_matrix) ==
-            (3.5, [[0.0, 0.0],
-                   [0.0, 1.0]]))
+    emd_flow_assert(
+        emd_with_flow(first_signature, second_signature, distance_matrix),
+        (3.5, [[0.0, 0.0],
+               [0.0, 1.0]])
+    )
 
 
 def test_case_2():
@@ -38,7 +53,10 @@ def test_case_2():
     second_signature = np.array([1.0, 1.0])
     distance_matrix = np.array([[0.0, 1.0],
                                 [1.0, 0.0]])
-    assert emd(first_signature, second_signature, distance_matrix) == 0.0
+    emd_assert(
+        emd(first_signature, second_signature, distance_matrix),
+        0.0
+    )
 
 
 def test_case_2_flow():
@@ -47,9 +65,11 @@ def test_case_2_flow():
     distance_matrix = np.array([[0.0, 1.0],
                                 [1.0, 0.0]])
 
-    assert (emd_with_flow(first_signature, second_signature, distance_matrix) ==
-            (0.0, [[1.0, 0.0],
-                   [0.0, 1.0]]))
+    emd_flow_assert(
+        emd_with_flow(first_signature, second_signature, distance_matrix),
+        (0.0, [[1.0, 0.0],
+               [0.0, 1.0]])
+    )
 
 
 def test_case_3():
@@ -57,7 +77,10 @@ def test_case_3():
     second_signature = np.array([1.0, 7.0])
     distance_matrix = np.array([[0.0, 0.0],
                                 [0.0, 0.0]])
-    assert emd(first_signature, second_signature, distance_matrix) == 0.0
+    emd_assert(
+        emd(first_signature, second_signature, distance_matrix),
+        0.0
+    )
 
 
 def test_case_3_flow():
@@ -65,9 +88,11 @@ def test_case_3_flow():
     second_signature = np.array([1.0, 7.0])
     distance_matrix = np.array([[0.0, 0.0],
                                 [0.0, 0.0]])
-    assert (emd_with_flow(first_signature, second_signature, distance_matrix) ==
-            (0.0, [[1.0, 5.0],
-                   [0.0, 1.0]]))
+    emd_flow_assert(
+        emd_with_flow(first_signature, second_signature, distance_matrix),
+        (0.0, [[1.0, 5.0],
+               [0.0, 1.0]])
+    )
 
 
 def test_case_4_flow():
@@ -75,9 +100,11 @@ def test_case_4_flow():
     second_signature = np.array([6.0, 1.0])
     distance_matrix = np.array([[0.0, 0.0],
                                 [0.0, 0.0]])
-    assert (emd_with_flow(first_signature, second_signature,
-                          distance_matrix) == (0.0, [[1.0, 0.0],
-                                                     [5.0, 1.0]]))
+    emd_flow_assert(
+        emd_with_flow(first_signature, second_signature, distance_matrix),
+        (0.0, [[1.0, 0.0],
+               [5.0, 1.0]])
+    )
 
 
 def test_case_5_flow():
@@ -85,9 +112,11 @@ def test_case_5_flow():
     second_signature = np.array([6.0, 2.0])
     distance_matrix = np.array([[0.0, 0.0],
                                 [0.0, 0.0]])
-    assert (emd_with_flow(first_signature, second_signature, distance_matrix) ==
-            (0.0, [[3.0, 0.0],
-                   [3.0, 2.0]]))
+    emd_flow_assert(
+        emd_with_flow(first_signature, second_signature, distance_matrix),
+        (0.0, [[3.0, 0.0],
+               [3.0, 2.0]])
+    )
 
 
 def test_case_6():
@@ -97,8 +126,10 @@ def test_case_6():
                                 [1.0, 0.0, 2.0, 1.0],
                                 [1.0, 2.0, 0.0, 1.0],
                                 [2.0, 1.0, 1.0, 0.0]])
-    emd_value = emd(first_signature, second_signature, distance_matrix)
-    assert round(emd_value, EMD_PRECISION) == 2.0
+    emd_assert(
+        emd(first_signature, second_signature, distance_matrix),
+        2.0
+    )
 
 
 def test_case_6_flow():
@@ -108,15 +139,13 @@ def test_case_6_flow():
                                 [1.0, 0.0, 2.0, 1.0],
                                 [1.0, 2.0, 0.0, 1.0],
                                 [2.0, 1.0, 1.0, 0.0]])
-    emd_value, flow = emd_with_flow(first_signature, second_signature,
-                                    distance_matrix)
-    emd_value = round(emd_value, EMD_PRECISION)
-    assert emd_value == 2.0
-    flow = np.round(flow, FLOW_PRECISION)
-    assert np.array_equal(flow, [[1.0, 0.0, 0.0, 0.0],
-                                 [1.0, 1.0, 0.0, 0.0],
-                                 [0.0, 0.0, 1.0, 0.0],
-                                 [0.0, 0.0, 1.0, 1.0]])
+    emd_flow_assert(
+        emd_with_flow(first_signature, second_signature, distance_matrix),
+        (2.0, [[1.0, 0.0, 0.0, 0.0],
+               [1.0, 1.0, 0.0, 0.0],
+               [0.0, 0.0, 1.0, 0.0],
+               [0.0, 0.0, 1.0, 1.0]])
+    )
 
 
 def test_extra_mass_penalty():
@@ -126,12 +155,11 @@ def test_extra_mass_penalty():
                                 [1.0, 0.0, 2.0, 1.0],
                                 [1.0, 2.0, 0.0, 1.0],
                                 [2.0, 1.0, 1.0, 0.0]])
-    emd_value = emd(
-        first_signature,
-        second_signature,
-        distance_matrix,
-        extra_mass_penalty=2.5)
-    assert round(emd_value, EMD_PRECISION) == 4.5
+    emd_assert(
+        emd(first_signature, second_signature, distance_matrix,
+            extra_mass_penalty=2.5),
+        4.5
+    )
 
 
 def test_extra_mass_penalty_flow():
@@ -141,19 +169,14 @@ def test_extra_mass_penalty_flow():
                                 [1.0, 0.0, 2.0, 1.0],
                                 [1.0, 2.0, 0.0, 1.0],
                                 [2.0, 1.0, 1.0, 0.0]])
-    emd_value, flow = emd_with_flow(
-        first_signature,
-        second_signature,
-        distance_matrix,
-        extra_mass_penalty=2.5)
-    emd_value = round(emd_value, EMD_PRECISION)
-    assert emd_value == 4.5
-    flow = np.round(flow, FLOW_PRECISION)
-    print(flow)
-    assert np.array_equal(flow, [[0.0, 0.0, 0.0, 0.0],
-                                 [1.0, 1.0, 0.0, 0.0],
-                                 [0.0, 0.0, 1.0, 0.0],
-                                 [0.0, 0.0, 1.0, 1.0]])
+    emd_flow_assert(
+        emd_with_flow(first_signature, second_signature, distance_matrix,
+                      extra_mass_penalty=2.5),
+        (4.5, [[0.0, 0.0, 0.0, 0.0],
+               [1.0, 1.0, 0.0, 0.0],
+               [0.0, 0.0, 1.0, 0.0],
+               [0.0, 0.0, 1.0, 1.0]])
+    )
 
 
 # `emd_samples()` testing
@@ -163,58 +186,50 @@ def test_extra_mass_penalty_flow():
 def test_case_samples_1():
     first_array = [1, 2, 3, 4]
     second_array = [2, 3, 4, 5]
-    emd_value = emd_samples(first_array, second_array)
-    assert round(emd_value, EMD_PRECISION) == 0.75
+    emd_assert(emd_samples(first_array, second_array), 0.75)
 
 
 def test_case_samples_1_binsize():
     first_array = [1, 2, 3, 4]
     second_array = [2, 3, 4, 5]
-    emd_value = emd_samples(first_array, second_array, bins=2)
-    assert round(emd_value, EMD_PRECISION) == 0.5
+    emd_assert(emd_samples(first_array, second_array, bins=2), 0.5)
 
 
 def test_case_samples_1_manual_range():
     first_array = [1, 2, 3, 4]
     second_array = [2, 3, 4, 5]
-    emd_value = emd_samples(first_array, second_array, range=(0, 10))
-    assert round(emd_value, EMD_PRECISION) == 1.0
+    emd_assert(emd_samples(first_array, second_array, range=(0, 10)), 1.0)
 
 
 def test_case_samples_1_not_normalized():
     first_array = [1, 2, 3, 4]
     second_array = [2, 3, 4, 5]
-    emd_value = emd_samples(first_array, second_array, normalized=False)
-    assert round(emd_value, EMD_PRECISION) == 3.0
+    emd_assert(emd_samples(first_array, second_array, normalized=False), 3.0)
 
 
 def test_case_samples_1_custom_distance():
-    dist = lambda x: np.array([[0. if i == j else 1. for i in x] for j in x])
+    dist = lambda x: np.array([[0.0 if i == j else 1.0 for i in x] for j in x])
     first_array = [1, 2, 3, 4]
     second_array = [2, 3, 4, 5]
-    emd_value = emd_samples(first_array, second_array, distance=dist)
-    assert round(emd_value, EMD_PRECISION) == 0.25
+    emd_assert(emd_samples(first_array, second_array, distance=dist), 0.25)
 
 
 def test_case_samples_2():
     first_array = [1]
     second_array = [2]
-    emd_value = emd_samples(first_array, second_array)
-    assert round(emd_value, EMD_PRECISION) == 0.5
+    emd_assert(emd_samples(first_array, second_array), 0.5)
 
 
 def test_case_samples_3():
     first_array = [1, 1, 1, 2, 3]
     second_array = [1, 2, 2, 2, 3]
-    emd_value = emd_samples(first_array, second_array)
-    assert round(emd_value, EMD_PRECISION) == 0.32
+    emd_assert(emd_samples(first_array, second_array), 0.32)
 
 
 def test_case_samples_4():
     first_array = [1, 2, 3, 4, 5]
     second_array = [99, 98, 97, 96, 95]
-    emd_value = emd_samples(first_array, second_array)
-    assert round(emd_value, EMD_PRECISION) == 78.4
+    emd_assert(emd_samples(first_array, second_array), 78.4)
 
 
 # Validation testing
