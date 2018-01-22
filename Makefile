@@ -27,4 +27,4 @@ build-dist: clean-dist
 	python setup.py sdist bdist_wheel --dist-dir=$(dist_dir)
 
 clean-dist:
-	rm -r $(dist_dir)
+	rm -rf $(dist_dir)
