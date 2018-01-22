@@ -148,6 +148,11 @@ def emd_samples(first_array,
                 range=None):
     u"""Return the EMD between the histograms of two arrays.
 
+    See `emd()` for more information about the EMD.
+
+    Note:
+        Pairwise ground distances are taken from the center of the bins.
+
     Arguments:
         first_array (np.ndarray): A 1D array of type np.float64 containing
             values used to generate a histogram.
