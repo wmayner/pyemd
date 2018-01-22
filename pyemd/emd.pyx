@@ -66,7 +66,7 @@ def emd(np.ndarray[np.float64_t, ndim=1, mode="c"] first_histogram,
             represent a metric; there is no warning if it doesn't.
 
     Keyword Arguments:
-        extra_mass_penalty: The penalty for extra mass. If you want the
+        extra_mass_penalty (float): The penalty for extra mass. If you want the
             resulting distance to be a metric, it should be at least half the
             diameter of the space (maximum possible distance between any two
             points). If you want partial matching you can set it to zero (but
@@ -109,7 +109,7 @@ def emd_with_flow(np.ndarray[np.float64_t, ndim=1, mode="c"] first_histogram,
             represent a metric; there is no warning if it doesn't.
 
     Keyword Arguments:
-        extra_mass_penalty: The penalty for extra mass. If you want the
+        extra_mass_penalty (float): The penalty for extra mass. If you want the
             resulting distance to be a metric, it should be at least half the
             diameter of the space (maximum possible distance between any two
             points). If you want partial matching you can set it to zero (but
@@ -160,7 +160,7 @@ def emd_samples(first_array,
             histogram.
 
     Keyword Arguments:
-        extra_mass_penalty: The penalty for extra mass. If you want the
+        extra_mass_penalty (float): The penalty for extra mass. If you want the
             resulting distance to be a metric, it should be at least half the
             diameter of the space (maximum possible distance between any two
             points). If you want partial matching you can set it to zero (but
