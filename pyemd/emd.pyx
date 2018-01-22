@@ -187,6 +187,9 @@ def emd_samples(first_array,
         float: The EMD value between the histograms of ``first_array`` and
         ``second_array``.
     """
+    # Validate arrays
+    if not (len(first_array) > 0 and len(second_array) > 0):
+        raise ValueError('Arrays of samples cannot be empty.')
     # Get the default range
     if range is None:
         range = (min(np.min(first_array), np.min(second_array)),
@@ -218,8 +221,17 @@ def emd_samples(first_array,
     if distance == 'euclidean':
         distance = euclidean_pairwise_distance_matrix
     distance_matrix = distance(bin_locations)
-    # Return the EMD (no need to call the wrapper function, which only validates
-    # input, so we call the exposed C++ function directly)
+    # Validate distance matrix
+    if len(distance_matrix) != len(distance_matrix[0]):
+        raise ValueError(
+            'Distance matrix must be square; check your `distance` function.')
+    if (first_histogram.shape[0] > len(distance_matrix) or
+        second_histogram.shape[0] > len(distance_matrix)):
+        raise ValueError(
+            'Distance matrix must have at least as many rows/columns as there '
+            'are bins in the histograms; check your `distance` function.')
+    # Return the EMD (no need to call the wrapper function, since this function
+    # does its own validation, so we call the exposed C++ function directly)
     return emd_hat_gd_metric_double(first_histogram,
                                     second_histogram,
                                     distance_matrix,
