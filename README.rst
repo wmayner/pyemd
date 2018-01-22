@@ -4,9 +4,8 @@
     :target: https://wiki.python.org/moin/Python2orPython3
     :alt: Python versions badge
 
-**************************
 PyEMD: Fast EMD for Python
-**************************
+==========================
 
 PyEMD is a Python wrapper for `Ofir Pele and Michael Werman's implementation
 <http://ofirpele.droppages.com/>`_ of the `Earth Mover's
@@ -16,7 +15,7 @@ at the end of this document.**
 
 
 Installation
-~~~~~~~~~~~~
+------------
 
 To install the latest release:
 
@@ -30,7 +29,7 @@ persists.
 
 
 Usage
-~~~~~
+-----
 
 .. code:: python
 
@@ -62,7 +61,7 @@ You can also calculate the EMD directly from two arrays of observations:
     0.5
 
 Documentation
-~~~~~~~~~~~~~
+-------------
 
 .. code:: python
 
@@ -135,7 +134,7 @@ Arguments are the same as for ``emd()``.
   superset of the default range, no warning will be given.
 
 Limitations and Caveats
-~~~~~~~~~~~~~~~~~~~~~~~
+-----------------------
 
 - ``distance_matrix`` is assumed to represent a metric; there is no check to
   ensure that this is true. See the documentation in ``pyemd/lib/emd_hat.hpp``
@@ -149,7 +148,7 @@ Limitations and Caveats
 
 
 Contributing
-~~~~~~~~~~~~
+------------
 
 To help develop PyEMD, fork the project on GitHub and install the requirements
 with ``pip``.
@@ -166,7 +165,7 @@ Tests for different Python environments can be run by installing ``tox`` with
 ``pip install tox`` and running the ``tox`` command.
 
 Credit
-~~~~~~
+------
 
 - All credit for the actual algorithm and implementation goes to `Ofir Pele
   <http://www.ariel.ac.il/sites/ofirpele/>`_ and `Michael Werman
@@ -176,7 +175,7 @@ Credit
   easy to write.
 
 Please cite these papers if you use this code:
-``````````````````````````````````````````````
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Ofir Pele and Michael Werman, "A linear time histogram metric for improved SIFT
 matching," in *Computer Vision - ECCV 2008*, Marseille, France, 2008, pp.
