@@ -187,8 +187,10 @@ def emd_samples(first_array,
         float: The EMD value between the histograms of ``first_array`` and
         ``second_array``.
     """
+    first_array = np.array(first_array)
+    second_array = np.array(second_array)
     # Validate arrays
-    if not (len(first_array) > 0 and len(second_array) > 0):
+    if not (first_array.size > 0 and second_array.size > 0):
         raise ValueError('Arrays of samples cannot be empty.')
     # Get the default range
     if range is None:
