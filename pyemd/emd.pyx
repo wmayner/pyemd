@@ -139,10 +139,13 @@ def emd_samples(first_array,
     Returns:
         float: The EMD value.
     """
+    # Get the default range
     if range is None:
         range = (min(np.min(first_array), np.min(second_array)),
                  max(np.max(first_array), np.max(second_array)))
-
+    # Use automatic binning from `np.histogram()`
+    # TODO: Use `np.histogram_bin_edges()` when it's available;
+    # see https://github.com/numpy/numpy/issues/10183
     if isinstance(bins, str):
         hist, _ = np.histogram(np.concatenate([first_array,
                                                second_array]),
@@ -160,11 +163,11 @@ def emd_samples(first_array,
     second_histogram, _ = np.histogram(second_array,
                                        range=range,
                                        bins=bins)
-
+    # Cast to C++ long
     first_histogram = first_histogram.astype(np.float64)
     second_histogram = second_histogram.astype(np.float64)
+    # Normalize histograms to represent fraction of dataset in each bin
     if normalized:
-        # Normalize histograms to represent fraction of dataset in each bin
         first_histogram = first_histogram/np.sum(first_histogram)
         second_histogram = second_histogram/np.sum(second_histogram)
 
