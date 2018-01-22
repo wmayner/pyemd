@@ -3,6 +3,7 @@
 
 import os
 import sys
+from warnings import warn
 
 from setuptools import Extension, setup
 from setuptools.command.build_ext import build_ext as _build_ext
@@ -54,7 +55,14 @@ EXT_MODULES = cythonize(EXTENSIONS)
 class sdist(_sdist):
     def run(self):
         # Make sure the compiled Cython files in the distribution are up-to-date
-        cythonize(EXTENSIONS)
+        if USE_CYTHON:
+            _cythonize(EXTENSIONS)
+        else:
+            warn('\n\n\033[91m\033[1m  WARNING: '
+                 'IF YOU A PREPARING A DISTRIBUTION: Cython is not available! '
+                 'The cythonized `*.cpp` files may be out of date. Please '
+                 'install Cython and run `sdist` again.'
+                 '\033[0m\n')
         _sdist.run(self)
 
 
