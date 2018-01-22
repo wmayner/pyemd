@@ -61,33 +61,36 @@ class build_ext(_build_ext):
         self.include_dirs.append(numpy.get_include())
 
 
-cmdclass = {
+CMDCLASS = {
     'build_ext': build_ext
 }
 
 
 with open('README.rst', 'r') as f:
-    readme = f.read()
+    README = f.read()
 
-about = {}
+ABOUT = {}
 with open('./pyemd/__about__.py') as f:
-    exec(f.read(), about)
+    exec(f.read(), ABOUT)
 
-requires = ['numpy >=1.9.0, <2.0.0']
+
+REQUIRES = [
+    'numpy >=1.9.0, <2.0.0'
+]
 
 setup(
-    name=about['__title__'],
-    version=about['__version__'],
-    description=about['__description__'],
-    long_description=readme,
-    author=about['__author__'],
-    author_email=about['__author_email__'],
-    url=about['__url__'],
-    license=about['__license__'],
+    name=ABOUT['__title__'],
+    version=ABOUT['__version__'],
+    description=ABOUT['__description__'],
+    long_description=README,
+    author=ABOUT['__author__'],
+    author_email=ABOUT['__author_email__'],
+    url=ABOUT['__url__'],
+    license=ABOUT['__license__'],
     packages=['pyemd'],
-    install_requires=requires,
-    cmdclass=cmdclass,
-    setup_requires=requires,
+    install_requires=REQUIRES,
+    cmdclass=CMDCLASS,
+    setup_requires=REQUIRES,
     ext_modules=EXT_MODULES,
     classifiers=[
         'Development Status :: 3 - Alpha',
