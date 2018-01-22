@@ -46,12 +46,6 @@ def validate(first_histogram, second_histogram, distance_matrix):
         raise ValueError('Histogram lengths must be equal')
 
 
-def euclidean_pairwise_distance_matrix(x):
-    """Calculate the Euclidean pairwise distance matrix for a 1D array."""
-    distance_matrix = np.abs(np.repeat(x, len(x)) - np.tile(x, len(x)))
-    return distance_matrix.reshape(len(x), len(x))
-
-
 def emd(np.ndarray[np.float64_t, ndim=1, mode="c"] first_histogram,
         np.ndarray[np.float64_t, ndim=1, mode="c"] second_histogram,
         np.ndarray[np.float64_t, ndim=2, mode="c"] distance_matrix,
@@ -137,6 +131,12 @@ def emd_with_flow(np.ndarray[np.float64_t, ndim=1, mode="c"] first_histogram,
                                                       second_histogram,
                                                       distance_matrix,
                                                       extra_mass_penalty)
+
+
+def euclidean_pairwise_distance_matrix(x):
+    """Calculate the Euclidean pairwise distance matrix for a 1D array."""
+    distance_matrix = np.abs(np.repeat(x, len(x)) - np.tile(x, len(x)))
+    return distance_matrix.reshape(len(x), len(x))
 
 
 def emd_samples(first_array,
