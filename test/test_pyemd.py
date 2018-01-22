@@ -183,6 +183,12 @@ def test_extra_mass_penalty_flow():
 # ~~~~~~~~~~~~~~~~~~~~~
 
 
+def test_case_samples_empty():
+    first_array = []
+    second_array = [1]
+    emd_assert(emd_samples(first_array, second_array), 0.5)
+
+
 def test_case_samples_1():
     first_array = [1, 2, 3, 4]
     second_array = [2, 3, 4, 5]
@@ -214,6 +220,23 @@ def test_case_samples_1_custom_distance():
     emd_assert(emd_samples(first_array, second_array, distance=dist), 0.25)
 
 
+def test_case_samples_1_all_kwargs():
+    # Regression only; not checked by hand
+    dist = lambda x: [
+        [(i - j)**3 for i in range(len(x))] for j in range(len(x))
+    ]
+    first_array = [1, 2, 3, 4, 5]
+    second_array = [2, 3, 4, 5]
+    emd_assert(
+        emd_samples(first_array, second_array,
+                    bins=30,
+                    normalized=False,
+                    range=(-5, 15),
+                    distance=dist),
+        24389.0
+    )
+
+
 def test_case_samples_2():
     first_array = [1]
     second_array = [2]
@@ -230,6 +253,12 @@ def test_case_samples_4():
     first_array = [1, 2, 3, 4, 5]
     second_array = [99, 98, 97, 96, 95]
     emd_assert(emd_samples(first_array, second_array), 78.4)
+
+
+def test_case_samples_5():
+    first_array = [1]
+    second_array = [1, 2, 3, 4, 5]
+    emd_assert(emd_samples(first_array, second_array), 1.8)
 
 
 # Validation testing
