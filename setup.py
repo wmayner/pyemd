@@ -3,7 +3,6 @@
 
 import os
 import sys
-from distutils.command.sdist import sdist as _sdist
 
 from setuptools import Extension, setup
 from setuptools.command.build_ext import build_ext as _build_ext
@@ -22,39 +21,6 @@ except (ImportError, ModuleNotFoundError):
     USE_CYTHON = False
 
 
-EXTENSIONS = [
-    Extension('pyemd.emd',
-              sources=['pyemd/emd.pyx'],
-              language="c++")
-]
-
-
-class sdist(_sdist):
-    def run(self):
-        # Make sure the compiled Cython files in the distribution are
-        # up-to-date
-        from Cython.Build import cythonize
-        cythonize(EXTENSIONS)
-        _sdist.run(self)
-
-
-# See http://stackoverflow.com/a/21621689/1085344
-class build_ext(_build_ext):
-    def finalize_options(self):
-        _build_ext.finalize_options(self)
-        # Prevent numpy from thinking it is still in its setup process:
-        if hasattr(__builtins__, '__NUMPY_SETUP__'):
-            __builtins__.__NUMPY_SETUP__ = False
-        import numpy
-        self.include_dirs.append(numpy.get_include())
-
-
-cmdclass = {
-    'sdist': sdist,
-    'build_ext': build_ext
-}
-
-
 def no_cythonize(extensions, **_ignore):
     for extension in extensions:
         sources = []
@@ -71,10 +37,33 @@ def no_cythonize(extensions, **_ignore):
     return extensions
 
 
+EXTENSIONS = [
+    Extension('pyemd.emd',
+              sources=['pyemd/emd.pyx'],
+              language="c++")
+]
+
+
 if USE_CYTHON:
-    ext_modules = cythonize(EXTENSIONS)
+    EXT_MODULES = cythonize(EXTENSIONS)
 else:
-    ext_modules = no_cythonize(EXTENSIONS)
+    EXT_MODULES = no_cythonize(EXTENSIONS)
+
+
+# See http://stackoverflow.com/a/21621689/1085344
+class build_ext(_build_ext):
+    def finalize_options(self):
+        _build_ext.finalize_options(self)
+        # Prevent numpy from thinking it is still in its setup process:
+        if hasattr(__builtins__, '__NUMPY_SETUP__'):
+            __builtins__.__NUMPY_SETUP__ = False
+        import numpy
+        self.include_dirs.append(numpy.get_include())
+
+
+cmdclass = {
+    'build_ext': build_ext
+}
 
 
 with open('README.rst', 'r') as f:
@@ -99,7 +88,7 @@ setup(
     install_requires=requires,
     cmdclass=cmdclass,
     setup_requires=requires,
-    ext_modules=ext_modules,
+    ext_modules=EXT_MODULES,
     classifiers=[
         'Development Status :: 3 - Alpha',
         'Intended Audience :: Developers',
