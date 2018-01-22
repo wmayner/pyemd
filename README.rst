@@ -65,6 +65,9 @@ Documentation
 
 ----
 
+emd()
+~~~~~
+
 .. code:: python
 
     emd(first_histogram, second_histogram, distance_matrix,
@@ -92,6 +95,9 @@ Documentation
 
 ----
 
+emd_with_flow()
+~~~~~~~~~~~~~~~
+
 .. code:: python
 
     emd_with_flow(first_histogram, second_histogram, distance_matrix,
@@ -100,6 +106,9 @@ Documentation
 Arguments are the same as for ``emd()``.
 
 ----
+
+emd_samples()
+~~~~~~~~~~~~~
 
 .. code:: python
 
@@ -155,18 +164,17 @@ Contributing
 ------------
 
 To help develop PyEMD, fork the project on GitHub and install the requirements
-with ``pip``.
+with ``pip install -r requirements.txt``.
 
 The ``Makefile`` defines some tasks to help with development:
 
-* ``default``: compile the Cython code into C++ and build the C++ into a Python
-  extension, using the ``setup.py`` build command
-* ``build``: same as default, but using the ``cython`` command
-* ``clean``: remove the build directory and the compiled C++ extension
-* ``test``: run unit tests with ``py.test``
+- ``test``: Run the test suite
+- ``build`` Generate and compile the Cython extension
+- ``clean``: Remove the compiled Cython extension
+- ``default``: Run ``build``
 
-Tests for different Python environments can be run by installing ``tox`` with
-``pip install tox`` and running the ``tox`` command.
+Tests for different Python environments can be run with ``tox``.
+
 
 Credit
 ------
