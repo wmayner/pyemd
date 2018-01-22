@@ -179,91 +179,9 @@ def test_extra_mass_penalty_flow():
     )
 
 
-# `emd_samples()` testing
-# ~~~~~~~~~~~~~~~~~~~~~
 
-
-def test_case_samples_empty():
-    first_array = []
-    second_array = [1]
-    with pytest.raises(ValueError):
-        emd_samples(first_array, second_array)
-
-
-def test_case_samples_1():
-    first_array = [1, 2, 3, 4]
-    second_array = [2, 3, 4, 5]
-    emd_assert(emd_samples(first_array, second_array), 0.75)
-
-
-def test_case_samples_1_binsize():
-    first_array = [1, 2, 3, 4]
-    second_array = [2, 3, 4, 5]
-    emd_assert(emd_samples(first_array, second_array, bins=2), 0.5)
-
-
-def test_case_samples_1_manual_range():
-    first_array = [1, 2, 3, 4]
-    second_array = [2, 3, 4, 5]
-    emd_assert(emd_samples(first_array, second_array, range=(0, 10)), 1.0)
-
-
-def test_case_samples_1_not_normalized():
-    first_array = [1, 2, 3, 4]
-    second_array = [2, 3, 4, 5]
-    emd_assert(emd_samples(first_array, second_array, normalized=False), 3.0)
-
-
-def test_case_samples_1_custom_distance():
-    dist = lambda x: np.array([[0.0 if i == j else 1.0 for i in x] for j in x])
-    first_array = [1, 2, 3, 4]
-    second_array = [2, 3, 4, 5]
-    emd_assert(emd_samples(first_array, second_array, distance=dist), 0.25)
-
-
-def test_case_samples_1_all_kwargs():
-    # Regression only; not checked by hand
-    dist = lambda x: [
-        [(i - j)**3 for i in range(len(x))] for j in range(len(x))
-    ]
-    first_array = [1, 2, 3, 4, 5]
-    second_array = [2, 3, 4, 5]
-    emd_assert(
-        emd_samples(first_array, second_array,
-                    bins=30,
-                    normalized=False,
-                    range=(-5, 15),
-                    distance=dist),
-        24389.0
-    )
-
-
-def test_case_samples_2():
-    first_array = [1]
-    second_array = [2]
-    emd_assert(emd_samples(first_array, second_array), 0.5)
-
-
-def test_case_samples_3():
-    first_array = [1, 1, 1, 2, 3]
-    second_array = [1, 2, 2, 2, 3]
-    emd_assert(emd_samples(first_array, second_array), 0.32)
-
-
-def test_case_samples_4():
-    first_array = [1, 2, 3, 4, 5]
-    second_array = [99, 98, 97, 96, 95]
-    emd_assert(emd_samples(first_array, second_array), 78.4)
-
-
-def test_case_samples_5():
-    first_array = [1]
-    second_array = [1, 2, 3, 4, 5]
-    emd_assert(emd_samples(first_array, second_array), 1.8)
-
-
-# Validation testing
-# ~~~~~~~~~~~~~~~~~~
+# `emd()` and `emd_with_flow()` validation testing
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
 def test_larger_signatures():
@@ -355,3 +273,90 @@ def test_symmetric_distance_matrix_flow():
                                 [0.5, 0.0]])
     with pytest.raises(ValueError):
         emd_with_flow(first_signature, second_signature, distance_matrix)
+
+
+# `emd_samples()` testing
+# ~~~~~~~~~~~~~~~~~~~~~~~
+
+
+def test_case_samples_1():
+    first_array = [1, 2, 3, 4]
+    second_array = [2, 3, 4, 5]
+    emd_assert(emd_samples(first_array, second_array), 0.75)
+
+
+def test_case_samples_1_binsize():
+    first_array = [1, 2, 3, 4]
+    second_array = [2, 3, 4, 5]
+    emd_assert(emd_samples(first_array, second_array, bins=2), 0.5)
+
+
+def test_case_samples_1_manual_range():
+    first_array = [1, 2, 3, 4]
+    second_array = [2, 3, 4, 5]
+    emd_assert(emd_samples(first_array, second_array, range=(0, 10)), 1.0)
+
+
+def test_case_samples_1_not_normalized():
+    first_array = [1, 2, 3, 4]
+    second_array = [2, 3, 4, 5]
+    emd_assert(emd_samples(first_array, second_array, normalized=False), 3.0)
+
+
+def test_case_samples_1_custom_distance():
+    dist = lambda x: np.array([[0.0 if i == j else 1.0 for i in x] for j in x])
+    first_array = [1, 2, 3, 4]
+    second_array = [2, 3, 4, 5]
+    emd_assert(emd_samples(first_array, second_array, distance=dist), 0.25)
+
+
+def test_case_samples_1_all_kwargs():
+    # Regression only; not checked by hand
+    dist = lambda x: [
+        [(i - j)**3 for i in range(len(x))] for j in range(len(x))
+    ]
+    first_array = [1, 2, 3, 4, 5]
+    second_array = [2, 3, 4, 5]
+    emd_assert(
+        emd_samples(first_array, second_array,
+                    bins=30,
+                    normalized=False,
+                    range=(-5, 15),
+                    distance=dist),
+        24389.0
+    )
+
+
+def test_case_samples_2():
+    first_array = [1]
+    second_array = [2]
+    emd_assert(emd_samples(first_array, second_array), 0.5)
+
+
+def test_case_samples_3():
+    first_array = [1, 1, 1, 2, 3]
+    second_array = [1, 2, 2, 2, 3]
+    emd_assert(emd_samples(first_array, second_array), 0.32)
+
+
+def test_case_samples_4():
+    first_array = [1, 2, 3, 4, 5]
+    second_array = [99, 98, 97, 96, 95]
+    emd_assert(emd_samples(first_array, second_array), 78.4)
+
+
+def test_case_samples_5():
+    first_array = [1]
+    second_array = [1, 2, 3, 4, 5]
+    emd_assert(emd_samples(first_array, second_array), 1.8)
+
+
+# `emd()` and `emd_with_flow()` validation testing
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+def test_case_samples_empty():
+    first_array = []
+    second_array = [1]
+    with pytest.raises(ValueError):
+        emd_samples(first_array, second_array)
