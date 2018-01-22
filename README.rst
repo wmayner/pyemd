@@ -63,8 +63,6 @@ You can also calculate the EMD directly from two arrays of observations:
 Documentation
 -------------
 
-----
-
 emd()
 ~~~~~
 
@@ -73,7 +71,7 @@ emd()
     emd(first_histogram, second_histogram, distance_matrix,
         extra_mass_penalty=-1.0)
 
-**Arguments:**
+*Arguments:*
 
 - ``first_histogram`` *(np.ndarray)*: A 1D array of type ``np.float64`` of
   length ``N``.
@@ -84,7 +82,7 @@ emd()
   giving the pairwise distances between the histogram bins. It must represent a
   metric; there is no warning if it doesn't.
 
-**Keyword Arguments:**
+*Keyword Arguments:*
 
 - ``extra_mass_penalty`` *(float)*: The penalty for extra mass. If you want the
   resulting distance to be a metric, it should be at least half the diameter of
@@ -92,8 +90,6 @@ emd()
   partial matching you can set it to zero (but then the resulting distance is
   not guaranteed to be a metric). The default value is ``-1.0``, which means the
   maximum value in the distance matrix is used.
-
-----
 
 emd_with_flow()
 ~~~~~~~~~~~~~~~
@@ -104,8 +100,6 @@ emd_with_flow()
                   extra_mass_penalty=-1.0)
 
 Arguments are the same as for ``emd()``.
-
-----
 
 emd_samples()
 ~~~~~~~~~~~~~
@@ -119,14 +113,14 @@ emd_samples()
                 bins='auto',
                 range=None)
 
-**Arguments:**
+*Arguments:*
 
 - ``first_array`` *(Iterable)*: A 1D array of samples used to generate a
   histogram.
 - ``second_array`` *(Iterable)*: A 1D array of samples used to generate a
   histogram.
 
-**Keyword Arguments:**
+*Keyword Arguments:*
 
 - ``extra_mass_penalty`` *(float)*: Same as for ``emd()``. ``bins`` (int or
   string): The number of bins to include in the generated histogram. If a
@@ -144,7 +138,6 @@ emd_samples()
   ``first_array`` and `second_array``.` Note: if the given range is not a
   superset of the default range, no warning will be given.
 
-----
 
 Limitations and Caveats
 -----------------------
