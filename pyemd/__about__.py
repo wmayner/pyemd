@@ -5,7 +5,7 @@
 """PyEMD metadata"""
 
 __title__ = 'pyemd'
-__version__ = '0.4.4'
+__version__ = '0.5.0'
 __description__ = ("A Python wrapper for Ofir Pele and Michael Werman's "
                    "implementation of the Earth Mover's Distance.")
 __author__ = 'Will Mayner'
