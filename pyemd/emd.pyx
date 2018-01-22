@@ -36,8 +36,8 @@ cdef extern from "lib/emd_hat.hpp":
 DEFAULT_EXTRA_MASS_PENALTY = -1.0
 
 
-def validate(first_histogram, second_histogram, distance_matrix):
-    """Validate input."""
+def _validate_emd_input(first_histogram, second_histogram, distance_matrix):
+    """Validate EMD input."""
     if (first_histogram.shape[0] > distance_matrix.shape[0] or
         second_histogram.shape[0] > distance_matrix.shape[0]):
         raise ValueError('Histogram lengths cannot be greater than the '
@@ -82,7 +82,7 @@ def emd(np.ndarray[np.float64_t, ndim=1, mode="c"] first_histogram,
         of rows or columns of the distance matrix, or if the histograms aren't
         the same length.
     """
-    validate(first_histogram, second_histogram, distance_matrix)
+    _validate_emd_input(first_histogram, second_histogram, distance_matrix)
     return emd_hat_gd_metric_double(first_histogram,
                                     second_histogram,
                                     distance_matrix,
@@ -126,7 +126,7 @@ def emd_with_flow(np.ndarray[np.float64_t, ndim=1, mode="c"] first_histogram,
         of rows or columns of the distance matrix, or if the histograms aren't
         the same length.
     """
-    validate(first_histogram, second_histogram, distance_matrix)
+    _validate_emd_input(first_histogram, second_histogram, distance_matrix)
     return emd_hat_gd_metric_double_with_flow_wrapper(first_histogram,
                                                       second_histogram,
                                                       distance_matrix,
