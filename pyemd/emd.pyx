@@ -161,13 +161,12 @@ def emd_samples(first_array,
                                        range=range,
                                        bins=bins)
 
+    first_histogram = first_histogram.astype(np.float64)
+    second_histogram = second_histogram.astype(np.float64)
     if normalized:
         # Normalize histograms to represent fraction of dataset in each bin
         first_histogram = first_histogram/np.sum(first_histogram)
         second_histogram = second_histogram/np.sum(second_histogram)
-    else:
-        first_histogram = first_histogram.astype(np.float64)
-        second_histogram = second_histogram.astype(np.float64)
 
     # Compute the distance matrix between the center of each bin
     bin_locations = np.mean([bin_edges[:-1], bin_edges[1:]], axis=0)
