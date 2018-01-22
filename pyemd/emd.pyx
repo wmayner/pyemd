@@ -170,11 +170,12 @@ def emd_samples(first_array,
     if distance == 'euclidean':
         distance = euclidean_pairwise_distance_matrix
     distance_matrix = distance(bin_locations)
-
-    return emd(first_histogram,
-               second_histogram,
-               distance_matrix,
-               extra_mass_penalty=extra_mass_penalty)
+    # Return the EMD (no need to call the wrapper function, which only validates
+    # input, so we call the exposed C++ function directly)
+    return emd_hat_gd_metric_double(first_histogram,
+                                    second_histogram,
+                                    distance_matrix,
+                                    extra_mass_penalty)
 
 
 def emd_with_flow(np.ndarray[np.float64_t, ndim=1, mode="c"] first_histogram,
