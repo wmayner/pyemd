@@ -63,6 +63,8 @@ You can also calculate the EMD directly from two arrays of observations:
 Documentation
 -------------
 
+----
+
 .. code:: python
 
     emd(first_histogram, second_histogram, distance_matrix,
@@ -132,6 +134,8 @@ Arguments are the same as for ``emd()``.
   to ``numpy.histogram()``. Defaults to the range of the union of
   ``first_array`` and `second_array``.` Note: if the given range is not a
   superset of the default range, no warning will be given.
+
+----
 
 Limitations and Caveats
 -----------------------
