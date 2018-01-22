@@ -4,19 +4,18 @@
     :target: https://wiki.python.org/moin/Python2orPython3
     :alt: Python versions badge
 
-**************************
 PyEMD: Fast EMD for Python
-**************************
+==========================
 
 PyEMD is a Python wrapper for `Ofir Pele and Michael Werman's implementation
-<http://www.ariel.ac.il/sites/ofirpele/fastemd/code/>`_ of the `Earth Mover's
+<http://ofirpele.droppages.com/>`_ of the `Earth Mover's
 Distance <http://en.wikipedia.org/wiki/Earth_mover%27s_distance>`_ that allows
 it to be used with NumPy. **If you use this code, please cite the papers listed
 at the end of this document.**
 
 
 Installation
-~~~~~~~~~~~~
+------------
 
 To install the latest release:
 
@@ -30,7 +29,7 @@ persists.
 
 
 Usage
-~~~~~
+-----
 
 .. code:: python
 
@@ -38,7 +37,7 @@ Usage
     >>> import numpy as np
     >>> first_histogram = np.array([0.0, 1.0])
     >>> second_histogram = np.array([5.0, 3.0])
-    >>> distance_matrix = np.array([[0.0, 0.5], 
+    >>> distance_matrix = np.array([[0.0, 0.5],
     ...                             [0.5, 0.0]])
     >>> emd(first_histogram, second_histogram, distance_matrix)
     3.5
@@ -51,28 +50,102 @@ You can also get the associated minimum-cost flow:
     >>> emd_with_flow(first_histogram, second_histogram, distance_matrix)
     (3.5, [[0.0, 0.0], [0.0, 1.0]])
 
-
-API
-~~~
+You can also calculate the EMD directly from two arrays of observations:
 
 .. code:: python
 
-    emd(first_histogram, second_histogram, distance_matrix)
+    >>> from pyemd import emd_samples
+    >>> first_array = [1, 2, 3, 4]
+    >>> second_array = [2, 3, 4, 5]
+    >>> emd_samples(first_array, second_array, bins=2)
+    0.5
 
-- ``first_histogram``: A 1-dimensional numpy array of type ``np.float64``, of
-  length :math:`N`.
-- ``second_histogram``: A 1-dimensional numpy array of type ``np.float64``, of
-  length :math:`N`.
-- ``distance_matrix``: A 2-dimensional array of type ``np.float64``, of size at
-  least :math:`N \times N`. This defines the underlying metric, or ground
-  distance, by giving the pairwise distances between the histogram bins. It
-  must represent a metric; there is no warning if it doesn't.
+Documentation
+-------------
 
-The arguments to ``emd_with_flow`` are the same.
+emd()
+~~~~~
 
+.. code:: python
+
+    emd(first_histogram, second_histogram, distance_matrix,
+        extra_mass_penalty=-1.0)
+
+*Arguments:*
+
+- ``first_histogram`` *(np.ndarray)*: A 1D array of type ``np.float64`` of
+  length ``N``.
+- ``second_histogram`` *(np.ndarray)*: A 1D array of ``np.float64`` of length
+  ``N``.
+- ``distance_matrix`` *(np.ndarray)*: A 2D array of ``np.float64,`` of size at
+  least ``N × N``. This defines the underlying metric, or ground distance, by
+  giving the pairwise distances between the histogram bins. It must represent a
+  metric; there is no warning if it doesn't.
+
+*Keyword Arguments:*
+
+- ``extra_mass_penalty`` *(float)*: The penalty for extra mass. If you want the
+  resulting distance to be a metric, it should be at least half the diameter of
+  the space (maximum possible distance between any two points). If you want
+  partial matching you can set it to zero (but then the resulting distance is
+  not guaranteed to be a metric). The default value is ``-1.0``, which means the
+  maximum value in the distance matrix is used.
+
+----
+
+emd_with_flow()
+~~~~~~~~~~~~~~~
+
+.. code:: python
+
+    emd_with_flow(first_histogram, second_histogram, distance_matrix,
+                  extra_mass_penalty=-1.0)
+
+Arguments are the same as for ``emd()``.
+
+----
+
+emd_samples()
+~~~~~~~~~~~~~
+
+.. code:: python
+
+    emd_samples(first_array, second_array,
+                extra_mass_penalty=DEFAULT_EXTRA_MASS_PENALTY,
+                distance='euclidean',
+                normalized=True,
+                bins='auto',
+                range=None)
+
+*Arguments:*
+
+- ``first_array`` *(Iterable)*: A 1D array of samples used to generate a
+  histogram.
+- ``second_array`` *(Iterable)*: A 1D array of samples used to generate a
+  histogram.
+
+*Keyword Arguments:*
+
+- ``extra_mass_penalty`` *(float)*: Same as for ``emd()``. ``bins`` (int or
+  string): The number of bins to include in the generated histogram. If a
+  string, must be one of the bin selection algorithms accepted by
+  ``np.histogram()``. Defaults to 'auto', which gives the maximum of the
+  'sturges' and 'fd' estimators.
+- ``distance_matrix`` *(string or function)*: A string or function implementing
+  a metric on a 1D ``np.ndarray``. Defaults to the Euclidean distance. Currently
+  limited to 'euclidean' or your own function, which must take a 1D array and
+  return a square 2D array of pairwise distances. - ``normalized`` (boolean): If
+  true, treat histograms as fractions of the dataset. If false, treat histograms
+  as counts. In the latter case the EMD will vary greatly by array length.
+- ``range`` *(tuple(int, int))*: The lower and upper range of the bins, passed
+  to ``numpy.histogram()``. Defaults to the range of the union of
+  ``first_array`` and `second_array``.` Note: if the given range is not a
+  superset of the default range, no warning will be given.
+
+----
 
 Limitations and Caveats
-~~~~~~~~~~~~~~~~~~~~~~~
+-----------------------
 
 - ``distance_matrix`` is assumed to represent a metric; there is no check to
   ensure that this is true. See the documentation in ``pyemd/lib/emd_hat.hpp``
@@ -86,34 +159,33 @@ Limitations and Caveats
 
 
 Contributing
-~~~~~~~~~~~~
+------------
 
 To help develop PyEMD, fork the project on GitHub and install the requirements
-with ``pip``.
+with ``pip install -r requirements.txt``.
 
 The ``Makefile`` defines some tasks to help with development:
 
-* ``default``: compile the Cython code into C++ and build the C++ into a Python
-  extension, using the ``setup.py`` build command
-* ``build``: same as default, but using the ``cython`` command
-* ``clean``: remove the build directory and the compiled C++ extension
-* ``test``: run unit tests with ``py.test``
+- ``test``: Run the test suite
+- ``build`` Generate and compile the Cython extension
+- ``clean``: Remove the compiled Cython extension
+- ``default``: Run ``build``
 
-Tests for different Python environments can be run by installing ``tox`` with
-``pip install tox`` and running the ``tox`` command.
+Tests for different Python environments can be run with ``tox``.
+
 
 Credit
-~~~~~~
+------
 
 - All credit for the actual algorithm and implementation goes to `Ofir Pele
   <http://www.ariel.ac.il/sites/ofirpele/>`_ and `Michael Werman
   <http://www.cs.huji.ac.il/~werman/>`_. See the `relevant paper
   <http://www.seas.upenn.edu/~ofirpele/publications/ICCV2009.pdf>`_.
-- Thanks to the Cython devlopers for making this kind of wrapper relatively
+- Thanks to the Cython developers for making this kind of wrapper relatively
   easy to write.
 
 Please cite these papers if you use this code:
-``````````````````````````````````````````````
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Ofir Pele and Michael Werman, "A linear time histogram metric for improved SIFT
 matching," in *Computer Vision - ECCV 2008*, Marseille, France, 2008, pp.

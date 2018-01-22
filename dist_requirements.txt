@@ -1,0 +1,4 @@
+docutils
+pygments
+twine
+wheel

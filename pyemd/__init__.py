@@ -33,6 +33,14 @@ You can also get the associated minimum-cost flow:
     >>> emd_with_flow(first_signature, second_signature, distance_matrix)
     (3.5, [[0.0, 0.0], [0.0, 1.0]])
 
+You can also calculate the EMD directly from two arrays of observations:
+
+    >>> from pyemd import emd_samples
+    >>> first_array = [1,2,3,4]
+    >>> second_array = [2,3,4,5]
+    >>> emd_samples(first_array, second_array, bins=2)
+    0.5
+
 
 Limitations and Caveats
 ~~~~~~~~~~~~~~~~~~~~~~~
@@ -59,10 +67,9 @@ Credit
   easy to write.
 
 
-:copyright: Copyright (c) 2014-2017 Will Mayner.
+:copyright: Copyright (c) 2014-2018 Will Mayner.
 :license: See the LICENSE file.
 """
 
 from .__about__ import *
-from .emd import emd
-from .emd import emd_with_flow
+from .emd import emd, emd_with_flow, emd_samples
