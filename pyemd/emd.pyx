@@ -3,8 +3,8 @@
 # distutils: language = c++
 # emd.pyx
 
-from libcpp.vector cimport vector
 from libcpp.pair cimport pair
+from libcpp.vector cimport vector
 import cython
 
 # Import both NumPy and the Cython declarations for NumPy
