@@ -61,24 +61,78 @@ You can also calculate the EMD directly from two arrays of observations:
     >>> emd_samples(first_array, second_array, bins=2)
     0.5
 
-API
-~~~
+Documentation
+~~~~~~~~~~~~~
 
 .. code:: python
 
-    emd(first_histogram, second_histogram, distance_matrix)
+    emd(first_histogram, second_histogram, distance_matrix,
+        extra_mass_penalty=-1.0)
 
-- ``first_histogram``: A 1-dimensional numpy array of type ``np.float64``, of
-  length :math:`N`.
-- ``second_histogram``: A 1-dimensional numpy array of type ``np.float64``, of
-  length :math:`N`.
-- ``distance_matrix``: A 2-dimensional array of type ``np.float64``, of size at
-  least :math:`N \times N`. This defines the underlying metric, or ground
-  distance, by giving the pairwise distances between the histogram bins. It
-  must represent a metric; there is no warning if it doesn't.
+**Arguments:**
 
-The arguments to ``emd_with_flow`` are the same.
+- ``first_histogram`` *(np.ndarray)*: A 1D array of type ``np.float64`` of
+  length ``N``.
+- ``second_histogram`` *(np.ndarray)*: A 1D array of ``np.float64`` of length
+  ``N``.
+- ``distance_matrix`` *(np.ndarray)*: A 2D array of ``np.float64,`` of size at
+  least ``N × N``. This defines the underlying metric, or ground distance, by
+  giving the pairwise distances between the histogram bins. It must represent a
+  metric; there is no warning if it doesn't.
 
+**Keyword Arguments:**
+
+- ``extra_mass_penalty``: The penalty for extra mass. If you want the resulting
+  distance to be a metric, it should be at least half the diameter of the space
+  (maximum possible distance between any two points). If you want partial
+  matching you can set it to zero (but then the resulting distance is not
+  guaranteed to be a metric). The default value is ``-1.0``, which means the
+  maximum value in the distance matrix is used.
+
+----
+
+.. code:: python
+
+    emd_with_flow(first_histogram, second_histogram, distance_matrix,
+                  extra_mass_penalty=-1.0)
+
+Arguments are the same as for ``emd()``.
+
+----
+
+.. code:: python
+
+    emd_samples(first_array, second_array,
+                extra_mass_penalty=DEFAULT_EXTRA_MASS_PENALTY,
+                distance='euclidean',
+                normalized=True,
+                bins='auto',
+                range=None)
+
+**Arguments:**
+
+- ``first_array`` *(Iterable)*: A 1D array of samples used to generate a
+  histogram.
+- ``second_array`` *(Iterable)*: A 1D array of samples used to generate a
+  histogram.
+
+**Keyword Arguments:**
+
+- ``extra_mass_penalty`` *(float)*: Same as for ``emd()``. ``bins`` (int or
+  string): The number of bins to include in the generated histogram. If a
+  string, must be one of the bin selection algorithms accepted by
+  ``np.histogram()``. Defaults to 'auto', which gives the maximum of the
+  'sturges' and 'fd' estimators.
+- ``distance_matrix`` *(string or function)*: A string or function implementing
+  a metric on a 1D ``np.ndarray``. Defaults to the Euclidean distance. Currently
+  limited to 'euclidean' or your own function, which must take a 1D array and
+  return a square 2D array of pairwise distances. - ``normalized`` (boolean): If
+  true, treat histograms as fractions of the dataset. If false, treat histograms
+  as counts. In the latter case the EMD will vary greatly by array length.
+- ``range`` *(tuple(int, int))*: The lower and upper range of the bins, passed
+  to ``numpy.histogram()``. Defaults to the range of the union of
+  ``first_array`` and `second_array``.` Note: if the given range is not a
+  superset of the default range, no warning will be given.
 
 Limitations and Caveats
 ~~~~~~~~~~~~~~~~~~~~~~~
