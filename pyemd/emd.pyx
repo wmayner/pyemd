@@ -154,10 +154,10 @@ def emd_samples(first_array,
         Pairwise ground distances are taken from the center of the bins.
 
     Arguments:
-        first_array (np.ndarray): A 1D array of type np.float64 containing
-            values used to generate a histogram.
-        second_array (np.ndarray): A 1D array of type np.float64 containing
-            values used to generate a histogram.
+        first_array (Iterable): A 1D array of samples used to generate a
+            histogram.
+        second_array (Iterable): A 1D array of samples used to generate a
+            histogram.
 
     Keyword Arguments:
         extra_mass_penalty: The penalty for extra mass. If you want the
