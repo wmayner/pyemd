@@ -186,7 +186,8 @@ def test_extra_mass_penalty_flow():
 def test_case_samples_empty():
     first_array = []
     second_array = [1]
-    emd_assert(emd_samples(first_array, second_array), 0.5)
+    with pytest.raises(ValueError):
+        emd_samples(first_array, second_array)
 
 
 def test_case_samples_1():
