@@ -1,0 +1,29 @@
+[MESSAGES CONTROL]
+
+disable =
+    fixme,
+    import-error,
+    locally-disabled,
+    locally-enabled,
+    invalid-name,
+
+
+[REPORTS]
+
+# Tells whether to display a full report or only the messages
+# DEFAULT:  reports=yes
+# RATIONALE:  run from Travis / tox, and don't need / want to parse output.
+reports=no
+
+
+[BASIC]
+
+# Regular expression which should only match function or class names that do
+# not require a docstring.
+# DEFAULT:  no-docstring-rgx=__.*__
+no-docstring-rgx=(test_*|__.*__|main)
+
+# Minimum line length for functions/classes that require docstrings, shorter
+# ones are exempt.
+# DEFAULT:  docstring-min-length=-1
+docstring-min-length=10
