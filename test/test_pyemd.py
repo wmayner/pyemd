@@ -23,8 +23,9 @@ def emd_flow_assert(got, expected):
     assert np.array_equal(np.round(got_flow, FLOW_PRECISION), expected_flow)
 
 
-# `emd()` and `emd_with_flow()` testing
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# `emd()`
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 
 def test_emd_1():
     first_signature = np.array([0.0, 1.0])
@@ -34,17 +35,6 @@ def test_emd_1():
     emd_assert(
         emd(first_signature, second_signature, distance_matrix),
         3.5
-    )
-
-def test_emd_with_flow_1():
-    first_signature = np.array([0.0, 1.0])
-    second_signature = np.array([5.0, 3.0])
-    distance_matrix = np.array([[0.0, 0.5],
-                                [0.5, 0.0]])
-    emd_flow_assert(
-        emd_with_flow(first_signature, second_signature, distance_matrix),
-        (3.5, [[0.0, 0.0],
-               [0.0, 1.0]])
     )
 
 
@@ -59,6 +49,108 @@ def test_emd_2():
     )
 
 
+def test_emd_3():
+    first_signature = np.array([6.0, 1.0])
+    second_signature = np.array([1.0, 7.0])
+    distance_matrix = np.array([[0.0, 0.0],
+                                [0.0, 0.0]])
+    emd_assert(
+        emd(first_signature, second_signature, distance_matrix),
+        0.0
+    )
+
+
+def test_emd_4():
+    first_signature = np.array([1.0, 2.0, 1.0, 2.0])
+    second_signature = np.array([2.0, 1.0, 2.0, 1.0])
+    distance_matrix = np.array([[0.0, 1.0, 1.0, 2.0],
+                                [1.0, 0.0, 2.0, 1.0],
+                                [1.0, 2.0, 0.0, 1.0],
+                                [2.0, 1.0, 1.0, 0.0]])
+    emd_assert(
+        emd(first_signature, second_signature, distance_matrix),
+        2.0
+    )
+
+
+def test_emd_extra_mass_penalty():
+    first_signature = np.array([0.0, 2.0, 1.0, 2.0])
+    second_signature = np.array([2.0, 1.0, 2.0, 1.0])
+    distance_matrix = np.array([[0.0, 1.0, 1.0, 2.0],
+                                [1.0, 0.0, 2.0, 1.0],
+                                [1.0, 2.0, 0.0, 1.0],
+                                [2.0, 1.0, 1.0, 0.0]])
+    emd_assert(
+        emd(first_signature, second_signature, distance_matrix,
+            extra_mass_penalty=2.5),
+        4.5
+    )
+
+
+# Validation
+
+
+def test_emd_validate_larger_signatures_1():
+    first_signature = np.array([0.0, 1.0, 2.0])
+    second_signature = np.array([5.0, 3.0, 3.0])
+    distance_matrix = np.array([[0.0, 0.5],
+                                [0.5, 0.0]])
+    with pytest.raises(ValueError):
+        emd(first_signature, second_signature, distance_matrix)
+
+
+def test_emd_validate_larger_signatures_2():
+    first_signature = np.array([0.0, 1.0, 2.0])
+    second_signature = np.array([5.0, 3.0])
+    distance_matrix = np.array([[0.0, 0.5],
+                                [0.5, 0.0]])
+    with pytest.raises(ValueError):
+        emd_with_flow(first_signature, second_signature, distance_matrix)
+
+
+def test_emd_validate_larger_signatures_3():
+    first_signature = np.array([0.0, 1.0])
+    second_signature = np.array([5.0, 3.0, 3.0])
+    distance_matrix = np.array([[0.0, 0.5], [0.5, 0.0]])
+    with pytest.raises(ValueError):
+        emd(first_signature, second_signature, distance_matrix)
+
+
+def test_emd_validate_different_signature_dims():
+    first_signature = np.array([0.0, 1.0])
+    second_signature = np.array([5.0, 3.0, 3.0])
+    distance_matrix = np.array([[0.0, 0.5, 0.0],
+                                [0.5, 0.0, 0.0],
+                                [0.5, 0.0, 0.0]])
+    with pytest.raises(ValueError):
+        emd(first_signature, second_signature, distance_matrix)
+
+
+def test_emd_validate_symmetric_distance_matrix():
+    first_signature = np.array([0.0, 1.0])
+    second_signature = np.array([5.0, 3.0])
+    distance_matrix = np.array([[0.0, 0.5, 3.0],
+                                [0.5, 0.0]])
+    with pytest.raises(ValueError):
+        emd(first_signature, second_signature, distance_matrix)
+
+
+# `emd_with_flow()`
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+def test_emd_with_flow_1():
+    first_signature = np.array([0.0, 1.0])
+    second_signature = np.array([5.0, 3.0])
+    distance_matrix = np.array([[0.0, 0.5],
+                                [0.5, 0.0]])
+    emd_flow_assert(
+        emd_with_flow(first_signature, second_signature, distance_matrix),
+        (3.5, [[0.0, 0.0],
+               [0.0, 1.0]])
+    )
+
+
 def test_emd_with_flow_2():
     first_signature = np.array([1.0, 1.0])
     second_signature = np.array([1.0, 1.0])
@@ -68,17 +160,6 @@ def test_emd_with_flow_2():
         emd_with_flow(first_signature, second_signature, distance_matrix),
         (0.0, [[1.0, 0.0],
                [0.0, 1.0]])
-    )
-
-
-def test_emd_3():
-    first_signature = np.array([6.0, 1.0])
-    second_signature = np.array([1.0, 7.0])
-    distance_matrix = np.array([[0.0, 0.0],
-                                [0.0, 0.0]])
-    emd_assert(
-        emd(first_signature, second_signature, distance_matrix),
-        0.0
     )
 
 
@@ -118,19 +199,6 @@ def test_emd_with_flow_5():
     )
 
 
-def test_emd_6():
-    first_signature = np.array([1.0, 2.0, 1.0, 2.0])
-    second_signature = np.array([2.0, 1.0, 2.0, 1.0])
-    distance_matrix = np.array([[0.0, 1.0, 1.0, 2.0],
-                                [1.0, 0.0, 2.0, 1.0],
-                                [1.0, 2.0, 0.0, 1.0],
-                                [2.0, 1.0, 1.0, 0.0]])
-    emd_assert(
-        emd(first_signature, second_signature, distance_matrix),
-        2.0
-    )
-
-
 def test_emd_with_flow_6():
     first_signature = np.array([1.0, 2.0, 1.0, 2.0])
     second_signature = np.array([2.0, 1.0, 2.0, 1.0])
@@ -144,20 +212,6 @@ def test_emd_with_flow_6():
                [1.0, 1.0, 0.0, 0.0],
                [0.0, 0.0, 1.0, 0.0],
                [0.0, 0.0, 1.0, 1.0]])
-    )
-
-
-def test_emd_extra_mass_penalty():
-    first_signature = np.array([0.0, 2.0, 1.0, 2.0])
-    second_signature = np.array([2.0, 1.0, 2.0, 1.0])
-    distance_matrix = np.array([[0.0, 1.0, 1.0, 2.0],
-                                [1.0, 0.0, 2.0, 1.0],
-                                [1.0, 2.0, 0.0, 1.0],
-                                [2.0, 1.0, 1.0, 0.0]])
-    emd_assert(
-        emd(first_signature, second_signature, distance_matrix,
-            extra_mass_penalty=2.5),
-        4.5
     )
 
 
@@ -178,32 +232,12 @@ def test_emd_with_flow_extra_mass_penalty():
     )
 
 
-
-# `emd()` and `emd_with_flow()` validation testing
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
-def test_emd_validate_larger_signatures_1():
-    first_signature = np.array([0.0, 1.0, 2.0])
-    second_signature = np.array([5.0, 3.0, 3.0])
-    distance_matrix = np.array([[0.0, 0.5],
-                                [0.5, 0.0]])
-    with pytest.raises(ValueError):
-        emd(first_signature, second_signature, distance_matrix)
+# Validation
 
 
 def test_emd_with_flow_validate_larger_signatures_1():
     first_signature = np.array([0.0, 1.0, 2.0])
     second_signature = np.array([5.0, 3.0, 3.0])
-    distance_matrix = np.array([[0.0, 0.5],
-                                [0.5, 0.0]])
-    with pytest.raises(ValueError):
-        emd_with_flow(first_signature, second_signature, distance_matrix)
-
-
-def test_emd_validate_larger_signatures_2():
-    first_signature = np.array([0.0, 1.0, 2.0])
-    second_signature = np.array([5.0, 3.0])
     distance_matrix = np.array([[0.0, 0.5],
                                 [0.5, 0.0]])
     with pytest.raises(ValueError):
@@ -219,14 +253,6 @@ def test_emd_with_flow_validate_larger_signatures_2():
         emd(first_signature, second_signature, distance_matrix)
 
 
-def test_emd_validate_larger_signatures_3():
-    first_signature = np.array([0.0, 1.0])
-    second_signature = np.array([5.0, 3.0, 3.0])
-    distance_matrix = np.array([[0.0, 0.5], [0.5, 0.0]])
-    with pytest.raises(ValueError):
-        emd(first_signature, second_signature, distance_matrix)
-
-
 def test_emd_with_flow_validate_larger_signatures_3():
     first_signature = np.array([0.0, 1.0])
     second_signature = np.array([5.0, 3.0, 3.0])
@@ -234,16 +260,6 @@ def test_emd_with_flow_validate_larger_signatures_3():
                                 [0.5, 0.0]])
     with pytest.raises(ValueError):
         emd_with_flow(first_signature, second_signature, distance_matrix)
-
-
-def test_emd_validate_different_signature_dims():
-    first_signature = np.array([0.0, 1.0])
-    second_signature = np.array([5.0, 3.0, 3.0])
-    distance_matrix = np.array([[0.0, 0.5, 0.0],
-                                [0.5, 0.0, 0.0],
-                                [0.5, 0.0, 0.0]])
-    with pytest.raises(ValueError):
-        emd(first_signature, second_signature, distance_matrix)
 
 
 def test_emd_with_flow_validate_different_signature_dims():
@@ -256,16 +272,7 @@ def test_emd_with_flow_validate_different_signature_dims():
         emd_with_flow(first_signature, second_signature, distance_matrix)
 
 
-def test_emd_validate_symmetric_distance_matrix():
-    first_signature = np.array([0.0, 1.0])
-    second_signature = np.array([5.0, 3.0])
-    distance_matrix = np.array([[0.0, 0.5, 3.0],
-                                [0.5, 0.0]])
-    with pytest.raises(ValueError):
-        emd(first_signature, second_signature, distance_matrix)
-
-
-def test_emd_with_flow_validate_symmetric_distance_matrix():
+def test_emd_with_flow_validate_square_distance_matrix():
     first_signature = np.array([0.0, 1.0])
     second_signature = np.array([5.0, 3.0])
     distance_matrix = np.array([[0.0, 0.5, 3.0],
@@ -274,8 +281,8 @@ def test_emd_with_flow_validate_symmetric_distance_matrix():
         emd_with_flow(first_signature, second_signature, distance_matrix)
 
 
-# `emd_samples()` testing
-# ~~~~~~~~~~~~~~~~~~~~~~~
+# `emd_samples()`
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
 def test_emd_samples_1():
@@ -309,7 +316,7 @@ def test_emd_samples_1_custom_distance():
     emd_assert(emd_samples(first_array, second_array, distance=dist), 0.25)
 
 
-def test_emd_samples_1_all_kwargs():
+def test_emd_samples_all_kwargs():
     # Regression only; not checked by hand
     dist = lambda x: [
         [(i - j)**3 for i in range(len(x))] for j in range(len(x))
@@ -350,8 +357,7 @@ def test_emd_samples_5():
     emd_assert(emd_samples(first_array, second_array), 1.8)
 
 
-# `emd()` and `emd_with_flow()` validation testing
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Validation
 
 
 def test_emd_samples_validate_empty():
