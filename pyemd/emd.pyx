@@ -143,16 +143,17 @@ def emd_samples(first_array,
         range = (min(np.min(first_array), np.min(second_array)),
                  max(np.max(first_array), np.max(second_array)))
 
-    if type(bins) == str:
+    if isinstance(bins, str):
         hist, _ = np.histogram(np.concatenate([first_array,
                                                second_array]),
-            range=range, bins=bins)
+                               range=range,
+                               bins=bins)
         bins = len(hist)
 
     if distance == 'euclidean':
         distance = euclidean_pairwise_distance
 
-    # compute histograms
+    # Compute histograms
     first_histogram, bin_edges = np.histogram(first_array,
                                               range=range,
                                               bins=bins)
@@ -161,14 +162,14 @@ def emd_samples(first_array,
                                        bins=bins)
 
     if normalized:
-        # normalize histograms to represent fraction of dataset in each bin
+        # Normalize histograms to represent fraction of dataset in each bin
         first_histogram = first_histogram/np.sum(first_histogram)
         second_histogram = second_histogram/np.sum(second_histogram)
     else:
         first_histogram = first_histogram.astype(np.float64)
         second_histogram = second_histogram.astype(np.float64)
 
-    # compute the distance matrix between the center of each bin
+    # Compute the distance matrix between the center of each bin
     bin_locations = np.mean([bin_edges[:-1], bin_edges[1:]], axis=0)
     distance_matrix = distance(bin_locations)
 
@@ -176,6 +177,7 @@ def emd_samples(first_array,
                second_histogram,
                distance_matrix,
                extra_mass_penalty=extra_mass_penalty)
+
 
 def emd_with_flow(np.ndarray[np.float64_t, ndim=1, mode="c"] first_histogram,
                   np.ndarray[np.float64_t, ndim=1, mode="c"] second_histogram,
