@@ -2,15 +2,23 @@
 # -*- coding: utf-8 -*-
 
 import os
+import sys
 from distutils.command.sdist import sdist as _sdist
 
 from setuptools import Extension, setup
 from setuptools.command.build_ext import build_ext as _build_ext
 
+
+# Alias ModuleNotFound for Python <= 3.5
+if (sys.version_info[0] < 3 or
+        (sys.version_info[0] == 3 and sys.version_info[1] < 6)):
+    ModuleNotFoundError = ImportError
+
+
 try:
     from Cython.Build import cythonize
     USE_CYTHON = True
-except ImportError:
+except (ImportError, ModuleNotFoundError):
     USE_CYTHON = False
 
 
