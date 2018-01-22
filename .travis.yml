@@ -5,7 +5,6 @@ python:
   - '3.6'
 install:
   - pip install tox-travis
-  - pip install cython
 script: tox
 notifications:
   email: false
