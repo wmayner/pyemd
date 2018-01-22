@@ -67,7 +67,7 @@ Credit
   easy to write.
 
 
-:copyright: Copyright (c) 2014-2017 Will Mayner.
+:copyright: Copyright (c) 2014-2018 Will Mayner.
 :license: See the LICENSE file.
 """
 
