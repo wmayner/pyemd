@@ -3,10 +3,10 @@
 
 import os
 import sys
-from distutils.command.sdist import sdist as _sdist
 
 from setuptools import Extension, setup
 from setuptools.command.build_ext import build_ext as _build_ext
+from setuptools.command.sdist import sdist as _sdist
 
 
 # Alias ModuleNotFound for Python <= 3.5
