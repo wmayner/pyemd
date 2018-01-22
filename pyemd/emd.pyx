@@ -151,10 +151,6 @@ def emd_samples(first_array,
                                range=range,
                                bins=bins)
         bins = len(hist)
-
-    if distance == 'euclidean':
-        distance = euclidean_pairwise_distance_matrix
-
     # Compute histograms
     first_histogram, bin_edges = np.histogram(first_array,
                                               range=range,
@@ -171,6 +167,8 @@ def emd_samples(first_array,
         second_histogram = second_histogram / np.sum(second_histogram)
     # Compute the distance matrix between the center of each bin
     bin_locations = np.mean([bin_edges[:-1], bin_edges[1:]], axis=0)
+    if distance == 'euclidean':
+        distance = euclidean_pairwise_distance_matrix
     distance_matrix = distance(bin_locations)
 
     return emd(first_histogram,
