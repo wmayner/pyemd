@@ -55,8 +55,8 @@ You can also calculate the EMD directly from two arrays of observations:
 .. code:: python
 
     >>> from pyemd import emd_samples
-    >>> first_array = [1,2,3,4]
-    >>> second_array = [2,3,4,5]
+    >>> first_array = [1, 2, 3, 4]
+    >>> second_array = [2, 3, 4, 5]
     >>> emd_samples(first_array, second_array, bins=2)
     0.5
 
