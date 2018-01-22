@@ -147,8 +147,7 @@ def emd_samples(first_array,
     # TODO: Use `np.histogram_bin_edges()` when it's available;
     # see https://github.com/numpy/numpy/issues/10183
     if isinstance(bins, str):
-        hist, _ = np.histogram(np.concatenate([first_array,
-                                               second_array]),
+        hist, _ = np.histogram(np.concatenate([first_array, second_array]),
                                range=range,
                                bins=bins)
         bins = len(hist)
@@ -168,9 +167,8 @@ def emd_samples(first_array,
     second_histogram = second_histogram.astype(np.float64)
     # Normalize histograms to represent fraction of dataset in each bin
     if normalized:
-        first_histogram = first_histogram/np.sum(first_histogram)
-        second_histogram = second_histogram/np.sum(second_histogram)
-
+        first_histogram = first_histogram / np.sum(first_histogram)
+        second_histogram = second_histogram / np.sum(second_histogram)
     # Compute the distance matrix between the center of each bin
     bin_locations = np.mean([bin_edges[:-1], bin_edges[1:]], axis=0)
     distance_matrix = distance(bin_locations)
