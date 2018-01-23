@@ -167,10 +167,6 @@ def emd_samples(first_array,
             then the resulting distance is not guaranteed to be a metric). The
             default value is -1, which means the maximum value in the distance
             matrix is used.
-        bins (int or string): The number of bins to include in the generated
-            histogram. If a string, must be one of the bin selection algorithms
-            accepted by ``np.histogram()``. Defaults to 'auto', which gives the
-            maximum of the 'sturges' and 'fd' estimators.
         distance (string or function): A string or function implementing
             a metric on a 1D ``np.ndarray``. Defaults to the Euclidean distance.
             Currently limited to 'euclidean' or your own function, which must
@@ -178,6 +174,10 @@ def emd_samples(first_array,
         normalized (boolean): If true (default), treat histograms as fractions
             of the dataset. If false, treat histograms as counts. In the latter
             case the EMD will vary greatly by array length.
+        bins (int or string): The number of bins to include in the generated
+            histogram. If a string, must be one of the bin selection algorithms
+            accepted by ``np.histogram()``. Defaults to 'auto', which gives the
+            maximum of the 'sturges' and 'fd' estimators.
         range (tuple(int, int)): The lower and upper range of the bins, passed
             to ``numpy.histogram()``. Defaults to the range of the union of
             ``first_array`` and `second_array``.` Note: if the given range is
