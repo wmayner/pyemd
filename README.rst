@@ -147,15 +147,23 @@ emd_samples()
 Limitations and Caveats
 -----------------------
 
-- ``distance_matrix`` is assumed to represent a metric; there is no check to
-  ensure that this is true. See the documentation in ``pyemd/lib/emd_hat.hpp``
-  for more information.
-- The flow matrix does not contain the flows to/from the extra mass bin.
-- The histograms and distance matrix must be numpy arrays of type
-  ``np.float64``. The original C++ template function can accept any numerical
-  C++ type, but this wrapper only instantiates the template with ``double``
-  (Cython converts ``np.float64`` to ``double``). If there's demand, I can add
-  support for other types.
+- ``emd()`` and ``emd_with_flow()``:
+  - The ``distance_matrix`` is assumed to represent a metric; there is no check
+    to ensure that this is true. See the documentation in
+    ``pyemd/lib/emd_hat.hpp`` for more information.
+  - The histograms and distance matrix must be numpy arrays of type
+    ``np.float64``. The original C++ template function can accept any numerical
+    C++ type, but this wrapper only instantiates the template with ``double``
+    (Cython converts ``np.float64`` to ``double``). If there's demand, I can add
+    support for other types.
+- ``emd_with_flow()``:
+  - The flow matrix does not contain the flows to/from the extra mass bin.
+- ``emd_samples()``:
+  - Using the default ``bins='auto'`` results in an extra call to
+    ``np.histogram()`` to determine the bin lengths, since `the NumPy
+    bin-selectors are not exposed in the public API
+    <https://github.com/numpy/numpy/issues/10183>`_. For performance, you may
+    want to set the bins yourself.
 
 
 Contributing
