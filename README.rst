@@ -74,11 +74,11 @@ emd()
 *Arguments:*
 
 - ``first_histogram`` *(np.ndarray)*: A 1D array of type ``np.float64`` of
-  length ``N``.
+  length *N*.
 - ``second_histogram`` *(np.ndarray)*: A 1D array of ``np.float64`` of length
-  ``N``.
+  *N*.
 - ``distance_matrix`` *(np.ndarray)*: A 2D array of ``np.float64,`` of size at
-  least ``N × N``. This defines the underlying metric, or ground distance, by
+  least *N* × *N*. This defines the underlying metric, or ground distance, by
   giving the pairwise distances between the histogram bins. It must represent a
   metric; there is no warning if it doesn't.
 
@@ -126,12 +126,12 @@ emd_samples()
 
 *Keyword Arguments:*
 
-- ``extra_mass_penalty`` *(float)*: Same as for ``emd()``. ``bins`` (int or
-  string): The number of bins to include in the generated histogram. If a
-  string, must be one of the bin selection algorithms accepted by
-  ``np.histogram()``. Defaults to 'auto', which gives the maximum of the
+- ``extra_mass_penalty`` *(float)*: Same as for ``emd()``.
+- ``bins`` *(int or string)*: The number of bins to include in the generated
+  histogram. If a string, must be one of the bin selection algorithms accepted
+  by ``np.histogram()``. Defaults to ``'auto'``, which gives the maximum of the
   'sturges' and 'fd' estimators.
-- ``distance_matrix`` *(string or function)*: A string or function implementing
+- ``distance`` *(string or function)*: A string or function implementing
   a metric on a 1D ``np.ndarray``. Defaults to the Euclidean distance. Currently
   limited to 'euclidean' or your own function, which must take a 1D array and
   return a square 2D array of pairwise distances. - ``normalized`` (boolean): If
@@ -139,7 +139,7 @@ emd_samples()
   as counts. In the latter case the EMD will vary greatly by array length.
 - ``range`` *(tuple(int, int))*: The lower and upper range of the bins, passed
   to ``numpy.histogram()``. Defaults to the range of the union of
-  ``first_array`` and `second_array``.` Note: if the given range is not a
+  ``first_array`` and ``second_array``. Note: if the given range is not a
   superset of the default range, no warning will be given.
 
 ----
