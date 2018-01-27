@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
+import io
 import os
 import sys
 from warnings import warn
@@ -83,7 +84,7 @@ CMDCLASS = {
 }
 
 
-with open('README.rst', 'r') as f:
+with io.open('README.rst', encoding='utf-8') as f:
     README = f.read()
 
 ABOUT = {}
