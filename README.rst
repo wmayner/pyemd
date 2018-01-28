@@ -68,7 +68,9 @@ emd()
 
 .. code:: python
 
-    emd(first_histogram, second_histogram, distance_matrix,
+    emd(first_histogram,
+        second_histogram,
+        distance_matrix,
         extra_mass_penalty=-1.0)
 
 *Arguments:*
@@ -91,6 +93,8 @@ emd()
   not guaranteed to be a metric). The default value is ``-1.0``, which means the
   maximum value in the distance matrix is used.
 
+*Returns:* *(float)* The EMD value.
+
 ----
 
 emd_with_flow()
@@ -98,10 +102,15 @@ emd_with_flow()
 
 .. code:: python
 
-    emd_with_flow(first_histogram, second_histogram, distance_matrix,
+    emd_with_flow(first_histogram,
+                  second_histogram,
+                  distance_matrix,
                   extra_mass_penalty=-1.0)
 
 Arguments are the same as for ``emd()``.
+
+*Returns:* *(tuple(float, list(list(float))))* The EMD value and the associated
+minimum-cost flow.
 
 ----
 
@@ -110,7 +119,8 @@ emd_samples()
 
 .. code:: python
 
-    emd_samples(first_array, second_array,
+    emd_samples(first_array,
+                second_array,
                 extra_mass_penalty=DEFAULT_EXTRA_MASS_PENALTY,
                 distance='euclidean',
                 normalized=True,
@@ -144,6 +154,9 @@ emd_samples()
   to ``numpy.histogram()``. Defaults to the range of the union of
   ``first_array`` and ``second_array``. Note: if the given range is not a
   superset of the default range, no warning will be given.
+
+*Returns:* *(float)* The EMD value between the histograms of ``first_array`` and
+``second_array``.
 
 ----
 
@@ -203,9 +216,8 @@ Credit
 Please cite these papers if you use this code:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Ofir Pele and Michael Werman, "A linear time histogram metric for improved SIFT
-matching," in *Computer Vision - ECCV 2008*, Marseille, France, 2008, pp.
-495-508.
+Ofir Pele and Michael Werman. A linear time histogram metric for improved SIFT
+matching. *Computer Vision - ECCV 2008*, Marseille, France, 2008, pp. 495-508.
 
 .. code-block:: latex
 
@@ -219,9 +231,8 @@ matching," in *Computer Vision - ECCV 2008*, Marseille, France, 2008, pp.
       publisher={Springer}
     }
 
-Ofir Pele and Michael Werman, "Fast and robust earth mover's distances," in
-*Proc. 2009 IEEE 12th Int. Conf. on Computer Vision*, Kyoto, Japan, 2009, pp.
-460-467.
+Ofir Pele and Michael Werman. Fast and robust earth mover's distances. *Proc.
+2009 IEEE 12th Int. Conf. on Computer Vision*, Kyoto, Japan, 2009, pp. 460-467.
 
 .. code-block:: latex
 
