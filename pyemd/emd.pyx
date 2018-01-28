@@ -118,7 +118,7 @@ def emd_with_flow(np.ndarray[np.float64_t, ndim=1, mode="c"] first_histogram,
             matrix is used.
 
     Returns:
-        (float, list(list(float))): The EMD value and the associated
+        (tuple(float, list(list(float)))): The EMD value and the associated
         minimum-cost flow.
 
     Raises:
@@ -148,7 +148,7 @@ def emd_samples(first_array,
                 range=None):
     u"""Return the EMD between the histograms of two arrays.
 
-    See `emd()` for more information about the EMD.
+    See ``emd()`` for more information about the EMD.
 
     Note:
         Pairwise ground distances are taken from the center of the bins.
