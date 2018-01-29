@@ -118,7 +118,7 @@ def emd_with_flow(np.ndarray[np.float64_t, ndim=1, mode="c"] first_histogram,
             matrix is used.
 
     Returns:
-        (float, list(list(float))): The EMD value and the associated
+        (tuple(float, list(list(float)))): The EMD value and the associated
         minimum-cost flow.
 
     Raises:
@@ -148,7 +148,7 @@ def emd_samples(first_array,
                 range=None):
     u"""Return the EMD between the histograms of two arrays.
 
-    See `emd()` for more information about the EMD.
+    See ``emd()`` for more information about the EMD.
 
     Note:
         Pairwise ground distances are taken from the center of the bins.
@@ -167,17 +167,17 @@ def emd_samples(first_array,
             then the resulting distance is not guaranteed to be a metric). The
             default value is -1, which means the maximum value in the distance
             matrix is used.
+        distance (string or function): A string or function implementing
+            a metric on a 1D ``np.ndarray``. Defaults to the Euclidean distance.
+            Currently limited to 'euclidean' or your own function, which must
+            take a 1D array and return a square 2D array of pairwise distances.
+        normalized (boolean): If true (default), treat histograms as fractions
+            of the dataset. If false, treat histograms as counts. In the latter
+            case the EMD will vary greatly by array length.
         bins (int or string): The number of bins to include in the generated
             histogram. If a string, must be one of the bin selection algorithms
             accepted by ``np.histogram()``. Defaults to 'auto', which gives the
             maximum of the 'sturges' and 'fd' estimators.
-        distance_matrix (string or function): A string or function implementing
-            a metric on a 1D ``np.ndarray``. Defaults to the Euclidean distance.
-            Currently limited to 'euclidean' or your own function, which must
-            take a 1D array and return a square 2D array of pairwise distances.
-        normalized (boolean): If true, treat histograms as fractions of the
-            dataset. If false, treat histograms as counts. In the latter case
-            the EMD will vary greatly by array length.
         range (tuple(int, int)): The lower and upper range of the bins, passed
             to ``numpy.histogram()``. Defaults to the range of the union of
             ``first_array`` and `second_array``.` Note: if the given range is

@@ -17,15 +17,9 @@ at the end of this document.**
 Installation
 ------------
 
-To install the latest release:
-
 .. code:: bash
 
     pip install pyemd
-
-Before opening an issue related to installation, please try to install PyEMD in
-a fresh, empty Python 3 virtual environment and check that the problem
-persists.
 
 
 Usage
@@ -68,17 +62,19 @@ emd()
 
 .. code:: python
 
-    emd(first_histogram, second_histogram, distance_matrix,
+    emd(first_histogram,
+        second_histogram,
+        distance_matrix,
         extra_mass_penalty=-1.0)
 
 *Arguments:*
 
 - ``first_histogram`` *(np.ndarray)*: A 1D array of type ``np.float64`` of
-  length ``N``.
+  length *N*.
 - ``second_histogram`` *(np.ndarray)*: A 1D array of ``np.float64`` of length
-  ``N``.
+  *N*.
 - ``distance_matrix`` *(np.ndarray)*: A 2D array of ``np.float64,`` of size at
-  least ``N × N``. This defines the underlying metric, or ground distance, by
+  least *N* × *N*. This defines the underlying metric, or ground distance, by
   giving the pairwise distances between the histogram bins. It must represent a
   metric; there is no warning if it doesn't.
 
@@ -91,6 +87,8 @@ emd()
   not guaranteed to be a metric). The default value is ``-1.0``, which means the
   maximum value in the distance matrix is used.
 
+*Returns:* *(float)* The EMD value.
+
 ----
 
 emd_with_flow()
@@ -98,10 +96,15 @@ emd_with_flow()
 
 .. code:: python
 
-    emd_with_flow(first_histogram, second_histogram, distance_matrix,
+    emd_with_flow(first_histogram,
+                  second_histogram,
+                  distance_matrix,
                   extra_mass_penalty=-1.0)
 
 Arguments are the same as for ``emd()``.
+
+*Returns:* *(tuple(float, list(list(float))))* The EMD value and the associated
+minimum-cost flow.
 
 ----
 
@@ -110,8 +113,9 @@ emd_samples()
 
 .. code:: python
 
-    emd_samples(first_array, second_array,
-                extra_mass_penalty=DEFAULT_EXTRA_MASS_PENALTY,
+    emd_samples(first_array,
+                second_array,
+                extra_mass_penalty=-1.0,
                 distance='euclidean',
                 normalized=True,
                 bins='auto',
@@ -126,36 +130,53 @@ emd_samples()
 
 *Keyword Arguments:*
 
-- ``extra_mass_penalty`` *(float)*: Same as for ``emd()``. ``bins`` (int or
-  string): The number of bins to include in the generated histogram. If a
-  string, must be one of the bin selection algorithms accepted by
-  ``np.histogram()``. Defaults to 'auto', which gives the maximum of the
-  'sturges' and 'fd' estimators.
-- ``distance_matrix`` *(string or function)*: A string or function implementing
+- ``extra_mass_penalty`` *(float)*: Same as for ``emd()``.
+- ``distance`` *(string or function)*: A string or function implementing
   a metric on a 1D ``np.ndarray``. Defaults to the Euclidean distance. Currently
   limited to 'euclidean' or your own function, which must take a 1D array and
-  return a square 2D array of pairwise distances. - ``normalized`` (boolean): If
-  true, treat histograms as fractions of the dataset. If false, treat histograms
-  as counts. In the latter case the EMD will vary greatly by array length.
+  return a square 2D array of pairwise distances.
+- ``normalized`` (*boolean*): If true (default), treat histograms as fractions
+  of the dataset. If false, treat histograms as counts. In the latter case the
+  EMD will vary greatly by array length.
+- ``bins`` *(int or string)*: The number of bins to include in the generated
+  histogram. If a string, must be one of the bin selection algorithms accepted
+  by ``np.histogram()``. Defaults to ``'auto'``, which gives the maximum of the
+  'sturges' and 'fd' estimators.
 - ``range`` *(tuple(int, int))*: The lower and upper range of the bins, passed
   to ``numpy.histogram()``. Defaults to the range of the union of
-  ``first_array`` and `second_array``.` Note: if the given range is not a
+  ``first_array`` and ``second_array``. Note: if the given range is not a
   superset of the default range, no warning will be given.
+
+*Returns:* *(float)* The EMD value between the histograms of ``first_array`` and
+``second_array``.
 
 ----
 
 Limitations and Caveats
 -----------------------
 
-- ``distance_matrix`` is assumed to represent a metric; there is no check to
-  ensure that this is true. See the documentation in ``pyemd/lib/emd_hat.hpp``
-  for more information.
-- The flow matrix does not contain the flows to/from the extra mass bin.
-- The histograms and distance matrix must be numpy arrays of type
-  ``np.float64``. The original C++ template function can accept any numerical
-  C++ type, but this wrapper only instantiates the template with ``double``
-  (Cython converts ``np.float64`` to ``double``). If there's demand, I can add
-  support for other types.
+- ``emd()`` and ``emd_with_flow()``:
+
+  - The ``distance_matrix`` is assumed to represent a metric; there is no check
+    to ensure that this is true. See the documentation in
+    ``pyemd/lib/emd_hat.hpp`` for more information.
+  - The histograms and distance matrix must be numpy arrays of type
+    ``np.float64``. The original C++ template function can accept any numerical
+    C++ type, but this wrapper only instantiates the template with ``double``
+    (Cython converts ``np.float64`` to ``double``). If there's demand, I can add
+    support for other types.
+
+- ``emd_with_flow()``:
+
+  - The flow matrix does not contain the flows to/from the extra mass bin.
+
+- ``emd_samples()``:
+
+  - Using the default ``bins='auto'`` results in an extra call to
+    ``np.histogram()`` to determine the bin lengths, since `the NumPy
+    bin-selectors are not exposed in the public API
+    <https://github.com/numpy/numpy/issues/10183>`_. For performance, you may
+    want to set the bins yourself.
 
 
 Contributing
@@ -187,9 +208,8 @@ Credit
 Please cite these papers if you use this code:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Ofir Pele and Michael Werman, "A linear time histogram metric for improved SIFT
-matching," in *Computer Vision - ECCV 2008*, Marseille, France, 2008, pp.
-495-508.
+Ofir Pele and Michael Werman. A linear time histogram metric for improved SIFT
+matching. *Computer Vision - ECCV 2008*, Marseille, France, 2008, pp. 495-508.
 
 .. code-block:: latex
 
@@ -203,9 +223,8 @@ matching," in *Computer Vision - ECCV 2008*, Marseille, France, 2008, pp.
       publisher={Springer}
     }
 
-Ofir Pele and Michael Werman, "Fast and robust earth mover's distances," in
-*Proc. 2009 IEEE 12th Int. Conf. on Computer Vision*, Kyoto, Japan, 2009, pp.
-460-467.
+Ofir Pele and Michael Werman. Fast and robust earth mover's distances. *Proc.
+2009 IEEE 12th Int. Conf. on Computer Vision*, Kyoto, Japan, 2009, pp. 460-467.
 
 .. code-block:: latex
 
