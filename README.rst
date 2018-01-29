@@ -121,7 +121,7 @@ emd_samples()
 
     emd_samples(first_array,
                 second_array,
-                extra_mass_penalty=DEFAULT_EXTRA_MASS_PENALTY,
+                extra_mass_penalty=-1.0,
                 distance='euclidean',
                 normalized=True,
                 bins='auto',
