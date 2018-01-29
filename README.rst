@@ -134,9 +134,7 @@ emd_samples()
 - ``distance`` *(string or function)*: A string or function implementing
   a metric on a 1D ``np.ndarray``. Defaults to the Euclidean distance. Currently
   limited to 'euclidean' or your own function, which must take a 1D array and
-  return a square 2D array of pairwise distances. - ``normalized`` (boolean): If
-  true, treat histograms as fractions of the dataset. If false, treat histograms
-  as counts. In the latter case the EMD will vary greatly by array length.
+  return a square 2D array of pairwise distances.
 - ``normalized`` (*boolean*): If true (default), treat histograms as fractions
   of the dataset. If false, treat histograms as counts. In the latter case the
   EMD will vary greatly by array length.
