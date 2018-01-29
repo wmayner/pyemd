@@ -17,15 +17,9 @@ at the end of this document.**
 Installation
 ------------
 
-To install the latest release:
-
 .. code:: bash
 
     pip install pyemd
-
-Before opening an issue related to installation, please try to install PyEMD in
-a fresh, empty Python 3 virtual environment and check that the problem
-persists.
 
 
 Usage
