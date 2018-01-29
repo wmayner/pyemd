@@ -1,4 +1,4 @@
-.PHONY: default test build clean dist test-dist check-dist build-dist clean-dist
+.PHONY: default test build clean upload-dist test-dist sign-dist check-dist build-dist clean-dist
 
 src = pyemd
 dist_dir = dist
@@ -14,13 +14,17 @@ build: clean
 clean:
 	rm -f pyemd/*.so
 
-dist: build-dist check-dist
+upload-dist: sign-dist
 	twine upload $(dist_dir)/*
 
-test-dist: build-dist check-dist
+test-dist: check-dist
 	twine upload --repository-url https://test.pypi.org/legacy/ $(dist_dir)/*
 
-check-dist:
+sign-dist: check-dist
+	gpg --detach-sign -a dist/*.tar.gz
+	gpg --detach-sign -a dist/*.whl
+
+check-dist: build-dist
 	python setup.py check --restructuredtext --strict
 
 build-dist: clean-dist
