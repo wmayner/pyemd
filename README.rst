@@ -172,11 +172,12 @@ Limitations and Caveats
 
 - ``emd_samples()``:
 
-  - Using the default ``bins='auto'`` results in an extra call to
-    ``np.histogram()`` to determine the bin lengths, since `the NumPy
-    bin-selectors are not exposed in the public API
+  - With ``numpy < 1.15.0``, using the default ``bins='auto'`` results in an
+    extra call to ``np.histogram()`` to determine the bin lengths, since `the
+    NumPy bin-selectors are not exposed in the public API
     <https://github.com/numpy/numpy/issues/10183>`_. For performance, you may
-    want to set the bins yourself.
+    want to set the bins yourself. If ``numpy >= 1.15`` is available,
+    ``np.histogram_bin_edges()`` is called instead, which is more efficient.
 
 
 Contributing
