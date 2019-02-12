@@ -75,8 +75,8 @@ emd()
   *N*.
 - ``distance_matrix`` *(np.ndarray)*: A 2D array of ``np.float64,`` of size at
   least *N* × *N*. This defines the underlying metric, or ground distance, by
-  giving the pairwise distances between the histogram bins. It must represent a
-  metric; there is no warning if it doesn't.
+  giving the pairwise distances between the histogram bins.
+  **NOTE: It must represent a metric; there is no warning if it doesn't.**
 
 *Keyword Arguments:*
 
