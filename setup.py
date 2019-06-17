@@ -3,19 +3,35 @@
 
 import io
 import os
+import platform
 import sys
 from warnings import warn
 
 from setuptools import Extension, setup
 from setuptools.command.build_ext import build_ext as _build_ext
 from setuptools.command.sdist import sdist as _sdist
+from distutils.sysconfig import get_config_var
+from distutils.version import LooseVersion
 
+def is_platform_mac():
+    return sys.platform == 'darwin'
 
 # Alias ModuleNotFound for Python <= 3.5
 if (sys.version_info[0] < 3 or
         (sys.version_info[0] == 3 and sys.version_info[1] < 6)):
     ModuleNotFoundError = ImportError
 
+# For mac, ensure extensions are built for macos 10.9 when compiling on a
+# 10.9 system or above, overriding distuitls behaviour which is to target
+# the version that python was built for. This may be overridden by setting
+# MACOSX_DEPLOYMENT_TARGET before calling setup.py
+if is_platform_mac():
+    if 'MACOSX_DEPLOYMENT_TARGET' not in os.environ:
+        current_system = LooseVersion(platform.mac_ver()[0])
+        python_target = LooseVersion(
+            get_config_var('MACOSX_DEPLOYMENT_TARGET'))
+        if python_target < '10.9' and current_system >= '10.9':
+            os.environ['MACOSX_DEPLOYMENT_TARGET'] = '10.9'
 
 try:
     from Cython.Build import cythonize as _cythonize
