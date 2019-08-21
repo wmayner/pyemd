@@ -123,9 +123,9 @@ emd_samples()
 
 *Arguments:*
 
-- ``first_array`` *(Iterable)*: A 1D array of samples used to generate a
+- ``first_array`` *(Iterable)*: An array of samples used to generate a
   histogram.
-- ``second_array`` *(Iterable)*: A 1D array of samples used to generate a
+- ``second_array`` *(Iterable)*: An array of samples used to generate a
   histogram.
 
 *Keyword Arguments:*
