@@ -15,6 +15,27 @@ install:
   - pip uninstall --yes -r dev_requirements.txt
   - pip install tox-travis
 script: tox
+jobs:
+  include:
+    - stage: test
+      os: osx
+      language: sh
+      env:
+        - TOXENV=py3
+        - HOMEBREW_NO_INSTALL_CLEANUP=1
+        - HOMEBREW_NO_ANALYTICS=1
+      before_cache:
+        - rm -f "$HOME/Library/Caches/pip/log/debug.log"
+      cache:
+        directories:
+          - "$HOME/Library/Caches/pip"
+      addons:
+        homebrew:
+          packages: python3
+      before_install:
+        - python3 -m pip install --upgrade virtualenv
+        - virtualenv -p python3 --system-site-packages "$HOME/venv"
+        - source "$HOME/venv/bin/activate"
 notifications:
   email: false
   slack:
