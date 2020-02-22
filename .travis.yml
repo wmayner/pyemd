@@ -1,7 +1,6 @@
 sudo: false
 os:
   - linux
-  - osx
 language: python
 python:
   - '3.4'
@@ -17,7 +16,7 @@ install:
 script: tox
 jobs:
   include:
-    - stage: test
+    - name: "macOS tests"
       os: osx
       language: sh
       env:
