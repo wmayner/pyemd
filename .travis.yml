@@ -9,10 +9,10 @@ python:
   - '3.7'
   - '3.8'
 install:
-  - pip install -r dev_requirements.txt
+  - python -m pip install -r dev_requirements.txt
   - make build
-  - pip uninstall --yes -r dev_requirements.txt
-  - pip install tox-travis
+  - python -m pip uninstall --yes -r dev_requirements.txt
+  - python -m pip install tox-travis
 script: tox
 jobs:
   include:
