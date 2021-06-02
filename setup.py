@@ -108,7 +108,7 @@ with open('./pyemd/__about__.py') as f:
     exec(f.read(), ABOUT)
 
 
-NUMPY_REQUIREMENT = ['numpy >=1.9.0, <2.0.0']
+NUMPY_REQUIREMENT = ['numpy >=1.9.0, <1.20.0']
 
 # Copied from scipy's installer, to solve the same issues they saw:
 
@@ -150,5 +150,7 @@ setup(
         'Programming Language :: Python :: 3.4',
         'Programming Language :: Python :: 3.5',
         'Programming Language :: Python :: 3.6',
+        'Programming Language :: Python :: 3.7',
+        'Programming Language :: Python :: 3.8',
     ],
 )
