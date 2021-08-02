@@ -63,7 +63,7 @@ Credit
   <http://www.ariel.ac.il/sites/ofirpele/>`_ and `Michael Werman
   <http://www.cs.huji.ac.il/~werman/>`_. See the `relevant paper
   <http://www.seas.upenn.edu/~ofirpele/publications/ICCV2009.pdf>`_.
-- Thanks to the Cython devlopers for making this kind of wrapper relatively
+- Thanks to the Cython developers for making this kind of wrapper relatively
   easy to write.
 
 

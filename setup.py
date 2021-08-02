@@ -21,9 +21,9 @@ if (sys.version_info[0] < 3 or
         (sys.version_info[0] == 3 and sys.version_info[1] < 6)):
     ModuleNotFoundError = ImportError
 
-# For mac, ensure extensions are built for macos 10.9 when compiling on a
-# 10.9 system or above, overriding distuitls behaviour which is to target
-# the version that python was built for. This may be overridden by setting
+# For macOS, ensure extensions are built for macOS 10.9 when compiling on a
+# 10.9 system or above, overriding distutils behaviour which is to target
+# the version that Python was built for. This may be overridden by setting
 # MACOSX_DEPLOYMENT_TARGET before calling setup.py
 if is_platform_mac():
     if 'MACOSX_DEPLOYMENT_TARGET' not in os.environ:

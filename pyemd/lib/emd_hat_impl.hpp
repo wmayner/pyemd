@@ -126,7 +126,7 @@ struct emd_hat_impl_integral_types {
     }
     //if (needToSwapFlow) cout << "needToSwapFlow" << endl;
     
-    // creating the b vector that contains all vertexes
+    // creating the b vector that contains all vertices
     std::vector<NUM_T> b(2*N+2);
     const NODE_T THRESHOLD_NODE= 2*N;
     const NODE_T ARTIFICIAL_NODE= 2*N+1; // need to be last !
@@ -218,7 +218,7 @@ struct emd_hat_impl_integral_types {
     
     //====================================================    
     // remove nodes with supply demand of 0
-    // and vertexes that are connected only to the
+    // and vertices that are connected only to the
     // threshold vertex
     //====================================================    
     NODE_T current_node_name= 0;
