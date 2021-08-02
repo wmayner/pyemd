@@ -6,7 +6,7 @@
 
 //=============================================================================
 // This interface is similar to Rubner's interface. See:
-// http://www.cs.duke.edu/~tomasi/software/emd.htm
+// https://www.cs.duke.edu/~tomasi/software/emd.htm
 // With the following changes;
 // 1. Weights of signature should be of type NUM_T (see emd_hat.hpp)
 // 2. Return value of the distance function (func) should be of type NUM_T 

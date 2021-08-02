@@ -83,7 +83,7 @@ class sdist(_sdist):
         _sdist.run(self)
 
 
-# See http://stackoverflow.com/a/21621689/1085344
+# See https://stackoverflow.com/a/21621689/1085344
 class build_ext(_build_ext):
     def finalize_options(self):
         _build_ext.finalize_options(self)
