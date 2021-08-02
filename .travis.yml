@@ -16,7 +16,7 @@ install:
   - python -m pip freeze
 script: tox
 jobs:
-  # See https://github.com/pyload/pyload/blob/master/.travis.yml
+  # See https://github.com/pyload/pyload/blob/458fa33b42/.travis.yml
   # for a workaround for testing on macOS with Travis
   include:
     - name: "macOS tests"

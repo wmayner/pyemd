@@ -8,7 +8,7 @@ PyEMD
 
 PyEMD is a Python wrapper for `Ofir Pele and Michael Werman's implementation of
 the Earth Mover's Distance
-<http://www.ariel.ac.il/sites/ofirpele/fastemd/code/>`_ that allows it to be
+<http://dl.dropboxusercontent.com/s/i5g3a8tqsm2hcpl/FastEMD-3.1.zip>`_ that allows it to be
 used with NumPy.
 
 **If you use this code, please cite the papers listed at the end of the
@@ -60,9 +60,9 @@ Credit
 ~~~~~~
 
 - All credit for the actual algorithm and implementation goes to `Ofir Pele
-  <http://www.ariel.ac.il/sites/ofirpele/>`_ and `Michael Werman
+  <http://ofirpele.droppages.com/>`_ and `Michael Werman
   <http://www.cs.huji.ac.il/~werman/>`_. See the `relevant paper
-  <http://www.seas.upenn.edu/~ofirpele/publications/ICCV2009.pdf>`_.
+  <http://doi.org/10.1109/ICCV.2009.5459199>`_.
 - Thanks to the Cython developers for making this kind of wrapper relatively
   easy to write.
 
