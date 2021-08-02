@@ -9,12 +9,12 @@
 // https://www.cs.duke.edu/~tomasi/software/emd.htm
 // With the following changes;
 // 1. Weights of signature should be of type NUM_T (see emd_hat.hpp)
-// 2. Return value of the distance function (func) should be of type NUM_T 
-// 3. Return value of the emd_hat_signature_interface function is NUM_T 
+// 2. Return value of the distance function (func) should be of type NUM_T
+// 3. Return value of the emd_hat_signature_interface function is NUM_T
 // 4. The function does not return a flow (I may add this in future, if needed)
 // 5. The function also gets the penalty for extra mass - if you want metric property
 //    should be at least half the diameter of the space (maximum possible distance
-//    between any two points). In Rubner's code this is implicitly 0. 
+//    between any two points). In Rubner's code this is implicitly 0.
 // 6. The result is not normalized with the flow.
 //
 // To get the same results as Rubner's code you should set extra_mass_penalty to 0,
@@ -59,16 +59,16 @@ template<typename NUM_T>
 NUM_T emd_hat_signature_interface(signature_tt<NUM_T>* Signature1, signature_tt<NUM_T>* Signature2,
                                   NUM_T (*func)(feature_tt*, feature_tt*),
                                   NUM_T extra_mass_penalty) {
-    
+
     std::vector<NUM_T> P(Signature1->n + Signature2->n , 0);
-    std::vector<NUM_T> Q(Signature1->n + Signature2->n , 0); 
+    std::vector<NUM_T> Q(Signature1->n + Signature2->n , 0);
     for (int i=0; i<Signature1->n; ++i) {
         P[i]= Signature1->Weights[i];
     }
     for (int j=0; j<Signature2->n; ++j) {
         Q[j+Signature1->n]= Signature2->Weights[j];
     }
-    
+
     std::vector< std::vector<NUM_T> > C(P.size(), std::vector<NUM_T>(P.size(), 0) );
     {for (int i=0; i<Signature1->n; ++i) {
         {for (int j=0; j<Signature2->n; ++j) {
@@ -90,7 +90,7 @@ NUM_T emd_hat_signature_interface(signature_tt<NUM_T>* Signature1, signature_tt<
 
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions are
-// met: 
+// met:
 //    * Redistributions of source code must retain the above copyright
 //    notice, this list of conditions and the following disclaimer.
 //    * Redistributions in binary form must reproduce the above copyright
