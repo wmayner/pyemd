@@ -13,12 +13,13 @@ from setuptools.command.sdist import sdist as _sdist
 from distutils.sysconfig import get_config_var
 from distutils.version import LooseVersion
 
+
 def is_platform_mac():
     return sys.platform == 'darwin'
 
+
 # Alias ModuleNotFound for Python <= 3.5
-if (sys.version_info[0] < 3 or
-        (sys.version_info[0] == 3 and sys.version_info[1] < 6)):
+if sys.version_info < (3, 6):
     ModuleNotFoundError = ImportError
 
 # For macOS, ensure extensions are built for macOS 10.9 when compiling on a
@@ -71,7 +72,7 @@ EXT_MODULES = cythonize(EXTENSIONS)
 
 class sdist(_sdist):
     def run(self):
-        # Make sure the compiled Cython files in the distribution are up-to-date
+        # Ensure the compiled Cython files in the distribution are up-to-date
         if USE_CYTHON:
             _cythonize(EXTENSIONS)
         else:
@@ -124,8 +125,7 @@ else:
     # If we're building a wheel, assume there already exist numpy wheels
     # for this platform, so it is safe to add numpy to build requirements.
     # See scipy gh-5184.
-    REQUIRES = (NUMPY_REQUIREMENT if 'bdist_wheel' in sys.argv[1:]
-                      else [])
+    REQUIRES = (NUMPY_REQUIREMENT if 'bdist_wheel' in sys.argv[1:] else [])
 
 setup(
     name=ABOUT['__title__'],
