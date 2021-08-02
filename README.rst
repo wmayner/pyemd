@@ -84,8 +84,8 @@ emd()
   resulting distance to be a metric, it should be at least half the diameter of
   the space (maximum possible distance between any two points). If you want
   partial matching you can set it to zero (but then the resulting distance is
-  not guaranteed to be a metric). The default value is ``-1.0``, which means the
-  maximum value in the distance matrix is used.
+  not guaranteed to be a metric). The default value is ``-1.0``, which means
+  the maximum value in the distance matrix is used.
 
 *Returns:* *(float)* The EMD value.
 
@@ -132,9 +132,9 @@ emd_samples()
 
 - ``extra_mass_penalty`` *(float)*: Same as for ``emd()``.
 - ``distance`` *(string or function)*: A string or function implementing
-  a metric on a 1D ``np.ndarray``. Defaults to the Euclidean distance. Currently
-  limited to 'euclidean' or your own function, which must take a 1D array and
-  return a square 2D array of pairwise distances.
+  a metric on a 1D ``np.ndarray``. Defaults to the Euclidean distance.
+  Currently limited to 'euclidean' or your own function, which must take
+  a 1D array and return a square 2D array of pairwise distances.
 - ``normalized`` (*boolean*): If true (default), treat histograms as fractions
   of the dataset. If false, treat histograms as counts. In the latter case the
   EMD will vary greatly by array length.
@@ -147,8 +147,8 @@ emd_samples()
   ``first_array`` and ``second_array``. Note: if the given range is not a
   superset of the default range, no warning will be given.
 
-*Returns:* *(float)* The EMD value between the histograms of ``first_array`` and
-``second_array``.
+*Returns:* *(float)* The EMD value between the histograms of ``first_array``
+and ``second_array``.
 
 ----
 
@@ -163,8 +163,8 @@ Limitations and Caveats
   - The histograms and distance matrix must be numpy arrays of type
     ``np.float64``. The original C++ template function can accept any numerical
     C++ type, but this wrapper only instantiates the template with ``double``
-    (Cython converts ``np.float64`` to ``double``). If there's demand, I can add
-    support for other types.
+    (Cython converts ``np.float64`` to ``double``). If there's demand, I can
+    add support for other types.
 
 - ``emd_with_flow()``:
 
