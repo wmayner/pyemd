@@ -130,7 +130,7 @@ def test_emd_validate_symmetric_distance_matrix():
     first_signature = np.array([0.0, 1.0])
     second_signature = np.array([5.0, 3.0])
     distance_matrix = np.array([[0.0, 0.5, 3.0],
-                                [0.5, 0.0]])
+                                [0.5, 0.0]], dtype=object)
     with pytest.raises(ValueError):
         emd(first_signature, second_signature, distance_matrix)
 
@@ -276,7 +276,7 @@ def test_emd_with_flow_validate_square_distance_matrix():
     first_signature = np.array([0.0, 1.0])
     second_signature = np.array([5.0, 3.0])
     distance_matrix = np.array([[0.0, 0.5, 3.0],
-                                [0.5, 0.0]])
+                                [0.5, 0.0]], dtype=object)
     with pytest.raises(ValueError):
         emd_with_flow(first_signature, second_signature, distance_matrix)
 
