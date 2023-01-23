@@ -310,7 +310,8 @@ def test_emd_samples_1_not_normalized():
 
 
 def test_emd_samples_1_custom_distance():
-    dist = lambda x: np.array([[0.0 if i == j else 1.0 for i in x] for j in x])
+    def dist(x):
+        return np.array([[0.0 if i == j else 1.0 for i in x] for j in x])
     first_array = [1, 2, 3, 4]
     second_array = [2, 3, 4, 5]
     emd_assert(emd_samples(first_array, second_array, distance=dist), 0.25)
@@ -318,9 +319,8 @@ def test_emd_samples_1_custom_distance():
 
 def test_emd_samples_all_kwargs():
     # Regression only; not checked by hand
-    dist = lambda x: [
-        [(i - j)**3 for i in range(len(x))] for j in range(len(x))
-    ]
+    def dist(x):
+        return [[(i - j)**3 for i in range(len(x))] for j in range(len(x))]
     first_array = [1, 2, 3, 4, 5]
     second_array = [2, 3, 4, 5]
     emd_assert(
@@ -368,7 +368,8 @@ def test_emd_samples_validate_empty():
 
 
 def test_emd_samples_validate_distance_matrix_square():
-    dist = lambda x: [[1, 2, 3]]
+    def dist(x):
+        return [[1, 2, 3]]
     first_array = [1, 2, 3]
     second_array = [1, 2, 3]
     with pytest.raises(ValueError):
@@ -376,8 +377,8 @@ def test_emd_samples_validate_distance_matrix_square():
 
 
 def test_emd_samples_validate_distance_matrix_size():
-    dist = lambda x: [[0, 1],
-                      [1, 0]]
+    def dist(x):
+        return [[0, 1], [1, 0]]
     first_array = [1, 2, 3, 4]
     second_array = [1, 2, 3, 4]
     with pytest.raises(ValueError):

@@ -18,7 +18,7 @@ upload-dist: sign-dist
 	twine upload $(dist_dir)/*
 
 test-dist: check-dist
-	twine upload --repository-url https://test.pypi.org/legacy/ $(dist_dir)/*
+	twine upload --repository testpypi $(dist_dir)/*
 
 sign-dist: check-dist
 	gpg --detach-sign -a dist/*.tar.gz
