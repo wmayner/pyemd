@@ -11,3 +11,4 @@ MANIFEST
 build
 dist
 pyemd/emd.cpp
+ignore
