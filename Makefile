@@ -25,7 +25,7 @@ sign-dist: check-dist
 	gpg --detach-sign -a dist/*.whl
 
 check-dist: build-dist
-	python setup.py check --restructuredtext --strict
+	twine check --strict dist/*
 
 build-dist: clean-dist
 	python setup.py sdist bdist_wheel --dist-dir=$(dist_dir)
