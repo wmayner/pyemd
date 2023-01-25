@@ -9,10 +9,14 @@ test: build
 	py.test
 
 build: clean
-	python setup.py build_ext -b .
+	python -m pip install -e .
+	# setup.py build_ext -b .
 
 clean:
 	rm -f pyemd/*.so
+	rm -rf **/__pycache__
+	rm -rf build
+	rm -rf pyemd.egg-info
 
 upload-dist: sign-dist
 	twine upload $(dist_dir)/*
@@ -28,7 +32,8 @@ check-dist: build-dist
 	twine check --strict dist/*
 
 build-dist: clean-dist
-	python setup.py sdist bdist_wheel --dist-dir=$(dist_dir)
+	python -m build
+	# python -m setup.py sdist bdist_wheel --dist-dir=$(dist_dir)
 
 clean-dist:
-	rm -rf $(dist_dir)
+	rm -r $(dist_dir)

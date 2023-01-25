@@ -27,6 +27,8 @@ if sys.version_info < (3, 6):
 # the version that Python was built for. This may be overridden by setting
 # MACOSX_DEPLOYMENT_TARGET before calling setup.py
 if is_platform_mac():
+    import packaging
+
     if "MACOSX_DEPLOYMENT_TARGET" not in os.environ:
         current_system = LooseVersion(platform.mac_ver()[0])
         python_target = LooseVersion(get_config_var("MACOSX_DEPLOYMENT_TARGET"))
@@ -105,6 +107,8 @@ with open("./pyemd/__about__.py") as f:
     exec(f.read(), ABOUT)
 
 
+REQUIRES = ["packaging"]
+
 NUMPY_REQUIREMENT = [
     "numpy >=1.9.0, <1.20.0; python_version<='3.6'",
     "numpy >=1.9.0, <2.0.0; python_version>'3.6'",
@@ -119,34 +123,19 @@ NUMPY_REQUIREMENT = [
 try:
     import numpy
 except ImportError:  # We do not have numpy installed
-    REQUIRES = NUMPY_REQUIREMENT
+    REQUIRES += NUMPY_REQUIREMENT
 else:
     # If we're building a wheel, assume there already exist numpy wheels
     # for this platform, so it is safe to add numpy to build requirements.
     # See scipy gh-5184.
-    REQUIRES = NUMPY_REQUIREMENT if "bdist_wheel" in sys.argv[1:] else []
+    if "bdist_wheel" in sys.argv[1:]:
+        REQUIRES += NUMPY_REQUIREMENT
+
 
 setup(
-    name=ABOUT["__title__"],
-    version=ABOUT["__version__"],
-    description=ABOUT["__description__"],
-    long_description=README,
-    long_description_content_type="text/x-rst",
-    author=ABOUT["__author__"],
-    author_email=ABOUT["__author_email__"],
-    url=ABOUT["__url__"],
-    license=ABOUT["__license__"],
-    packages=["pyemd"],
+    packages=["pyemd", "pyemd.lib"],
     install_requires=REQUIRES,
-    cmdclass=CMDCLASS,
     setup_requires=REQUIRES,
     ext_modules=EXT_MODULES,
-    classifiers=[
-        "Development Status :: 3 - Alpha",
-        "Intended Audience :: Developers",
-        "Natural Language :: English",
-        "License :: OSI Approved :: MIT License",
-        "Programming Language :: Python :: 2",
-        "Programming Language :: Python :: 3",
-    ],
+    cmdclass=CMDCLASS,
 )
