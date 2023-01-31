@@ -6,7 +6,8 @@ dist_dir = dist
 default: build
 
 test: build
-	py.test
+	py.test pyemd
+	py.test test
 
 build: clean
 	python setup.py build_ext -b .
