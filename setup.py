@@ -109,26 +109,10 @@ with open('./pyemd/__about__.py') as f:
     exec(f.read(), ABOUT)
 
 
-NUMPY_REQUIREMENT = [
+REQUIRES = [
     "numpy >=1.9.0, <1.20.0; python_version<='3.6'",
     "numpy >=1.9.0, <2.0.0; python_version>'3.6'"
 ]
-
-# Copied from scipy's installer, to solve the same issues they saw:
-
-# Figure out whether to add ``*_requires = ['numpy']``.
-# We don't want to do that unconditionally, because we risk updating
-# an installed numpy which fails too often.  Just if it's not installed, we
-# may give it a try.  See scipy gh-3379.
-try:
-    import numpy
-except ImportError:  # We do not have numpy installed
-    REQUIRES = NUMPY_REQUIREMENT
-else:
-    # If we're building a wheel, assume there already exist numpy wheels
-    # for this platform, so it is safe to add numpy to build requirements.
-    # See scipy gh-5184.
-    REQUIRES = (NUMPY_REQUIREMENT if 'bdist_wheel' in sys.argv[1:] else [])
 
 setup(
     name=ABOUT['__title__'],
