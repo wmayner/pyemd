@@ -1,5 +1,4 @@
-name: Build
-run-name: Build wheels with `cibuildwheel`
+name: Build wheels
 
 on:
   push:
