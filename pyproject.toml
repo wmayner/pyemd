@@ -37,7 +37,7 @@ dist = ['cibuildwheel', 'setuptools_scm']
 write_to = "src/pyemd/_version.py"
 
 [tool.cibuildwheel]
-skip = "cp36*"
+skip = ["cp36*", "pp*"]
 build-verbosity = 2
 test-requires = ["pytest"]
 test-command = "py.test {project}"
