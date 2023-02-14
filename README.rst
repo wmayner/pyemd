@@ -1,7 +1,8 @@
-.. image:: https://img.shields.io/travis/wmayner/pyemd/develop.svg?style=flat-square&maxAge=3600
-    :target: https://travis-ci.org/wmayner/pyemd
+.. image:: https://img.shields.io/github/actions/workflow/status/wmayner/pyemd/build_wheels.yml?style=flat-square&maxAge=86400
+    :target: https://github.com/wmayner/pyemd/actions/workflows/build_wheels.yml
+    :alt: Build status badge
 .. image:: https://img.shields.io/pypi/pyversions/pyemd.svg?style=flat-square&maxAge=86400
-    :target: https://wiki.python.org/moin/Python2orPython3
+    :target: https://pypi.org/project/pyemd/
     :alt: Python versions badge
 
 PyEMD: Fast EMD for Python
