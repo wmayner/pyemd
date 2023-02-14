@@ -1,3 +1,13 @@
+name: Sdist
+run-name: Make a source distribution
+
+on:
+  push:
+    branches:
+      - main
+      - 'release/**'
+  pull_request:
+
 make_sdist:
   name: Make SDist
   runs-on: ubuntu-latest
