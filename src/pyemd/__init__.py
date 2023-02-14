@@ -71,5 +71,9 @@ Credit
 :license: See the LICENSE file.
 """
 
-from .__about__ import *
 from .emd import emd, emd_with_flow, emd_samples
+
+try:
+    from ._version import version as __version__
+except ImportError:
+    __version__ = "unknown version"

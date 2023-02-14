@@ -1,6 +1,7 @@
 __pycache__
 .gitconfig
 .cache
+.pytest_cache
 .tox
 .env
 .ropeproject
@@ -8,7 +9,9 @@ __pycache__
 *.pyc
 MANIFEST
 *.egg*
+src/pyemd/emd.cpp
+src/pyemd/_version.py
 build
 dist
-pyemd/emd.cpp
+wheelhouse
 ignore

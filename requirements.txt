@@ -1,4 +1,0 @@
--e .
--r test_requirements.txt
--r dev_requirements.txt
--r dist_requirements.txt

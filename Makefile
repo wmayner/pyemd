@@ -1,39 +1,44 @@
-.PHONY: default test build clean upload-dist test-dist sign-dist check-dist build-dist clean-dist
+.PHONY: default clean develop test dist-clean build-local build dist-upload dist-test-upload dist-sign dist-check
 
-src = pyemd
-dist_dir = dist
+src = src/pyemd
+test = test
+dist = wheelhouse
+readme = README.rst
 
-default: build
-
-test: build
-	py.test
-
-build: clean
-	python -m pip install -e .
-	# setup.py build_ext -b .
+default: develop
 
 clean:
-	rm -f pyemd/*.so
-	rm -rf **/__pycache__
-	rm -rf build
+	rm -rf $(shell find . -name '__pycache__')
+	rm -rf $(shell find . -name '*.so')
+	rm -rf .eggs
 	rm -rf pyemd.egg-info
+	rm -rf dist
+	rm -rf build
 
-upload-dist: sign-dist
-	twine upload $(dist_dir)/*
+develop: clean
+	python -m pip install -e .
 
-test-dist: check-dist
-	twine upload --repository testpypi $(dist_dir)/*
+test: develop
+	py.test
 
-sign-dist: check-dist
-	gpg --detach-sign -a dist/*.tar.gz
-	gpg --detach-sign -a dist/*.whl
-
-check-dist: build-dist
-	twine check --strict dist/*
-
-build-dist: clean-dist
+build-local: clean
 	python -m build
-	# python -m setup.py sdist bdist_wheel --dist-dir=$(dist_dir)
 
-clean-dist:
-	rm -r $(dist_dir)
+dist-clean:
+	rm -rf $(dist)
+
+build: dist-clean
+	cibuildwheel --platform linux --config-file pyproject.toml --output-dir $(dist)
+
+dist-upload: dist-sign
+	twine upload $(dist)/*
+
+dist-test-upload: dist-check
+	twine upload --repository testpypi $(dist)/*
+
+dist-sign: dist-check
+	gpg --detach-sign -a $(dist)/*.tar.gz
+	gpg --detach-sign -a $(dist)/*.whl
+
+dist-check: dist-build
+	twine check --strict $(dist)/*
