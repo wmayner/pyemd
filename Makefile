@@ -16,7 +16,7 @@ clean:
 	rm -rf build
 
 develop: clean
-	python -m pip install -e .
+	python -m pip install -e ".[test,dist]"
 
 test: develop
 	py.test
