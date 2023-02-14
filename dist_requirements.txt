@@ -1,4 +1,0 @@
-docutils
-pygments
-twine
-wheel
