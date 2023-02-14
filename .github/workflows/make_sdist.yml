@@ -1,0 +1,15 @@
+make_sdist:
+  name: Make SDist
+  runs-on: ubuntu-latest
+  steps:
+  - uses: actions/checkout@v3
+    with:
+      fetch-depth: 0  # Optional, use if you use setuptools_scm
+      submodules: true  # Optional, use if you have submodules
+
+  - name: Build SDist
+    run: pipx run build --sdist
+
+  - uses: actions/upload-artifact@v3
+    with:
+      path: dist/*.tar.gz
