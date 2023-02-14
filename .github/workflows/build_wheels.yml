@@ -1,11 +1,6 @@
-name: Build wheels
+name: Build wheels & run tests
 
-on:
-  push:
-    branches:
-      - main
-      - 'release/**'
-  pull_request:
+on: ['push', 'pull_request']
 
 jobs:
   build_wheels:

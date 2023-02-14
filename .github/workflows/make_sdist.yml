@@ -1,11 +1,6 @@
 name: Make source distribution
 
-on:
-  push:
-    branches:
-      - main
-      - 'release/**'
-  pull_request:
+on: ['push', 'pull_request']
 
 jobs:
   make_sdist:
