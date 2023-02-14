@@ -1,5 +1,4 @@
-name: Sdist
-run-name: Make a source distribution
+name: Make source distribution
 
 on:
   push:
@@ -8,17 +7,18 @@ on:
       - 'release/**'
   pull_request:
 
-make_sdist:
-  name: Make SDist
-  runs-on: ubuntu-latest
-  steps:
-  - uses: actions/checkout@v3
-    with:
-      fetch-depth: 0
+jobs:
+  make_sdist:
+    name: Make SDist
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
 
-  - name: Build SDist
-    run: pipx run build --sdist
+    - name: Build SDist
+      run: pipx run build --sdist
 
-  - uses: actions/upload-artifact@v3
-    with:
-      path: dist/*.tar.gz
+    - uses: actions/upload-artifact@v3
+      with:
+        path: dist/*.tar.gz
