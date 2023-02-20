@@ -2,10 +2,11 @@
 
 src = src/pyemd
 test = test
-dist = wheelhouse
+dist = dist
+wheelhouse = wheelhouse
 readme = README.rst
 
-default: develop
+default: test
 
 clean:
 	rm -rf $(shell find . -name '__pycache__')
@@ -21,14 +22,17 @@ develop: clean
 test: develop
 	py.test
 
-build-local: clean
+dist-build-local:
 	python -m build
+
+dist-build-sdist:
+	python -m build --sdist
+
+dist-build-wheels:
+	cibuildwheel --platform linux --config-file pyproject.toml
 
 dist-clean:
 	rm -rf $(dist)
-
-build: dist-clean
-	cibuildwheel --platform linux --config-file pyproject.toml --output-dir $(dist)
 
 dist-upload: dist-sign
 	twine upload $(dist)/*
@@ -42,3 +46,6 @@ dist-sign: dist-check
 
 dist-check: dist-build
 	twine check --strict $(dist)/*
+
+dist-test-install:
+	pip install --index-url https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple pyemd
