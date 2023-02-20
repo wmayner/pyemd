@@ -27,7 +27,7 @@ dynamic = ['version']
 
 [project.optional-dependencies]
 test = ['pytest']
-dist = ['cibuildwheel', 'setuptools_scm']
+dist = ['build', 'cibuildwheel', 'setuptools_scm', 'twine']
 
 [project.urls]
 "Homepage" = "https://github.com/wmayner/pyemd"
