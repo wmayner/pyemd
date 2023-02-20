@@ -13,7 +13,6 @@ clean:
 	rm -rf $(shell find . -name '*.so')
 	rm -rf .eggs
 	rm -rf pyemd.egg-info
-	rm -rf dist
 	rm -rf build
 
 develop: clean
