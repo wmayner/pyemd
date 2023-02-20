@@ -35,6 +35,7 @@ dist = ['build', 'cibuildwheel', 'setuptools_scm', 'twine']
 
 [tool.setuptools_scm]
 write_to = "src/pyemd/_version.py"
+local_scheme = "no-local-version"
 
 [tool.cibuildwheel]
 skip = ["cp36*", "pp*"]
