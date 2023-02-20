@@ -24,9 +24,6 @@ test: develop
 dist-build-local:
 	python -m build
 
-dist-build-sdist:
-	python -m build --sdist
-
 dist-build-wheels:
 	cibuildwheel --platform linux --config-file pyproject.toml
 
