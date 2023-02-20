@@ -40,5 +40,6 @@ local_scheme = "no-local-version"
 [tool.cibuildwheel]
 skip = ["cp36*", "pp*"]
 build-verbosity = 2
+before-build = "git describe"
 test-requires = ["pytest"]
 test-command = "py.test {project}"
