@@ -55,8 +55,9 @@ You can also calculate the EMD directly from two arrays of observations:
     >>> emd_samples(first_array, second_array, bins=2)
     0.5
 
-Documentation
--------------
+
+API Documentation
+-----------------
 
 emd()
 ~~~~~
@@ -153,6 +154,7 @@ and ``second_array``.
 
 ----
 
+
 Limitations and Caveats
 -----------------------
 
@@ -179,22 +181,6 @@ Limitations and Caveats
     <https://github.com/numpy/numpy/issues/10183>`_. For performance, you may
     want to set the bins yourself. If ``numpy >= 1.15`` is available,
     ``np.histogram_bin_edges()`` is called instead, which is more efficient.
-
-
-Contributing
-------------
-
-To help develop PyEMD, fork the project on GitHub and install the requirements
-with ``pip install -r requirements.txt``.
-
-The ``Makefile`` defines some tasks to help with development:
-
-- ``test``: Run the test suite
-- ``build`` Generate and compile the Cython extension
-- ``clean``: Remove the compiled Cython extension
-- ``default``: Run ``build``
-
-Tests for different Python environments can be run with ``tox``.
 
 
 Credit
