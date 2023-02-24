@@ -6,10 +6,10 @@
 PyEMD
 =====
 
-PyEMD is a Python wrapper for `Ofir Pele and Michael Werman's implementation of
-the Earth Mover's Distance
-<http://www.ariel.ac.il/sites/ofirpele/fastemd/code/>`_ that allows it to be
-used with NumPy.
+PyEMD is a Python wrapper for `Ofir Pele and Michael Werman's implementation
+<https://ofirpele.droppages.com/>`_ of the `Earth Mover's
+Distance <https://en.wikipedia.org/wiki/Earth_mover%27s_distance>`_ that allows
+it to be used with NumPy.
 
 **If you use this code, please cite the papers listed at the end of the
 README.**
@@ -60,10 +60,10 @@ Credit
 ~~~~~~
 
 - All credit for the actual algorithm and implementation goes to `Ofir Pele
-  <http://www.ariel.ac.il/sites/ofirpele/>`_ and `Michael Werman
-  <http://www.cs.huji.ac.il/~werman/>`_. See the `relevant paper
-  <http://www.seas.upenn.edu/~ofirpele/publications/ICCV2009.pdf>`_.
-- Thanks to the Cython devlopers for making this kind of wrapper relatively
+  <https://ofirpele.droppages.com/>`_ and `Michael Werman
+  <https://www.cs.huji.ac.il/~werman/>`_. See the `relevant paper
+  <https://doi.org/10.1109/ICCV.2009.5459199>`_.
+- Thanks to the Cython developers for making this kind of wrapper relatively
   easy to write.
 
 
@@ -71,5 +71,9 @@ Credit
 :license: See the LICENSE file.
 """
 
-from .__about__ import *
 from .emd import emd, emd_with_flow, emd_samples
+
+try:
+    from ._version import version as __version__
+except ImportError:
+    __version__ = "unknown version"

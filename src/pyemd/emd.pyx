@@ -3,6 +3,8 @@
 # distutils: language = c++
 # emd.pyx
 
+from pkg_resources import parse_version
+
 from libcpp.pair cimport pair
 from libcpp.vector cimport vector
 import cython
@@ -139,6 +141,16 @@ def euclidean_pairwise_distance_matrix(x):
     return distance_matrix.reshape(len(x), len(x))
 
 
+# Use `np.histogram_bin_edges` if available (since NumPy version 1.15.0)
+if parse_version(np.__version__) >= parse_version('1.15.0'):
+    get_bins = np.histogram_bin_edges
+else:
+    def get_bins(a, bins=10, **kwargs):
+        if isinstance(bins, str):
+            hist, bins = np.histogram(a, bins=bins, **kwargs)
+        return bins
+
+
 def emd_samples(first_array,
                 second_array,
                 extra_mass_penalty=DEFAULT_EXTRA_MASS_PENALTY,
@@ -154,9 +166,9 @@ def emd_samples(first_array,
         Pairwise ground distances are taken from the center of the bins.
 
     Arguments:
-        first_array (Iterable): A 1D array of samples used to generate a
+        first_array (Iterable): An array of samples used to generate a
             histogram.
-        second_array (Iterable): A 1D array of samples used to generate a
+        second_array (Iterable): An array of samples used to generate a
             histogram.
 
     Keyword Arguments:
@@ -196,14 +208,10 @@ def emd_samples(first_array,
     if range is None:
         range = (min(np.min(first_array), np.min(second_array)),
                  max(np.max(first_array), np.max(second_array)))
-    # Use automatic binning from `np.histogram()`
-    # TODO: Use `np.histogram_bin_edges()` when it's available;
-    # see https://github.com/numpy/numpy/issues/10183
-    if isinstance(bins, str):
-        hist, _ = np.histogram(np.concatenate([first_array, second_array]),
-                               range=range,
-                               bins=bins)
-        bins = len(hist)
+    # Get bin edges using both arrays
+    bins = get_bins(np.concatenate([first_array, second_array]),
+                    range=range,
+                    bins=bins)
     # Compute histograms
     first_histogram, bin_edges = np.histogram(first_array,
                                               range=range,

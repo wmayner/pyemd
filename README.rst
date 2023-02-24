@@ -1,15 +1,16 @@
-.. image:: https://img.shields.io/travis/wmayner/pyemd/develop.svg?style=flat-square&maxAge=3600
-    :target: https://travis-ci.org/wmayner/pyemd
+.. image:: https://img.shields.io/github/actions/workflow/status/wmayner/pyemd/build_wheels.yml?style=flat-square&maxAge=86400
+    :target: https://github.com/wmayner/pyemd/actions/workflows/build_wheels.yml
+    :alt: Build status badge
 .. image:: https://img.shields.io/pypi/pyversions/pyemd.svg?style=flat-square&maxAge=86400
-    :target: https://wiki.python.org/moin/Python2orPython3
+    :target: https://pypi.org/project/pyemd/
     :alt: Python versions badge
 
 PyEMD: Fast EMD for Python
 ==========================
 
 PyEMD is a Python wrapper for `Ofir Pele and Michael Werman's implementation
-<http://ofirpele.droppages.com/>`_ of the `Earth Mover's
-Distance <http://en.wikipedia.org/wiki/Earth_mover%27s_distance>`_ that allows
+<https://ofirpele.droppages.com/>`_ of the `Earth Mover's
+Distance <https://en.wikipedia.org/wiki/Earth_mover%27s_distance>`_ that allows
 it to be used with NumPy. **If you use this code, please cite the papers listed
 at the end of this document.**
 
@@ -54,8 +55,9 @@ You can also calculate the EMD directly from two arrays of observations:
     >>> emd_samples(first_array, second_array, bins=2)
     0.5
 
-Documentation
--------------
+
+API Documentation
+-----------------
 
 emd()
 ~~~~~
@@ -75,8 +77,8 @@ emd()
   *N*.
 - ``distance_matrix`` *(np.ndarray)*: A 2D array of ``np.float64,`` of size at
   least *N* × *N*. This defines the underlying metric, or ground distance, by
-  giving the pairwise distances between the histogram bins. It must represent a
-  metric; there is no warning if it doesn't.
+  giving the pairwise distances between the histogram bins.
+  **NOTE: It must represent a metric; there is no warning if it doesn't.**
 
 *Keyword Arguments:*
 
@@ -84,8 +86,8 @@ emd()
   resulting distance to be a metric, it should be at least half the diameter of
   the space (maximum possible distance between any two points). If you want
   partial matching you can set it to zero (but then the resulting distance is
-  not guaranteed to be a metric). The default value is ``-1.0``, which means the
-  maximum value in the distance matrix is used.
+  not guaranteed to be a metric). The default value is ``-1.0``, which means
+  the maximum value in the distance matrix is used.
 
 *Returns:* *(float)* The EMD value.
 
@@ -123,18 +125,18 @@ emd_samples()
 
 *Arguments:*
 
-- ``first_array`` *(Iterable)*: A 1D array of samples used to generate a
+- ``first_array`` *(Iterable)*: An array of samples used to generate a
   histogram.
-- ``second_array`` *(Iterable)*: A 1D array of samples used to generate a
+- ``second_array`` *(Iterable)*: An array of samples used to generate a
   histogram.
 
 *Keyword Arguments:*
 
 - ``extra_mass_penalty`` *(float)*: Same as for ``emd()``.
 - ``distance`` *(string or function)*: A string or function implementing
-  a metric on a 1D ``np.ndarray``. Defaults to the Euclidean distance. Currently
-  limited to 'euclidean' or your own function, which must take a 1D array and
-  return a square 2D array of pairwise distances.
+  a metric on a 1D ``np.ndarray``. Defaults to the Euclidean distance.
+  Currently limited to 'euclidean' or your own function, which must take
+  a 1D array and return a square 2D array of pairwise distances.
 - ``normalized`` (*boolean*): If true (default), treat histograms as fractions
   of the dataset. If false, treat histograms as counts. In the latter case the
   EMD will vary greatly by array length.
@@ -147,10 +149,11 @@ emd_samples()
   ``first_array`` and ``second_array``. Note: if the given range is not a
   superset of the default range, no warning will be given.
 
-*Returns:* *(float)* The EMD value between the histograms of ``first_array`` and
-``second_array``.
+*Returns:* *(float)* The EMD value between the histograms of ``first_array``
+and ``second_array``.
 
 ----
+
 
 Limitations and Caveats
 -----------------------
@@ -163,8 +166,8 @@ Limitations and Caveats
   - The histograms and distance matrix must be numpy arrays of type
     ``np.float64``. The original C++ template function can accept any numerical
     C++ type, but this wrapper only instantiates the template with ``double``
-    (Cython converts ``np.float64`` to ``double``). If there's demand, I can add
-    support for other types.
+    (Cython converts ``np.float64`` to ``double``). If there's demand, I can
+    add support for other types.
 
 - ``emd_with_flow()``:
 
@@ -172,56 +175,26 @@ Limitations and Caveats
 
 - ``emd_samples()``:
 
-  - Using the default ``bins='auto'`` results in an extra call to
-    ``np.histogram()`` to determine the bin lengths, since `the NumPy
-    bin-selectors are not exposed in the public API
+  - With ``numpy < 1.15.0``, using the default ``bins='auto'`` results in an
+    extra call to ``np.histogram()`` to determine the bin lengths, since `the
+    NumPy bin-selectors are not exposed in the public API
     <https://github.com/numpy/numpy/issues/10183>`_. For performance, you may
-    want to set the bins yourself.
-
-
-Contributing
-------------
-
-To help develop PyEMD, fork the project on GitHub and install the requirements
-with ``pip install -r requirements.txt``.
-
-The ``Makefile`` defines some tasks to help with development:
-
-- ``test``: Run the test suite
-- ``build`` Generate and compile the Cython extension
-- ``clean``: Remove the compiled Cython extension
-- ``default``: Run ``build``
-
-Tests for different Python environments can be run with ``tox``.
+    want to set the bins yourself. If ``numpy >= 1.15`` is available,
+    ``np.histogram_bin_edges()`` is called instead, which is more efficient.
 
 
 Credit
 ------
 
 - All credit for the actual algorithm and implementation goes to `Ofir Pele
-  <http://www.ariel.ac.il/sites/ofirpele/>`_ and `Michael Werman
-  <http://www.cs.huji.ac.il/~werman/>`_. See the `relevant paper
-  <http://www.seas.upenn.edu/~ofirpele/publications/ICCV2009.pdf>`_.
+  <https://ofirpele.droppages.com/>`_ and `Michael Werman
+  <https://www.cs.huji.ac.il/~werman/>`_. See the `relevant paper
+  <https://doi.org/10.1109/ICCV.2009.5459199>`_.
 - Thanks to the Cython developers for making this kind of wrapper relatively
   easy to write.
 
 Please cite these papers if you use this code:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-Ofir Pele and Michael Werman. A linear time histogram metric for improved SIFT
-matching. *Computer Vision - ECCV 2008*, Marseille, France, 2008, pp. 495-508.
-
-.. code-block:: latex
-
-    @INPROCEEDINGS{pele2008,
-      title={A linear time histogram metric for improved sift matching},
-      author={Pele, Ofir and Werman, Michael},
-      booktitle={Computer Vision--ECCV 2008},
-      pages={495--508},
-      year={2008},
-      month={October},
-      publisher={Springer}
-    }
 
 Ofir Pele and Michael Werman. Fast and robust earth mover's distances. *Proc.
 2009 IEEE 12th Int. Conf. on Computer Vision*, Kyoto, Japan, 2009, pp. 460-467.
@@ -236,4 +209,19 @@ Ofir Pele and Michael Werman. Fast and robust earth mover's distances. *Proc.
       year={2009},
       month={September},
       organization={IEEE}
+    }
+
+Ofir Pele and Michael Werman. A linear time histogram metric for improved SIFT
+matching. *Computer Vision - ECCV 2008*, Marseille, France, 2008, pp. 495-508.
+
+.. code-block:: latex
+
+    @INPROCEEDINGS{pele2008,
+      title={A linear time histogram metric for improved sift matching},
+      author={Pele, Ofir and Werman, Michael},
+      booktitle={Computer Vision--ECCV 2008},
+      pages={495--508},
+      year={2008},
+      month={October},
+      publisher={Springer}
     }

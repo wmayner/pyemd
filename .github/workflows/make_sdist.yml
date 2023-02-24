@@ -1,0 +1,19 @@
+name: Make source distribution
+
+on: ['push', 'pull_request']
+
+jobs:
+  make_sdist:
+    name: Make source distribution
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
+
+    - name: Build source distribution
+      run: pipx run build --sdist
+
+    - uses: actions/upload-artifact@v3
+      with:
+        path: dist/*.tar.gz

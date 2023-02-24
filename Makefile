@@ -1,30 +1,49 @@
-.PHONY: default test build clean dist test-dist check-dist build-dist clean-dist
+.PHONY: default clean develop test dist-clean build-local build dist-upload dist-test-upload dist-sign dist-check
 
-src = pyemd
-dist_dir = dist
+src = src/pyemd
+test = test
+dist = dist
+wheelhouse = wheelhouse
 
-default: build
+default: test
 
-test: build
+test: develop
 	py.test
 
-build: clean
-	python setup.py build_ext -b .
+develop: clean
+	python -m pip install -e ".[test,dist]"
 
 clean:
-	rm -f pyemd/*.so
+	rm -rf $(shell find . -name '__pycache__')
+	rm -rf $(shell find . -name '*.so')
+	rm -rf .eggs
+	rm -rf pyemd.egg-info
+	rm -rf build
 
-dist: build-dist check-dist
-	twine upload $(dist_dir)/*
+dist-build-local:
+	python -m build
 
-test-dist: build-dist check-dist
-	twine upload --repository-url https://test.pypi.org/legacy/ $(dist_dir)/*
+dist-build-wheels:
+	cibuildwheel --platform linux --config-file pyproject.toml
 
-check-dist:
-	python setup.py check --restructuredtext --strict
+dist-upload: dist-sign
+	twine upload $(dist)/*
+	twine upload $(wheelhouse)/*
 
-build-dist: clean-dist
-	python setup.py sdist bdist_wheel --dist-dir=$(dist_dir)
+dist-test-upload: dist-check
+	twine upload --repository-url https://test.pypi.org/simple/ testpypi $(dist)/*
+	twine upload --repository-url https://test.pypi.org/simple/ testpypi $(wheelhouse)/*
 
-clean-dist:
-	rm -rf $(dist_dir)
+dist-sign: dist-check
+	gpg --detach-sign -a $(dist)/*.tar.gz
+	gpg --detach-sign -a $(wheelhouse)/*.whl
+
+dist-check:
+	twine check --strict $(dist)/*
+	twine check --strict $(wheelhouse)/*
+
+dist-clean:
+	rm -rf $(dist)
+
+dist-test-install:
+	pip install --index-url https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple pyemd
