@@ -39,8 +39,7 @@ dist-sign: dist-check
 	gpg --detach-sign -a $(wheelhouse)/*.whl
 
 dist-check:
-	twine check --strict $(dist)/*
-	twine check --strict $(wheelhouse)/*
+	twine check --strict $(wheelhouse)/*.whl
 
 dist-clean:
 	rm -rf $(dist)
