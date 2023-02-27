@@ -4,12 +4,12 @@
 import os
 import platform
 import sys
-from distutils.sysconfig import get_config_var
+from sysconfig import get_config_var
 
+from packaging.version import Version
+from packaging.version import parse as parse_version
 from setuptools import Extension, setup
 from setuptools.command.build_ext import build_ext as _build_ext
-
-from packaging.version import Version, parse as parse_version
 
 
 def is_platform_mac():
