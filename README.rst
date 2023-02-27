@@ -15,14 +15,6 @@ it to be used with NumPy. **If you use this code, please cite the papers listed
 at the end of this document.**
 
 
-Installation
-------------
-
-.. code:: bash
-
-    pip install pyemd
-
-
 Usage
 -----
 
