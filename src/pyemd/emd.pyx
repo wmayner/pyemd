@@ -3,7 +3,7 @@
 # distutils: language = c++
 # emd.pyx
 
-from pkg_resources import parse_version
+from packaging.version import parse as parse_version
 
 from libcpp.pair cimport pair
 from libcpp.vector cimport vector
@@ -12,6 +12,9 @@ import cython
 # Import both NumPy and the Cython declarations for NumPy
 import numpy as np
 cimport numpy as np
+
+# Initialize NumPy C API
+np.import_array()
 
 
 # Declare the interface to the C++ EMD library

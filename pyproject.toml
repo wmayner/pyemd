@@ -1,12 +1,11 @@
 [build-system]
 requires = [
-	"cython",
-	"oldest-supported-numpy",
-	"setuptools >= 45",
-	"setuptools_scm",
-	"wheel",
+	"meson-python",
+	"cython>=3.0",
+	"numpy>=2.0",
+	"setuptools_scm>=8.0",
 ]
-build-backend = "setuptools.build_meta"
+build-backend = "mesonpy"
 
 [project]
 name = "pyemd"
@@ -28,6 +27,17 @@ dynamic = ['version']
 [project.optional-dependencies]
 test = ['pytest']
 dist = ['build', 'cibuildwheel', 'setuptools_scm', 'twine']
+dev = [
+	'pytest',
+	'build',
+	'cibuildwheel',
+	'setuptools_scm',
+	'twine',
+	'ipython',
+	# Build dependencies needed for editable installs with rebuild-on-import
+	'meson-python',
+	'cython>=3.0',
+]
 
 [project.urls]
 "Homepage" = "https://github.com/wmayner/pyemd"
@@ -36,6 +46,11 @@ dist = ['build', 'cibuildwheel', 'setuptools_scm', 'twine']
 [tool.setuptools_scm]
 write_to = "src/pyemd/_version.py"
 local_scheme = "no-local-version"
+
+[tool.uv]
+# Prevent uv from automatically installing the local package in editable mode
+# We use wheel-based development instead (see DEVELOPING.md)
+package = false
 
 [tool.cibuildwheel]
 skip = ["cp36*", "pp*"]

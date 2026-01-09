@@ -147,6 +147,30 @@ and ``second_array``.
 ----
 
 
+Development Setup
+-----------------
+
+This project uses `uv <https://docs.astral.sh/uv/>`_ for dependency management
+and `meson-python <https://mesonbuild.com/meson-python/>`_ as the build backend.
+
+Quick start::
+
+    # Install uv (if not already installed)
+    curl -LsSf https://astral.sh/uv/install.sh | sh
+
+    # Clone and setup
+    git clone https://github.com/wmayner/pyemd.git
+    cd pyemd
+    uv sync --all-extras
+
+    # Build package
+    uv build
+
+**Note:** For development workflows, see the ``DEVELOPING.md`` file in the repository.
+
+Dependencies are locked in ``uv.lock`` for reproducibility.
+
+
 Limitations and Caveats
 -----------------------
 

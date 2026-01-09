@@ -1,4 +1,4 @@
-.PHONY: default clean develop test dist-clean build-local build dist-upload dist-test-upload dist-sign dist-check
+.PHONY: default clean develop test build-wheel dist-clean build-local build dist-upload dist-test-upload dist-sign dist-check legacy-develop
 
 src = src/pyemd
 test = test
@@ -8,41 +8,51 @@ wheelhouse = wheelhouse
 default: test
 
 test: develop
-	py.test
+	.venv/bin/pytest
 
-develop: clean
-	python -m pip install -e ".[test,dist]"
+develop: build-wheel
+	uv sync --all-extras
+	uv pip install --force-reinstall --no-deps dist/pyemd-*.whl
+
+build-wheel: clean
+	uv build --wheel
 
 clean:
-	rm -rf $(shell find . -name '__pycache__')
-	rm -rf $(shell find . -name '*.so')
+	rm -rf $(shell find $(src) $(test) -name '__pycache__' 2>/dev/null)
+	rm -rf $(shell find $(src) -name '*.so' 2>/dev/null)
 	rm -rf .eggs
 	rm -rf pyemd.egg-info
 	rm -rf build
+	rm -rf dist
+	rm -rf .mesonpy-*
 
 dist-build-local:
-	python -m build
+	uv build
 
 dist-build-wheels:
-	cibuildwheel --platform linux --config-file pyproject.toml
+	uv run cibuildwheel --platform linux --config-file pyproject.toml
 
 dist-upload: dist-sign
-	twine upload $(dist)/*
-	twine upload $(wheelhouse)/*
+	uv run twine upload $(dist)/*
+	uv run twine upload $(wheelhouse)/*
 
 dist-test-upload: dist-check
-	twine upload --repository-url https://test.pypi.org/simple/ testpypi $(dist)/*
-	twine upload --repository-url https://test.pypi.org/simple/ testpypi $(wheelhouse)/*
+	uv run twine upload --repository-url https://test.pypi.org/simple/ $(dist)/*
+	uv run twine upload --repository-url https://test.pypi.org/simple/ $(wheelhouse)/*
 
 dist-sign: dist-check
 	gpg --detach-sign -a $(dist)/*.tar.gz
 	gpg --detach-sign -a $(wheelhouse)/*.whl
 
 dist-check:
-	twine check --strict $(wheelhouse)/*.whl
+	uv run twine check --strict $(wheelhouse)/*.whl
 
 dist-clean:
 	rm -rf $(dist)
 
 dist-test-install:
-	pip install --index-url https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple pyemd
+	uv pip install --index-url https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple pyemd
+
+# Legacy targets (deprecated, for backward compatibility)
+legacy-develop:
+	python -m pip install -e ".[test,dist]"
