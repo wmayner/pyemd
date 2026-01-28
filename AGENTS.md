@@ -39,7 +39,11 @@ make clean
 uv build --wheel
 ```
 
-**Note:** This project uses wheel-based development (not editable installs) due to meson-python limitations with C++ extensions.
+**IMPORTANT:** This project uses wheel-based development (not editable installs). Editable installs (`uv pip install -e .`) will fail with stale build path errors like:
+```
+FileNotFoundError: .../builds-v0/.tmpXXXXXX/bin/ninja
+```
+Always use `make develop` or `uv pip install .` (non-editable) instead.
 
 ## Testing
 

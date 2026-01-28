@@ -1,6 +1,7 @@
 [build-system]
 requires = [
 	"meson-python",
+	"ninja",
 	"cython>=3.0",
 	"numpy>=2.0",
 	"setuptools_scm>=8.0",
@@ -37,6 +38,7 @@ dev = [
 	'ipython',
 	# Build dependencies needed for editable installs with rebuild-on-import
 	'meson-python',
+	'ninja',
 	'cython>=3.0',
 ]
 
