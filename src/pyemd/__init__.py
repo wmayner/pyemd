@@ -6,10 +6,9 @@
 PyEMD
 =====
 
-PyEMD is a Python wrapper for `Ofir Pele and Michael Werman's implementation
-<https://ofirpele.droppages.com/>`_ of the `Earth Mover's
-Distance <https://en.wikipedia.org/wiki/Earth_mover%27s_distance>`_ that allows
-it to be used with NumPy.
+PyEMD computes the `Earth Mover's Distance
+<https://en.wikipedia.org/wiki/Earth_mover%27s_distance>`_ between histograms
+using NumPy arrays.
 
 **If you use this code, please cite the papers listed at the end of the
 README.**
@@ -42,6 +41,25 @@ You can also calculate the EMD directly from two arrays of observations:
     0.5
 
 
+Backends
+~~~~~~~~
+
+PyEMD supports two computation backends:
+
+- ``'pot'`` (default): Uses the `POT (Python Optimal Transport)
+  <https://pythonot.github.io/>`_ library. This backend is faster for large
+  problems and supports multi-threading.
+- ``'cpp'``: Uses the original C++ implementation by Ofir Pele and Michael
+  Werman.
+
+You can select the backend using the ``backend`` parameter:
+
+    >>> emd(first_signature, second_signature, distance_matrix, backend='cpp')
+    3.5
+
+Both backends produce equivalent results (within floating-point precision).
+
+
 Limitations and Caveats
 ~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -49,22 +67,19 @@ Limitations and Caveats
 - ``distance_matrix`` is assumed to represent a true metric. This must be
   enforced by the caller. See the documentation in ``pyemd/lib/emd_hat.hpp``.
 - The flow matrix does not contain the flows to/from the extra mass bin.
-- The signatures and distance matrix must be numpy arrays of ``np.float``. The
-  original C++ template function can accept any numerical C++ type, but this
-  wrapper only instantiates the template with ``double`` (Cython converts
-  ``np.float`` to ``double``). If there's demand, I can add support for other
-  types.
+- The signatures and distance matrix must be numpy arrays of ``np.float64``.
 
 
 Credit
 ~~~~~~
 
-- All credit for the actual algorithm and implementation goes to `Ofir Pele
-  <https://ofirpele.droppages.com/>`_ and `Michael Werman
-  <https://www.cs.huji.ac.il/~werman/>`_. See the `relevant paper
-  <https://doi.org/10.1109/ICCV.2009.5459199>`_.
-- Thanks to the Cython developers for making this kind of wrapper relatively
-  easy to write.
+- The POT backend uses the `POT library <https://pythonot.github.io/>`_ by
+  Rémi Flamary et al.
+- The C++ backend uses `Ofir Pele <https://ofirpele.droppages.com/>`_ and
+  `Michael Werman's <https://www.cs.huji.ac.il/~werman/>`_ implementation.
+  See the `relevant paper <https://doi.org/10.1109/ICCV.2009.5459199>`_.
+- Thanks to the Cython developers for making the C++ wrapper relatively easy
+  to write.
 
 
 :copyright: Copyright (c) 2014-2018 Will Mayner.

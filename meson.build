@@ -32,7 +32,7 @@ py.extension_module(
 
 # Install pure Python files
 py.install_sources(
-    ['src/pyemd/__init__.py'],
+    ['src/pyemd/__init__.py', 'src/pyemd/_pot_backend.py'],
     subdir: 'pyemd'
 )
 

@@ -1,0 +1,1 @@
+Added POT (Python Optimal Transport) as the default backend. All three functions (``emd()``, ``emd_with_flow()``, ``emd_samples()``) now accept a ``backend`` parameter with values ``'pot'`` (default, faster, multi-threaded) or ``'cpp'`` (original C++ implementation). Both backends produce equivalent results.
