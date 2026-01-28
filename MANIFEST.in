@@ -3,6 +3,8 @@ graft test
 
 include README.rst
 include LICENSE
+include CHANGELOG.rst
+graft changelog.d
 include conftest.py
 include meson.build
 include pyproject.toml

@@ -26,12 +26,13 @@ dynamic = ['version']
 
 [project.optional-dependencies]
 test = ['pytest']
-dist = ['build', 'cibuildwheel', 'setuptools_scm', 'twine']
+dist = ['build', 'cibuildwheel', 'setuptools_scm', 'towncrier', 'twine']
 dev = [
 	'pytest',
 	'build',
 	'cibuildwheel',
 	'setuptools_scm',
+	'towncrier',
 	'twine',
 	'ipython',
 	# Build dependencies needed for editable installs with rebuild-on-import
@@ -58,3 +59,36 @@ build-verbosity = 2
 before-build = "cd {project} && git describe"
 test-requires = ["pytest"]
 test-command = "py.test {project}"
+
+[tool.towncrier]
+package = "pyemd"
+package_dir = "src"
+filename = "CHANGELOG.rst"
+directory = "changelog.d"
+title_format = "{version} ({project_date})"
+issue_format = "`#{issue} <https://github.com/wmayner/pyemd/issues/{issue}>`_"
+
+[[tool.towncrier.type]]
+directory = "feature"
+name = "Features"
+showcontent = true
+
+[[tool.towncrier.type]]
+directory = "bugfix"
+name = "Bug Fixes"
+showcontent = true
+
+[[tool.towncrier.type]]
+directory = "doc"
+name = "Documentation"
+showcontent = true
+
+[[tool.towncrier.type]]
+directory = "removal"
+name = "Deprecations and Removals"
+showcontent = true
+
+[[tool.towncrier.type]]
+directory = "misc"
+name = "Miscellaneous"
+showcontent = false
