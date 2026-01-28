@@ -212,7 +212,9 @@ def emd_samples(first_array,
         range = (min(np.min(first_array), np.min(second_array)),
                  max(np.max(first_array), np.max(second_array)))
     # Get bin edges using both arrays
-    bins = get_bins(np.concatenate([first_array, second_array]),
+    # Convert to float64 to avoid NumPy 2.1+ integer bin width constraint
+    # (bin width is forced to >= 1 for integer dtypes, causing too few bins)
+    bins = get_bins(np.concatenate([first_array, second_array]).astype(np.float64),
                     range=range,
                     bins=bins)
     # Compute histograms

@@ -1,0 +1,1 @@
+Fixed ``emd_samples`` returning incorrect results with ``bins='auto'`` on NumPy 2.1+ when using integer input arrays. NumPy 2.1 introduced a constraint that histogram bin widths must be at least 1 for integer dtypes, which caused too few bins to be created for small datasets (e.g., ``emd_samples([1], [2])`` incorrectly returned 0.0 instead of 0.5).

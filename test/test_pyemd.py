@@ -355,6 +355,29 @@ def test_emd_samples_5():
     emd_assert(emd_samples(first_array, second_array, bins=4), 1.8)
 
 
+# bins='auto' with integer inputs (regression tests for GitHub issue #68)
+# NumPy 2.1+ enforces bin width >= 1 for integer dtypes, which can cause
+# too few bins. The fix converts to float64 before computing bin edges.
+
+
+def test_emd_samples_auto_bins_integer_input():
+    """bins='auto' should produce nonzero EMD for distinct integer samples."""
+    first_array = [1]
+    second_array = [2]
+    # Without the fix, this returns 0.0 (only 1 bin, so histograms are identical)
+    result = emd_samples(first_array, second_array)
+    assert result > 0, f"EMD should be nonzero for distinct samples, got {result}"
+
+
+def test_emd_samples_auto_bins_integer_vs_float_consistency():
+    """bins='auto' should give same result for integer and float inputs."""
+    int_result = emd_samples([1, 2, 3], [4, 5, 6])
+    float_result = emd_samples([1.0, 2.0, 3.0], [4.0, 5.0, 6.0])
+    assert abs(int_result - float_result) < 1e-10, (
+        f"Integer and float inputs should give same EMD: {int_result} vs {float_result}"
+    )
+
+
 # Validation
 
 
