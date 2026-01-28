@@ -1,1 +1,0 @@
-Added ``ninja`` to build dependencies to fix build failures when ninja is not installed system-wide.
