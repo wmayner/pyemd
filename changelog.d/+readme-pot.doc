@@ -1,0 +1,1 @@
+Updated README to document POT as the default backend, explain that PyEMD is now maintained as a wrapper around POT for backward compatibility, and recommend POT directly for new projects.

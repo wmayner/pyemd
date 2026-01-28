@@ -8,11 +8,28 @@
 PyEMD: Fast EMD for Python
 ==========================
 
-PyEMD is a Python wrapper for `Ofir Pele and Michael Werman's implementation
-<https://ofirpele.droppages.com/>`_ of the `Earth Mover's
-Distance <https://en.wikipedia.org/wiki/Earth_mover%27s_distance>`_ that allows
-it to be used with NumPy. **If you use this code, please cite the papers listed
-at the end of this document.**
+PyEMD computes the `Earth Mover's Distance
+<https://en.wikipedia.org/wiki/Earth_mover%27s_distance>`_ (Wasserstein distance)
+between histograms using NumPy.
+
+
+About This Library
+------------------
+
+PyEMD was originally a Python wrapper for `Ofir Pele and Michael Werman's C++
+implementation <https://ofirpele.droppages.com/>`_ of the Earth Mover's Distance.
+
+**As of version 2.0, PyEMD uses** `POT (Python Optimal Transport)
+<https://pythonot.github.io/>`_ **as its default backend.** POT is a
+well-maintained, actively developed library that provides faster performance
+and multi-threading support.
+
+PyEMD is now maintained primarily as a stable wrapper around POT for projects
+that depend on PyEMD's API. **For new projects, consider using POT directly**,
+which offers a broader range of optimal transport functionality.
+
+The original C++ implementation remains available via the ``backend='cpp'``
+option for backward compatibility and validation.
 
 
 Usage
@@ -48,6 +65,28 @@ You can also calculate the EMD directly from two arrays of observations:
     0.5
 
 
+Backends
+--------
+
+PyEMD supports two computation backends:
+
+- ``'pot'`` (default): Uses the `POT (Python Optimal Transport)
+  <https://pythonot.github.io/>`_ library. Faster and supports multi-threading.
+- ``'cpp'``: Uses the original C++ implementation by Ofir Pele and Michael
+  Werman. Kept for backward compatibility.
+
+You can select the backend using the ``backend`` parameter:
+
+.. code:: python
+
+    >>> emd(first_histogram, second_histogram, distance_matrix, backend='pot')  # default
+    3.5
+    >>> emd(first_histogram, second_histogram, distance_matrix, backend='cpp')
+    3.5
+
+Both backends produce equivalent results (within floating-point precision).
+
+
 API Documentation
 -----------------
 
@@ -59,7 +98,8 @@ emd()
     emd(first_histogram,
         second_histogram,
         distance_matrix,
-        extra_mass_penalty=-1.0)
+        extra_mass_penalty=-1.0,
+        backend='pot')
 
 *Arguments:*
 
@@ -80,6 +120,8 @@ emd()
   partial matching you can set it to zero (but then the resulting distance is
   not guaranteed to be a metric). The default value is ``-1.0``, which means
   the maximum value in the distance matrix is used.
+- ``backend`` *(str)*: The computation backend to use. Options are ``'pot'``
+  (default) or ``'cpp'``.
 
 *Returns:* *(float)* The EMD value.
 
@@ -93,7 +135,8 @@ emd_with_flow()
     emd_with_flow(first_histogram,
                   second_histogram,
                   distance_matrix,
-                  extra_mass_penalty=-1.0)
+                  extra_mass_penalty=-1.0,
+                  backend='pot')
 
 Arguments are the same as for ``emd()``.
 
@@ -113,7 +156,8 @@ emd_samples()
                 distance='euclidean',
                 normalized=True,
                 bins='auto',
-                range=None)
+                range=None,
+                backend='pot')
 
 *Arguments:*
 
@@ -140,6 +184,8 @@ emd_samples()
   to ``numpy.histogram()``. Defaults to the range of the union of
   ``first_array`` and ``second_array``. Note: if the given range is not a
   superset of the default range, no warning will be given.
+- ``backend`` *(str)*: The computation backend to use. Options are ``'pot'``
+  (default) or ``'cpp'``.
 
 *Returns:* *(float)* The EMD value between the histograms of ``first_array``
 and ``second_array``.
@@ -180,37 +226,55 @@ Limitations and Caveats
     to ensure that this is true. See the documentation in
     ``pyemd/lib/emd_hat.hpp`` for more information.
   - The histograms and distance matrix must be numpy arrays of type
-    ``np.float64``. The original C++ template function can accept any numerical
-    C++ type, but this wrapper only instantiates the template with ``double``
-    (Cython converts ``np.float64`` to ``double``). If there's demand, I can
-    add support for other types.
+    ``np.float64``.
 
 - ``emd_with_flow()``:
 
   - The flow matrix does not contain the flows to/from the extra mass bin.
 
-- ``emd_samples()``:
-
-  - With ``numpy < 1.15.0``, using the default ``bins='auto'`` results in an
-    extra call to ``np.histogram()`` to determine the bin lengths, since `the
-    NumPy bin-selectors are not exposed in the public API
-    <https://github.com/numpy/numpy/issues/10183>`_. For performance, you may
-    want to set the bins yourself. If ``numpy >= 1.15`` is available,
-    ``np.histogram_bin_edges()`` is called instead, which is more efficient.
-
 
 Credit
 ------
 
-- All credit for the actual algorithm and implementation goes to `Ofir Pele
+- The POT backend uses the `POT (Python Optimal Transport)
+  <https://pythonot.github.io/>`_ library by Rémi Flamary et al.
+- The C++ backend uses the implementation by `Ofir Pele
   <https://ofirpele.droppages.com/>`_ and `Michael Werman
   <https://www.cs.huji.ac.il/~werman/>`_. See the `relevant paper
   <https://doi.org/10.1109/ICCV.2009.5459199>`_.
-- Thanks to the Cython developers for making this kind of wrapper relatively
+- Thanks to the Cython developers for making the C++ wrapper relatively
   easy to write.
 
-Please cite these papers if you use this code:
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Citation
+--------
+
+If you use this code, please cite the POT library:
+
+Rémi Flamary et al. POT: Python Optimal Transport. *Journal of Machine Learning
+Research*, 22(78):1-8, 2021.
+
+.. code-block:: latex
+
+    @article{flamary2021pot,
+      title={POT: Python Optimal Transport},
+      author={Flamary, R{\'e}mi and Courty, Nicolas and Gramfort, Alexandre and
+              Alaya, Mokhtar Z. and Boisbunon, Aur{\'e}lie and Chambon, Stanislas and
+              Chapel, Laetitia and Corenflos, Adrien and Fatras, Kilian and
+              Fournier, Nemo and Gautheron, L{\'e}o and Gayraud, Nathalie T.H. and
+              Janati, Hicham and Rakotomamonjy, Alain and Redko, Ievgen and
+              Rolet, Antoine and Schutz, Antony and Seguy, Vivien and
+              Sutherland, Danica J. and Tavenard, Romain and Tong, Alexander and
+              Vayer, Titouan},
+      journal={Journal of Machine Learning Research},
+      volume={22},
+      number={78},
+      pages={1--8},
+      year={2021}
+    }
+
+If you use the C++ backend (``backend='cpp'``), please also cite the original
+implementation:
 
 Ofir Pele and Michael Werman. Fast and robust earth mover's distances. *Proc.
 2009 IEEE 12th Int. Conf. on Computer Vision*, Kyoto, Japan, 2009, pp. 460-467.
