@@ -1,0 +1,1 @@
+Removed C++ backend and ``backend`` parameter. PyEMD 2.0 is a pure Python package using POT for all EMD computations.

@@ -16,20 +16,12 @@ between histograms using NumPy.
 About This Library
 ------------------
 
-PyEMD was originally a Python wrapper for `Ofir Pele and Michael Werman's C++
-implementation <https://doi.org/10.1109/ICCV.2009.5459199>`_ of the Earth Mover's Distance.
+PyEMD is a Python library for computing the Earth Mover's Distance using
+`POT (Python Optimal Transport) <https://pythonot.github.io/>`_ as its backend.
 
-**As of version 1.1, PyEMD uses** `POT (Python Optimal Transport)
-<https://pythonot.github.io/>`_ **as its default backend.** POT is a
-well-maintained, actively developed library that provides faster performance
-and multi-threading support.
-
-PyEMD is now maintained primarily as a stable wrapper around POT for projects
-that depend on PyEMD's API. **For new projects, consider using POT directly**,
-which offers a broader range of optimal transport functionality.
-
-The original C++ implementation remains available via the ``backend='cpp'``
-option for backward compatibility and validation.
+PyEMD is maintained as a stable wrapper around POT for projects that depend on
+PyEMD's API. **For new projects, consider using POT directly**, which offers a
+broader range of optimal transport functionality.
 
 
 Usage
@@ -65,28 +57,6 @@ You can also calculate the EMD directly from two arrays of observations:
     0.5
 
 
-Backends
---------
-
-PyEMD supports two computation backends:
-
-- ``'pot'`` (default): Uses the `POT (Python Optimal Transport)
-  <https://pythonot.github.io/>`_ library. Faster and supports multi-threading.
-- ``'cpp'``: Uses the original C++ implementation by Ofir Pele and Michael
-  Werman. Kept for backward compatibility.
-
-You can select the backend using the ``backend`` parameter:
-
-.. code:: python
-
-    >>> emd(first_histogram, second_histogram, distance_matrix, backend='pot')  # default
-    3.5
-    >>> emd(first_histogram, second_histogram, distance_matrix, backend='cpp')
-    3.5
-
-Both backends produce equivalent results (within floating-point precision).
-
-
 API Documentation
 -----------------
 
@@ -98,8 +68,7 @@ emd()
     emd(first_histogram,
         second_histogram,
         distance_matrix,
-        extra_mass_penalty=-1.0,
-        backend='pot')
+        extra_mass_penalty=-1.0)
 
 *Arguments:*
 
@@ -120,8 +89,6 @@ emd()
   partial matching you can set it to zero (but then the resulting distance is
   not guaranteed to be a metric). The default value is ``-1.0``, which means
   the maximum value in the distance matrix is used.
-- ``backend`` *(str)*: The computation backend to use. Options are ``'pot'``
-  (default) or ``'cpp'``.
 
 *Returns:* *(float)* The EMD value.
 
@@ -135,8 +102,7 @@ emd_with_flow()
     emd_with_flow(first_histogram,
                   second_histogram,
                   distance_matrix,
-                  extra_mass_penalty=-1.0,
-                  backend='pot')
+                  extra_mass_penalty=-1.0)
 
 Arguments are the same as for ``emd()``.
 
@@ -156,8 +122,7 @@ emd_samples()
                 distance='euclidean',
                 normalized=True,
                 bins='auto',
-                range=None,
-                backend='pot')
+                range=None)
 
 *Arguments:*
 
@@ -184,8 +149,6 @@ emd_samples()
   to ``numpy.histogram()``. Defaults to the range of the union of
   ``first_array`` and ``second_array``. Note: if the given range is not a
   superset of the default range, no warning will be given.
-- ``backend`` *(str)*: The computation backend to use. Options are ``'pot'``
-  (default) or ``'cpp'``.
 
 *Returns:* *(float)* The EMD value between the histograms of ``first_array``
 and ``second_array``.
@@ -196,8 +159,7 @@ and ``second_array``.
 Development Setup
 -----------------
 
-This project uses `uv <https://docs.astral.sh/uv/>`_ for dependency management
-and `meson-python <https://mesonbuild.com/meson-python/>`_ as the build backend.
+This project uses `uv <https://docs.astral.sh/uv/>`_ for dependency management.
 
 Quick start::
 
@@ -209,8 +171,11 @@ Quick start::
     cd pyemd
     uv sync --all-extras
 
-    # Build package
-    uv build
+    # Install in editable mode
+    uv pip install -e .
+
+    # Run tests
+    uv run pytest
 
 **Note:** For development workflows, see the ``DEVELOPING.md`` file in the repository.
 
@@ -223,8 +188,7 @@ Limitations and Caveats
 - ``emd()`` and ``emd_with_flow()``:
 
   - The ``distance_matrix`` is assumed to represent a metric; there is no check
-    to ensure that this is true. See the documentation in
-    ``pyemd/lib/emd_hat.hpp`` for more information.
+    to ensure that this is true.
   - The histograms and distance matrix must be numpy arrays of type
     ``np.float64``.
 
@@ -236,14 +200,8 @@ Limitations and Caveats
 Credit
 ------
 
-- The POT backend uses the `POT (Python Optimal Transport)
+- PyEMD uses the `POT (Python Optimal Transport)
   <https://pythonot.github.io/>`_ library by Rémi Flamary et al.
-- The C++ backend uses the implementation by `Ofir Pele
-  <https://ofirpele.droppages.com/>`_ and `Michael Werman
-  <https://www.cs.huji.ac.il/~werman/>`_. See the `relevant paper
-  <https://doi.org/10.1109/ICCV.2009.5459199>`_.
-- Thanks to the Cython developers for making the C++ wrapper relatively
-  easy to write.
 
 
 Citation
@@ -271,37 +229,4 @@ Research*, 22(78):1-8, 2021.
       number={78},
       pages={1--8},
       year={2021}
-    }
-
-If you use the C++ backend (``backend='cpp'``), please also cite the original
-implementation:
-
-Ofir Pele and Michael Werman. Fast and robust earth mover's distances. *Proc.
-2009 IEEE 12th Int. Conf. on Computer Vision*, Kyoto, Japan, 2009, pp. 460-467.
-
-.. code-block:: latex
-
-    @INPROCEEDINGS{pele2009,
-      title={Fast and robust earth mover's distances},
-      author={Pele, Ofir and Werman, Michael},
-      booktitle={2009 IEEE 12th International Conference on Computer Vision},
-      pages={460--467},
-      year={2009},
-      month={September},
-      organization={IEEE}
-    }
-
-Ofir Pele and Michael Werman. A linear time histogram metric for improved SIFT
-matching. *Computer Vision - ECCV 2008*, Marseille, France, 2008, pp. 495-508.
-
-.. code-block:: latex
-
-    @INPROCEEDINGS{pele2008,
-      title={A linear time histogram metric for improved sift matching},
-      author={Pele, Ofir and Werman, Michael},
-      booktitle={Computer Vision--ECCV 2008},
-      pages={495--508},
-      year={2008},
-      month={October},
-      publisher={Springer}
     }

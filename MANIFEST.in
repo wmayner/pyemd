@@ -6,8 +6,7 @@ include LICENSE
 include CHANGELOG.rst
 graft changelog.d
 include conftest.py
-include meson.build
 include pyproject.toml
 
 global-exclude __pycache__ *.py[cod]
-global-exclude *.so *.dylib
+global-exclude *.so *.dylib *.cpp
