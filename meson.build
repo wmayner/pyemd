@@ -1,7 +1,5 @@
 project('pyemd', 'cpp', 'cython',
-    version: run_command('python3', '-c',
-        'from setuptools_scm import get_version; print(get_version())',
-        check: true).stdout().strip(),
+    version: '0.0.0',  # Actual version set by setuptools_scm via meson-python
     default_options: ['warning_level=2', 'cpp_std=c++11']
 )
 
