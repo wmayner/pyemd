@@ -55,7 +55,7 @@ local_scheme = "no-local-version"
 package = false
 
 [tool.cibuildwheel]
-skip = ["cp36*", "cp37*", "cp38*", "pp*", "*-win32"]
+skip = ["cp36*", "cp37*", "cp38*", "pp*", "*-win32", "*-win_amd64"]
 build-verbosity = 2
 before-build = "cd {project} && git describe"
 test-requires = ["pytest"]
