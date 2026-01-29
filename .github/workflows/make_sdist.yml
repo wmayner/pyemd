@@ -21,10 +21,19 @@ jobs:
       with:
         python-version: '3.12'
 
+    - name: Get version from git tag
+      id: version
+      run: |
+        VERSION=$(git describe --tags --abbrev=0 | sed 's/^v//')
+        echo "version=$VERSION" >> $GITHUB_OUTPUT
+        echo "Building version: $VERSION"
+
     - name: Build source distribution
       run: |
         pip install build
         python -m build --sdist
+      env:
+        SETUPTOOLS_SCM_PRETEND_VERSION: ${{ steps.version.outputs.version }}
 
     - uses: actions/upload-artifact@v4
       with:
