@@ -36,13 +36,5 @@ py.install_sources(
     subdir: 'pyemd'
 )
 
-# Install the generated _version.py if it exists, or let setuptools_scm generate it
-if fs.exists('src/pyemd/_version.py')
-    py.install_sources(
-        ['src/pyemd/_version.py'],
-        subdir: 'pyemd'
-    )
-endif
-
 # Install C++ header library (for reference/distribution)
 install_subdir('src/pyemd/lib', install_dir: py.get_install_dir() / 'pyemd')

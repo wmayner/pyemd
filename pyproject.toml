@@ -14,7 +14,7 @@ license = { file = "LICENSE" }
 description = "A Python wrapper for Ofir Pele and Michael Werman's implementation of the Earth Mover's Distance."
 authors = [{ name = "Will Mayner", email = "wmayner@gmail.com" }]
 requires-python = ">=3.7"
-dependencies = ["numpy >= 1.9.0", "pot >= 0.9.0"]
+dependencies = ["numpy >= 1.15.0", "pot >= 0.9.0"]
 readme = "README.rst"
 classifiers = [
 	'Development Status :: 5 - Production/Stable',
@@ -47,7 +47,6 @@ dev = [
 "Bug Tracker" = "https://github.com/wmayner/pyemd/issues"
 
 [tool.setuptools_scm]
-write_to = "src/pyemd/_version.py"
 local_scheme = "no-local-version"
 
 [tool.uv]

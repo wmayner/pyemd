@@ -24,3 +24,9 @@ Documentation
 -------------
 
 - Updated README to document POT as the default backend, explain that PyEMD is now maintained as a wrapper around POT for backward compatibility, and recommend POT directly for new projects.
+
+
+Miscellaneous
+-------------
+
+- Bumped minimum NumPy version from 1.9.0 to 1.15.0 (released 2018).

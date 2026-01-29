@@ -89,6 +89,7 @@ Credit
 from .emd import emd, emd_with_flow, emd_samples
 
 try:
-    from ._version import version as __version__
-except ImportError:
+    from importlib.metadata import version
+    __version__ = version("pyemd")
+except Exception:
     __version__ = "unknown version"

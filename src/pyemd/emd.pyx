@@ -3,8 +3,6 @@
 # distutils: language = c++
 # emd.pyx
 
-from packaging.version import parse as parse_version
-
 from libcpp.pair cimport pair
 from libcpp.vector cimport vector
 import cython
@@ -177,14 +175,7 @@ def euclidean_pairwise_distance_matrix(x):
     return distance_matrix.reshape(len(x), len(x))
 
 
-# Use `np.histogram_bin_edges` if available (since NumPy version 1.15.0)
-if parse_version(np.__version__) >= parse_version('1.15.0'):
-    get_bins = np.histogram_bin_edges
-else:
-    def get_bins(a, bins=10, **kwargs):
-        if isinstance(bins, str):
-            hist, bins = np.histogram(a, bins=bins, **kwargs)
-        return bins
+get_bins = np.histogram_bin_edges
 
 
 def emd_samples(first_array,
