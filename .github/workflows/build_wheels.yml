@@ -27,7 +27,7 @@ jobs:
           enable-cache: true
 
       - name: Build wheels
-        uses: pypa/cibuildwheel@v3
+        uses: pypa/cibuildwheel@v2.23
         env:
           CIBW_BUILD_FRONTEND: "build[uv]"
         with:

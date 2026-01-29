@@ -17,9 +17,9 @@ About This Library
 ------------------
 
 PyEMD was originally a Python wrapper for `Ofir Pele and Michael Werman's C++
-implementation <https://ofirpele.droppages.com/>`_ of the Earth Mover's Distance.
+implementation <https://doi.org/10.1109/ICCV.2009.5459199>`_ of the Earth Mover's Distance.
 
-**As of version 2.0, PyEMD uses** `POT (Python Optimal Transport)
+**As of version 1.1, PyEMD uses** `POT (Python Optimal Transport)
 <https://pythonot.github.io/>`_ **as its default backend.** POT is a
 well-maintained, actively developed library that provides faster performance
 and multi-threading support.
