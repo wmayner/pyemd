@@ -33,13 +33,16 @@ jobs:
           echo "version=$VERSION" >> $GITHUB_OUTPUT
           echo "Building version: $VERSION"
 
+      - name: Patch version in meson.build
+        run: |
+          sed -i.bak "s/version: '0.0.0'/version: '${{ steps.version.outputs.version }}'/" meson.build
+          cat meson.build | head -5
+
       - name: Install cibuildwheel
         run: pip install cibuildwheel>=3.0
 
       - name: Build wheels
         run: cibuildwheel --output-dir wheelhouse
-        env:
-          CIBW_ENVIRONMENT: "SETUPTOOLS_SCM_PRETEND_VERSION=${{ steps.version.outputs.version }}"
 
       - uses: actions/upload-artifact@v4
         with:
