@@ -1,19 +1,13 @@
 [build-system]
-requires = [
-	"meson-python",
-	"ninja",
-	"cython>=3.0",
-	"numpy",
-	"setuptools_scm>=8.0",
-]
-build-backend = "mesonpy"
+requires = ["setuptools>=61.0", "setuptools_scm>=8.0"]
+build-backend = "setuptools.build_meta"
 
 [project]
 name = "pyemd"
 license = { file = "LICENSE" }
 description = "A Python wrapper for Ofir Pele and Michael Werman's implementation of the Earth Mover's Distance."
 authors = [{ name = "Will Mayner", email = "wmayner@gmail.com" }]
-requires-python = ">=3.9"
+requires-python = ">=3.12"
 dependencies = ["numpy >= 1.15.0", "pot >= 0.9.0"]
 readme = "README.rst"
 classifiers = [
@@ -27,39 +21,25 @@ dynamic = ['version']
 
 [project.optional-dependencies]
 test = ['pytest']
-dist = ['build', 'cibuildwheel', 'setuptools_scm', 'towncrier', 'twine']
+dist = ['build', 'setuptools_scm', 'towncrier', 'twine']
 dev = [
 	'pytest',
 	'build',
-	'cibuildwheel',
 	'setuptools_scm',
 	'towncrier',
 	'twine',
 	'ipython',
-	# Build dependencies needed for editable installs with rebuild-on-import
-	'meson-python',
-	'ninja',
-	'cython>=3.0',
 ]
 
 [project.urls]
 "Homepage" = "https://github.com/wmayner/pyemd"
 "Bug Tracker" = "https://github.com/wmayner/pyemd/issues"
 
+[tool.setuptools.packages.find]
+where = ["src"]
+
 [tool.setuptools_scm]
 local_scheme = "no-local-version"
-
-[tool.uv]
-# Prevent uv from automatically installing the local package in editable mode
-# We use wheel-based development instead (see DEVELOPING.md)
-package = false
-
-[tool.cibuildwheel]
-skip = ["*-win32", "*-win_amd64"]
-build-verbosity = 2
-before-build = "cd {project} && git describe"
-test-requires = ["pytest"]
-test-command = "py.test {project}"
 
 [tool.towncrier]
 package = "pyemd"

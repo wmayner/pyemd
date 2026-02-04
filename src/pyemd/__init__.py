@@ -41,31 +41,12 @@ You can also calculate the EMD directly from two arrays of observations:
     0.5
 
 
-Backends
-~~~~~~~~
-
-PyEMD supports two computation backends:
-
-- ``'pot'`` (default): Uses the `POT (Python Optimal Transport)
-  <https://pythonot.github.io/>`_ library. This backend is faster for large
-  problems and supports multi-threading.
-- ``'cpp'``: Uses the original C++ implementation by Ofir Pele and Michael
-  Werman.
-
-You can select the backend using the ``backend`` parameter:
-
-    >>> emd(first_signature, second_signature, distance_matrix, backend='cpp')
-    3.5
-
-Both backends produce equivalent results (within floating-point precision).
-
-
 Limitations and Caveats
 ~~~~~~~~~~~~~~~~~~~~~~~
 
 - ``distance_matrix`` must be symmetric.
 - ``distance_matrix`` is assumed to represent a true metric. This must be
-  enforced by the caller. See the documentation in ``pyemd/lib/emd_hat.hpp``.
+  enforced by the caller.
 - The flow matrix does not contain the flows to/from the extra mass bin.
 - The signatures and distance matrix must be numpy arrays of ``np.float64``.
 
@@ -73,13 +54,8 @@ Limitations and Caveats
 Credit
 ~~~~~~
 
-- The POT backend uses the `POT library <https://pythonot.github.io/>`_ by
+- PyEMD uses the `POT library <https://pythonot.github.io/>`_ by
   Rémi Flamary et al.
-- The C++ backend uses `Ofir Pele <https://ofirpele.droppages.com/>`_ and
-  `Michael Werman's <https://www.cs.huji.ac.il/~werman/>`_ implementation.
-  See the `relevant paper <https://doi.org/10.1109/ICCV.2009.5459199>`_.
-- Thanks to the Cython developers for making the C++ wrapper relatively easy
-  to write.
 
 
 :copyright: Copyright (c) 2014-2018 Will Mayner.
