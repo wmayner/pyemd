@@ -279,7 +279,7 @@ def test_emd_with_flow_validate_square_distance_matrix():
 def test_emd_samples_1():
     first_array = [1, 2, 3, 4]
     second_array = [2, 3, 4, 5]
-    emd_assert(emd_samples(first_array, second_array), 0.75)
+    emd_assert(emd_samples(first_array, second_array, bins=4), 0.75)
 
 
 def test_emd_samples_1_binsize():
@@ -291,13 +291,13 @@ def test_emd_samples_1_binsize():
 def test_emd_samples_1_manual_range():
     first_array = [1, 2, 3, 4]
     second_array = [2, 3, 4, 5]
-    emd_assert(emd_samples(first_array, second_array, range=(0, 10)), 1.0)
+    emd_assert(emd_samples(first_array, second_array, bins=10, range=(0, 10)), 1.0)
 
 
 def test_emd_samples_1_not_normalized():
     first_array = [1, 2, 3, 4]
     second_array = [2, 3, 4, 5]
-    emd_assert(emd_samples(first_array, second_array, normalized=False), 3.0)
+    emd_assert(emd_samples(first_array, second_array, bins=4, normalized=False), 3.0)
 
 
 def test_emd_samples_1_custom_distance():
@@ -306,7 +306,7 @@ def test_emd_samples_1_custom_distance():
 
     first_array = [1, 2, 3, 4]
     second_array = [2, 3, 4, 5]
-    emd_assert(emd_samples(first_array, second_array, distance=dist), 0.25)
+    emd_assert(emd_samples(first_array, second_array, bins=4, distance=dist), 0.25)
 
 
 def test_emd_samples_all_kwargs():
@@ -332,25 +332,50 @@ def test_emd_samples_all_kwargs():
 def test_emd_samples_2():
     first_array = [1]
     second_array = [2]
-    emd_assert(emd_samples(first_array, second_array), 0.5)
+    # Use explicit bins=2 since bins='auto' gives only 1 bin for this small dataset
+    emd_assert(emd_samples(first_array, second_array, bins=2), 0.5)
 
 
 def test_emd_samples_3():
     first_array = [1, 1, 1, 2, 3]
     second_array = [1, 2, 2, 2, 3]
-    emd_assert(emd_samples(first_array, second_array), 0.32)
+    # Use explicit bins=5 since bins='auto' behavior varies across NumPy versions
+    emd_assert(emd_samples(first_array, second_array, bins=5), 0.32)
 
 
 def test_emd_samples_4():
     first_array = [1, 2, 3, 4, 5]
     second_array = [99, 98, 97, 96, 95]
-    emd_assert(emd_samples(first_array, second_array), 78.4)
+    emd_assert(emd_samples(first_array, second_array, bins=5), 78.4)
 
 
 def test_emd_samples_5():
     first_array = [1]
     second_array = [1, 2, 3, 4, 5]
-    emd_assert(emd_samples(first_array, second_array), 1.8)
+    emd_assert(emd_samples(first_array, second_array, bins=4), 1.8)
+
+
+# bins='auto' with integer inputs (regression tests for GitHub issue #68)
+# NumPy 2.1+ enforces bin width >= 1 for integer dtypes, which can cause
+# too few bins. The fix converts to float64 before computing bin edges.
+
+
+def test_emd_samples_auto_bins_integer_input():
+    """bins='auto' should produce nonzero EMD for distinct integer samples."""
+    first_array = [1]
+    second_array = [2]
+    # Without the fix, this returns 0.0 (only 1 bin, so histograms are identical)
+    result = emd_samples(first_array, second_array)
+    assert result > 0, f"EMD should be nonzero for distinct samples, got {result}"
+
+
+def test_emd_samples_auto_bins_integer_vs_float_consistency():
+    """bins='auto' should give same result for integer and float inputs."""
+    int_result = emd_samples([1, 2, 3], [4, 5, 6])
+    float_result = emd_samples([1.0, 2.0, 3.0], [4.0, 5.0, 6.0])
+    assert abs(int_result - float_result) < 1e-10, (
+        f"Integer and float inputs should give same EMD: {int_result} vs {float_result}"
+    )
 
 
 # Validation

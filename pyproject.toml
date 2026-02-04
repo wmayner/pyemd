@@ -1,11 +1,5 @@
 [build-system]
-requires = [
-	"cython",
-	"oldest-supported-numpy",
-	"setuptools >= 45",
-	"setuptools_scm",
-	"wheel",
-]
+requires = ["setuptools>=61.0", "setuptools_scm>=8.0"]
 build-backend = "setuptools.build_meta"
 
 [project]
@@ -13,8 +7,8 @@ name = "pyemd"
 license = { file = "LICENSE" }
 description = "A Python wrapper for Ofir Pele and Michael Werman's implementation of the Earth Mover's Distance."
 authors = [{ name = "Will Mayner", email = "wmayner@gmail.com" }]
-requires-python = ">=3.7"
-dependencies = ["numpy >= 1.9.0"]
+requires-python = ">=3.12"
+dependencies = ["numpy >= 1.15.0", "pot >= 0.9.0"]
 readme = "README.rst"
 classifiers = [
 	'Development Status :: 5 - Production/Stable',
@@ -27,19 +21,55 @@ dynamic = ['version']
 
 [project.optional-dependencies]
 test = ['pytest']
-dist = ['build', 'cibuildwheel', 'setuptools_scm', 'twine']
+dist = ['build', 'setuptools_scm', 'towncrier', 'twine']
+dev = [
+	'pytest',
+	'build',
+	'setuptools_scm',
+	'towncrier',
+	'twine',
+	'ipython',
+]
 
 [project.urls]
 "Homepage" = "https://github.com/wmayner/pyemd"
 "Bug Tracker" = "https://github.com/wmayner/pyemd/issues"
 
+[tool.setuptools.packages.find]
+where = ["src"]
+
 [tool.setuptools_scm]
-write_to = "src/pyemd/_version.py"
 local_scheme = "no-local-version"
 
-[tool.cibuildwheel]
-skip = ["cp36*", "pp*"]
-build-verbosity = 2
-before-build = "cd {project} && git describe"
-test-requires = ["pytest"]
-test-command = "py.test {project}"
+[tool.towncrier]
+package = "pyemd"
+package_dir = "src"
+filename = "CHANGELOG.rst"
+directory = "changelog.d"
+title_format = "{version} ({project_date})"
+issue_format = "`#{issue} <https://github.com/wmayner/pyemd/issues/{issue}>`_"
+
+[[tool.towncrier.type]]
+directory = "feature"
+name = "Features"
+showcontent = true
+
+[[tool.towncrier.type]]
+directory = "bugfix"
+name = "Bug Fixes"
+showcontent = true
+
+[[tool.towncrier.type]]
+directory = "doc"
+name = "Documentation"
+showcontent = true
+
+[[tool.towncrier.type]]
+directory = "removal"
+name = "Deprecations and Removals"
+showcontent = true
+
+[[tool.towncrier.type]]
+directory = "misc"
+name = "Miscellaneous"
+showcontent = false

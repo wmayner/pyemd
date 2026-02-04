@@ -8,19 +8,20 @@
 PyEMD: Fast EMD for Python
 ==========================
 
-PyEMD is a Python wrapper for `Ofir Pele and Michael Werman's implementation
-<https://ofirpele.droppages.com/>`_ of the `Earth Mover's
-Distance <https://en.wikipedia.org/wiki/Earth_mover%27s_distance>`_ that allows
-it to be used with NumPy. **If you use this code, please cite the papers listed
-at the end of this document.**
+PyEMD computes the `Earth Mover's Distance
+<https://en.wikipedia.org/wiki/Earth_mover%27s_distance>`_ (Wasserstein distance)
+between histograms using NumPy.
 
 
-Installation
-------------
+About This Library
+------------------
 
-.. code:: bash
+PyEMD is a Python library for computing the Earth Mover's Distance using
+`POT (Python Optimal Transport) <https://pythonot.github.io/>`_ as its backend.
 
-    pip install pyemd
+PyEMD is maintained as a stable wrapper around POT for projects that depend on
+PyEMD's API. **For new projects, consider using POT directly**, which offers a
+broader range of optimal transport functionality.
 
 
 Usage
@@ -155,73 +156,77 @@ and ``second_array``.
 ----
 
 
+Development Setup
+-----------------
+
+This project uses `uv <https://docs.astral.sh/uv/>`_ for dependency management.
+
+Quick start::
+
+    # Install uv (if not already installed)
+    curl -LsSf https://astral.sh/uv/install.sh | sh
+
+    # Clone and setup
+    git clone https://github.com/wmayner/pyemd.git
+    cd pyemd
+    uv sync --all-extras
+
+    # Install in editable mode
+    uv pip install -e .
+
+    # Run tests
+    uv run pytest
+
+**Note:** For development workflows, see the ``DEVELOPING.md`` file in the repository.
+
+Dependencies are locked in ``uv.lock`` for reproducibility.
+
+
 Limitations and Caveats
 -----------------------
 
 - ``emd()`` and ``emd_with_flow()``:
 
   - The ``distance_matrix`` is assumed to represent a metric; there is no check
-    to ensure that this is true. See the documentation in
-    ``pyemd/lib/emd_hat.hpp`` for more information.
+    to ensure that this is true.
   - The histograms and distance matrix must be numpy arrays of type
-    ``np.float64``. The original C++ template function can accept any numerical
-    C++ type, but this wrapper only instantiates the template with ``double``
-    (Cython converts ``np.float64`` to ``double``). If there's demand, I can
-    add support for other types.
+    ``np.float64``.
 
 - ``emd_with_flow()``:
 
   - The flow matrix does not contain the flows to/from the extra mass bin.
 
-- ``emd_samples()``:
-
-  - With ``numpy < 1.15.0``, using the default ``bins='auto'`` results in an
-    extra call to ``np.histogram()`` to determine the bin lengths, since `the
-    NumPy bin-selectors are not exposed in the public API
-    <https://github.com/numpy/numpy/issues/10183>`_. For performance, you may
-    want to set the bins yourself. If ``numpy >= 1.15`` is available,
-    ``np.histogram_bin_edges()`` is called instead, which is more efficient.
-
 
 Credit
 ------
 
-- All credit for the actual algorithm and implementation goes to `Ofir Pele
-  <https://ofirpele.droppages.com/>`_ and `Michael Werman
-  <https://www.cs.huji.ac.il/~werman/>`_. See the `relevant paper
-  <https://doi.org/10.1109/ICCV.2009.5459199>`_.
-- Thanks to the Cython developers for making this kind of wrapper relatively
-  easy to write.
+- PyEMD uses the `POT (Python Optimal Transport)
+  <https://pythonot.github.io/>`_ library by Rémi Flamary et al.
 
-Please cite these papers if you use this code:
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Ofir Pele and Michael Werman. Fast and robust earth mover's distances. *Proc.
-2009 IEEE 12th Int. Conf. on Computer Vision*, Kyoto, Japan, 2009, pp. 460-467.
+Citation
+--------
 
-.. code-block:: latex
+If you use this code, please cite the POT library:
 
-    @INPROCEEDINGS{pele2009,
-      title={Fast and robust earth mover's distances},
-      author={Pele, Ofir and Werman, Michael},
-      booktitle={2009 IEEE 12th International Conference on Computer Vision},
-      pages={460--467},
-      year={2009},
-      month={September},
-      organization={IEEE}
-    }
-
-Ofir Pele and Michael Werman. A linear time histogram metric for improved SIFT
-matching. *Computer Vision - ECCV 2008*, Marseille, France, 2008, pp. 495-508.
+Rémi Flamary et al. POT: Python Optimal Transport. *Journal of Machine Learning
+Research*, 22(78):1-8, 2021.
 
 .. code-block:: latex
 
-    @INPROCEEDINGS{pele2008,
-      title={A linear time histogram metric for improved sift matching},
-      author={Pele, Ofir and Werman, Michael},
-      booktitle={Computer Vision--ECCV 2008},
-      pages={495--508},
-      year={2008},
-      month={October},
-      publisher={Springer}
+    @article{flamary2021pot,
+      title={POT: Python Optimal Transport},
+      author={Flamary, R{\'e}mi and Courty, Nicolas and Gramfort, Alexandre and
+              Alaya, Mokhtar Z. and Boisbunon, Aur{\'e}lie and Chambon, Stanislas and
+              Chapel, Laetitia and Corenflos, Adrien and Fatras, Kilian and
+              Fournier, Nemo and Gautheron, L{\'e}o and Gayraud, Nathalie T.H. and
+              Janati, Hicham and Rakotomamonjy, Alain and Redko, Ievgen and
+              Rolet, Antoine and Schutz, Antony and Seguy, Vivien and
+              Sutherland, Danica J. and Tavenard, Romain and Tong, Alexander and
+              Vayer, Titouan},
+      journal={Journal of Machine Learning Research},
+      volume={22},
+      number={78},
+      pages={1--8},
+      year={2021}
     }
