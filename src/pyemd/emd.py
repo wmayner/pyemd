@@ -4,9 +4,10 @@
 
 """PyEMD: Earth Mover's Distance using POT (Python Optimal Transport)."""
 
-from collections.abc import Callable
+from collections.abc import Callable, Sequence
 
 import numpy as np
+from numpy.typing import ArrayLike
 import ot
 import ot.partial
 
@@ -101,9 +102,9 @@ def emd(
         of rows or columns of the distance matrix, or if the histograms aren't
         the same length.
     """
-    a = np.asarray(first_histogram, dtype=np.float64)
-    b = np.asarray(second_histogram, dtype=np.float64)
-    M = np.asarray(distance_matrix, dtype=np.float64)
+    a = np.asarray(first_histogram)
+    b = np.asarray(second_histogram)
+    M = np.asarray(distance_matrix)
 
     _validate_emd_input(a, b, M)
 
@@ -141,12 +142,12 @@ def emd_with_flow(
     distance_matrix: np.ndarray,
     extra_mass_penalty: float = DEFAULT_EXTRA_MASS_PENALTY,
 ) -> tuple[float, list[list[float]]]:
-    """Return the EMD between two histograms using the given distance matrix.
+    """Return the EMD and flow between two histograms using the given distance matrix.
 
     The Earth Mover's Distance is the minimal cost of turning one histogram into
-    another by moving around the "dirt" in the bins, where the cost of the
-    "ground distance" between the bins. moving dirt from one bin to another is
-    given by the amount of dirt times
+    another by moving around the "dirt" in the bins, where the cost of moving
+    dirt from one bin to another is given by the amount of dirt times the
+    "ground distance" between the bins.
 
     Arguments:
         first_histogram (np.ndarray): A 1D array of type np.float64 of length N.
@@ -174,9 +175,9 @@ def emd_with_flow(
         of rows or columns of the distance matrix, or if the histograms aren't
         the same length.
     """
-    a = np.asarray(first_histogram, dtype=np.float64)
-    b = np.asarray(second_histogram, dtype=np.float64)
-    M = np.asarray(distance_matrix, dtype=np.float64)
+    a = np.asarray(first_histogram)
+    b = np.asarray(second_histogram)
+    M = np.asarray(distance_matrix)
 
     _validate_emd_input(a, b, M)
 
@@ -216,10 +217,10 @@ get_bins = np.histogram_bin_edges
 
 
 def emd_samples(
-    first_array,
-    second_array,
+    first_array: ArrayLike,
+    second_array: ArrayLike,
     extra_mass_penalty: float = DEFAULT_EXTRA_MASS_PENALTY,
-    distance: str | Callable = "euclidean",
+    distance: str | Callable[[np.ndarray], np.ndarray] = "euclidean",
     normalized: bool = True,
     bins: int | str = "auto",
     range: tuple[float, float] | None = None,

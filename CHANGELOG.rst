@@ -4,6 +4,22 @@ Changelog
 
 .. towncrier release notes start
 
+2.0.0 (2026-02-03)
+==================
+
+Deprecations and Removals
+-------------------------
+
+- Dropped support for Python 3.9-3.11. PyEMD 2.0 requires Python 3.12 or later.
+- Removed C++ backend and ``backend`` parameter. PyEMD 2.0 is a pure Python package using POT for all EMD computations.
+
+
+Miscellaneous
+-------------
+
+- Simplified GitHub Actions workflows for pure Python package
+
+
 1.1.0 (2026-01-28)
 ==================
 

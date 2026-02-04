@@ -48,7 +48,6 @@ Limitations and Caveats
 - ``distance_matrix`` is assumed to represent a true metric. This must be
   enforced by the caller.
 - The flow matrix does not contain the flows to/from the extra mass bin.
-- The signatures and distance matrix must be numpy arrays of ``np.float64``.
 
 
 Credit
@@ -58,14 +57,16 @@ Credit
   Rémi Flamary et al.
 
 
-:copyright: Copyright (c) 2014-2018 Will Mayner.
+:copyright: Copyright (c) 2014-2025 Will Mayner.
 :license: See the LICENSE file.
 """
 
 from .emd import emd, emd_with_flow, emd_samples
 
+__all__ = ["emd", "emd_with_flow", "emd_samples"]
+
 try:
-    from importlib.metadata import version
+    from importlib.metadata import version, PackageNotFoundError
     __version__ = version("pyemd")
-except Exception:
+except PackageNotFoundError:
     __version__ = "unknown version"

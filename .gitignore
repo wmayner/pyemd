@@ -2,11 +2,16 @@ __pycache__
 .gitconfig
 .cache
 .pytest_cache
+.hypothesis
+.claude
 .tox
 .env
+.venv
 .ropeproject
 *.so
 *.pyc
+*.log
+*.zip
 MANIFEST
 *.egg*
 src/pyemd/emd.cpp

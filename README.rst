@@ -8,20 +8,20 @@
 PyEMD: Fast EMD for Python
 ==========================
 
+**This library is maintained for backward compatibility only.**
+
+PyEMD v2.0+ is a thin wrapper around `POT (Python Optimal Transport)
+<https://pythonot.github.io/>`_. **For new projects, use POT directly**—it
+offers the same functionality plus a much broader range of optimal transport
+features.
+
+PyEMD continues to be maintained for existing projects that depend on its API.
+
+----
+
 PyEMD computes the `Earth Mover's Distance
 <https://en.wikipedia.org/wiki/Earth_mover%27s_distance>`_ (Wasserstein distance)
 between histograms using NumPy.
-
-
-About This Library
-------------------
-
-PyEMD is a Python library for computing the Earth Mover's Distance using
-`POT (Python Optimal Transport) <https://pythonot.github.io/>`_ as its backend.
-
-PyEMD is maintained as a stable wrapper around POT for projects that depend on
-PyEMD's API. **For new projects, consider using POT directly**, which offers a
-broader range of optimal transport functionality.
 
 
 Usage
@@ -72,13 +72,11 @@ emd()
 
 *Arguments:*
 
-- ``first_histogram`` *(np.ndarray)*: A 1D array of type ``np.float64`` of
-  length *N*.
-- ``second_histogram`` *(np.ndarray)*: A 1D array of ``np.float64`` of length
-  *N*.
-- ``distance_matrix`` *(np.ndarray)*: A 2D array of ``np.float64,`` of size at
-  least *N* × *N*. This defines the underlying metric, or ground distance, by
-  giving the pairwise distances between the histogram bins.
+- ``first_histogram`` *(array-like)*: A 1D array of length *N*.
+- ``second_histogram`` *(array-like)*: A 1D array of length *N*.
+- ``distance_matrix`` *(array-like)*: A 2D array of size at least *N* × *N*.
+  This defines the underlying metric, or ground distance, by giving the pairwise
+  distances between the histogram bins.
   **NOTE: It must represent a metric; there is no warning if it doesn't.**
 
 *Keyword Arguments:*
@@ -189,8 +187,6 @@ Limitations and Caveats
 
   - The ``distance_matrix`` is assumed to represent a metric; there is no check
     to ensure that this is true.
-  - The histograms and distance matrix must be numpy arrays of type
-    ``np.float64``.
 
 - ``emd_with_flow()``:
 
@@ -200,14 +196,21 @@ Limitations and Caveats
 Credit
 ------
 
-- PyEMD uses the `POT (Python Optimal Transport)
+- **PyEMD v2.0+** uses the `POT (Python Optimal Transport)
   <https://pythonot.github.io/>`_ library by Rémi Flamary et al.
+
+- **PyEMD v1.x** was a Python wrapper for the `emd_hat
+  <https://ofirpele.droppages.com/>`_ C++ implementation by Ofir Pele and
+  Michael Werman.
 
 
 Citation
 --------
 
-If you use this code, please cite the POT library:
+For PyEMD v2.0+
+~~~~~~~~~~~~~~~
+
+If you use PyEMD v2.0 or later, please cite the POT library:
 
 Rémi Flamary et al. POT: Python Optimal Transport. *Journal of Machine Learning
 Research*, 22(78):1-8, 2021.
@@ -229,4 +232,40 @@ Research*, 22(78):1-8, 2021.
       number={78},
       pages={1--8},
       year={2021}
+    }
+
+For PyEMD v1.x or the original C++ implementation
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+If you use PyEMD v1.x, or wish to cite the original C++ algorithm that PyEMD
+was built on, please cite the following papers:
+
+Ofir Pele and Michael Werman. Fast and robust earth mover's distances. *Proc.
+2009 IEEE 12th Int. Conf. on Computer Vision*, Kyoto, Japan, 2009, pp. 460-467.
+
+.. code-block:: latex
+
+    @INPROCEEDINGS{pele2009,
+      title={Fast and robust earth mover's distances},
+      author={Pele, Ofir and Werman, Michael},
+      booktitle={2009 IEEE 12th International Conference on Computer Vision},
+      pages={460--467},
+      year={2009},
+      month={September},
+      organization={IEEE}
+    }
+
+Ofir Pele and Michael Werman. A linear time histogram metric for improved SIFT
+matching. *Computer Vision - ECCV 2008*, Marseille, France, 2008, pp. 495-508.
+
+.. code-block:: latex
+
+    @INPROCEEDINGS{pele2008,
+      title={A linear time histogram metric for improved sift matching},
+      author={Pele, Ofir and Werman, Michael},
+      booktitle={Computer Vision--ECCV 2008},
+      pages={495--508},
+      year={2008},
+      month={October},
+      publisher={Springer}
     }

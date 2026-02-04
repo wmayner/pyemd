@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "pyemd"
-license = { file = "LICENSE" }
+license = "MIT"
 description = "A Python wrapper for Ofir Pele and Michael Werman's implementation of the Earth Mover's Distance."
 authors = [{ name = "Will Mayner", email = "wmayner@gmail.com" }]
 requires-python = ">=3.12"
@@ -14,8 +14,10 @@ classifiers = [
 	'Development Status :: 5 - Production/Stable',
 	'Intended Audience :: Developers',
 	'Natural Language :: English',
-	'License :: OSI Approved :: MIT License',
+	'Operating System :: OS Independent',
 	'Programming Language :: Python :: 3',
+	'Programming Language :: Python :: 3.12',
+	'Programming Language :: Python :: 3.13',
 ]
 dynamic = ['version']
 
