@@ -1,38 +1,58 @@
-name: Build wheels & run tests
+name: Build & Test
 
 on: ['push', 'pull_request']
 
 jobs:
-  build_wheels:
-    name: Build wheels on ${{ matrix.os }}
-    runs-on: ${{ matrix.os }}
+  test:
+    name: Test on Python ${{ matrix.python-version }}
+    runs-on: ubuntu-latest
     strategy:
       matrix:
-        os: [ubuntu-22.04, macos-14, macos-15-intel]
+        python-version: ['3.12', '3.13']
 
     steps:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      - name: Install system dependencies (Linux)
-        if: runner.os == 'Linux'
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y python3-dev
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install package and test dependencies
+        run: pip install -e .[test]
+
+      - name: Run tests
+        run: pytest
+
+  build:
+    name: Build wheel and sdist
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.12'
 
-      - name: Install cibuildwheel
-        run: pip install cibuildwheel>=3.0
+      - name: Install build tools
+        run: pip install build
 
-      - name: Build wheels
-        run: cibuildwheel --output-dir wheelhouse
+      - name: Build wheel and sdist
+        run: python -m build
 
-      - uses: actions/upload-artifact@v4
+      - name: Upload wheel
+        uses: actions/upload-artifact@v4
         with:
-          name: wheels-${{ matrix.os }}
-          path: ./wheelhouse/*.whl
+          name: wheel
+          path: dist/*.whl
+
+      - name: Upload sdist
+        uses: actions/upload-artifact@v4
+        with:
+          name: sdist
+          path: dist/*.tar.gz
